@@ -1,0 +1,25 @@
+name: "CHEERS! Professional Wine Reviews Worldwide"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - text: "Project Report"
+      href: project_report.html
+    - text: "Summary Visualization"
+      menu:
+      - text: "Price vs. Ranking"
+        href: price_vs_ranking.html
+      - text: "Price vs. Location/Winery"
+        href: Price_vs_Location/Winery.html      
+    - text: "Statistical Analysis"
+      href: statistical_analysis.html
+    - text: "Interactive Map"
+      href: interactive_map.html      
+    - icon: fa-youtube fa-lg    
+      href: 
+    - icon: fa-github fa-lg
+      href: https://github.com/CongZhang63/p8105_final_project
+      
+output:
+  html_document:
+    theme: flatly

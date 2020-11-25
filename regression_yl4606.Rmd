@@ -1,0 +1,61 @@
+---
+title: "regression_yl4606"
+author: "Yubei Liang"
+date: "11/25/2020"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+library(tidyverse)
+library(purrr)
+library(broom)
+library(modelr)
+
+knitr::opts_chunk$set(
+  fig.width = 6, 
+  fig.asp = .6,
+  out.width = "90%"
+)
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+reading two datasets
+```{r, warning = FALSE}
+wine_150k = read_csv("./wine_data/winemag-data_first150k.csv")
+conti_country = read_csv("./wine_data/country-and-continent-codes-list-csv_csv.csv")
+```
+
+a little bit tidying
+```{r, warning = FALSE}
+# wine data tidy
+wine_150k = wine_150k %>% 
+  janitor::clean_names() %>% 
+  select(country, points, price, variety) %>% 
+  mutate(country = factor(country),
+         variety = factor(variety)) %>% 
+  drop_na(country)
+
+#conti_country data tidy
+conti_country_tidy<- conti_country %>% 
+  janitor::clean_names() %>% 
+  separate(country_name, into = c("country", "prefix"), sep = ",") %>% 
+  mutate(
+    country = replace(country, country == "Slovakia (Slovak Republic)", "Slovakia"),
+    country = replace(country, country == "United Kingdom of Great Britain & Northern Ireland", "England"),
+    country = replace(country, country == "Korea", "South Korea"),
+    country = replace(country, country == "United States of America", "US"),
+  ) %>% ## standardize country names to do left_join
+  select(continent_name, country)
+
+#left_join to wine data to get continent info, US-France row removed
+wine_with_conti<-
+  left_join(wine_150k, conti_country_tidy, by = ("country" = "country")) %>% 
+  drop_na(continent_name) 
+```
+

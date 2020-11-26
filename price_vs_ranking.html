@@ -9,9 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Ruwen Zhou" />
 
-<meta name="date" content="2020-11-26" />
 
 <title>Prices vs Ranking</title>
 
@@ -21,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -252,6 +253,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -259,6 +323,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -327,15 +401,12 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Prices vs Ranking</h1>
-<h4 class="author">Ruwen Zhou</h4>
-<h4 class="date">11/26/2020</h4>
 
 </div>
 
 
-<p>Cleaning and Tidying Data</p>
 <pre class="r"><code>wine_df</code></pre>
-<pre><code>## # A tibble: 150,925 x 9
+<pre><code>## # A tibble: 137,230 x 9
 ##    country designation  points price province  region_1  region_2 variety winery
 ##    &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt; 
 ##  1 US      Martha&#39;s Vi…     96   235 Californ… Napa Val… Napa     Cabern… Heitz 
@@ -348,10 +419,21 @@ $(document).ready(function () {
 ##  8 Spain   Carodorum Ú…     95   110 Northern… Toro      &lt;NA&gt;     Tinta … Bodeg…
 ##  9 US      Silice           95    65 Oregon    Chehalem… Willame… Pinot … Bergs…
 ## 10 US      Gap&#39;s Crown…     95    60 Californ… Sonoma C… Sonoma   Pinot … Blue …
-## # … with 150,915 more rows</code></pre>
+## # … with 137,220 more rows</code></pre>
+<pre class="r"><code>ggplot(wine_df, aes(x = price, y = points)) + 
+  geom_point(alpha = 5, color = &quot;blue&quot;) +
+  theme(legend.position = &quot;bottom&quot;) +
+  labs(
+    title = &quot;Prices v.s. Rankings&quot;,
+    x = &quot;Price&quot;,
+    y = &quot;Ranking&quot;
+  ) </code></pre>
+<p><img src="price_vs_ranking_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -384,6 +466,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

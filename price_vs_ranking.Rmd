@@ -1,0 +1,25 @@
+---
+title: "Prices vs Ranking"
+author: "Ruwen Zhou"
+date: "11/26/2020"
+output: github_document
+---
+
+```{r setup, include = FALSE}
+library(tidyverse)
+library(purrr)
+library(broom)
+library(modelr)
+```
+
+Cleaning and Tidying Data
+```{r, include = FALSE}
+wine_df = read_csv("./data/winemag-data_first150k.csv")
+wine_df = wine_df %>% 
+  janitor::clean_names() %>% 
+  select(country,designation, points,price,province,region_1,region_2,variety,winery) %>% 
+  drop_na(country)
+```
+```{r}
+wine_df
+```

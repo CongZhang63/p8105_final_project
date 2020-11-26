@@ -12,7 +12,7 @@ library(broom)
 library(modelr)
 ```
 
-Cleaning and Tidying Data
+
 ```{r, include = FALSE}
 wine_df = read_csv("./data/winemag-data_first150k.csv")
 wine_df = wine_df %>% 

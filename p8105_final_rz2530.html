@@ -334,12 +334,51 @@ $(document).ready(function () {
 
 
 <p>Cleaning and Tidying Data</p>
+<pre class="r"><code>wine_df</code></pre>
+<pre><code>## # A tibble: 150,925 x 9
+##    country designation  points price province  region_1  region_2 variety winery
+##    &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt; 
+##  1 US      Martha&#39;s Vi…     96   235 Californ… Napa Val… Napa     Cabern… Heitz 
+##  2 Spain   Carodorum S…     96   110 Northern… Toro      &lt;NA&gt;     Tinta … Bodeg…
+##  3 US      Special Sel…     96    90 Californ… Knights … Sonoma   Sauvig… Macau…
+##  4 US      Reserve          96    65 Oregon    Willamet… Willame… Pinot … Ponzi 
+##  5 France  La Brûlade       95    66 Provence  Bandol    &lt;NA&gt;     Proven… Domai…
+##  6 Spain   Numanthia        95    73 Northern… Toro      &lt;NA&gt;     Tinta … Numan…
+##  7 Spain   San Román        95    65 Northern… Toro      &lt;NA&gt;     Tinta … Mauro…
+##  8 Spain   Carodorum Ú…     95   110 Northern… Toro      &lt;NA&gt;     Tinta … Bodeg…
+##  9 US      Silice           95    65 Oregon    Chehalem… Willame… Pinot … Bergs…
+## 10 US      Gap&#39;s Crown…     95    60 Californ… Sonoma C… Sonoma   Pinot … Blue …
+## # … with 150,915 more rows</code></pre>
 <div id="ranking-of-wines" class="section level1">
 <h1>Ranking of Wines</h1>
 <p>Some professional reviewers gave rankings to more than 150,000 types of wines based on their regions, prices, tastes, variety and winery. From the histogram we have plotted, we can see that the distribution of rankings of wines is close to normal distribution and the mean is around 87.8885274.</p>
 <pre class="r"><code>ggplot(wine_df, aes(x = points,fill=country)) + 
-  geom_histogram(binwidth = 0.5)</code></pre>
-<p><img src="p8105_final_rz2530_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+  geom_histogram(binwidth = 0.5) +
+  labs(
+    title = &quot;Ranking of wines and their regions&quot;,
+    x = &quot;Rankings&quot;,
+    y = &quot;Counts&quot;
+  )</code></pre>
+<p><img src="p8105_final_rz2530_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="the-popularity-of-different-types-of-grapes-used-to-make-the-wine" class="section level1">
+<h1>The popularity of different types of grapes used to make the wine</h1>
+<p>In our dataset, there are also records of the types of grapes used of a bottle of wine. The top 10 most famous grapes variety used by wine makers are: Chardonnay, Pinot Noir, Cabernet Sauvignon, Red Blend, Bordeaux-style Red Blend, Sauvignon Blanc, Syrah, Riesling, Merlot, Zinfandel. Wine lovers can pay more attention to these grapes types while buying wines that are familiar.</p>
+<pre class="r"><code>grapes = within(wine_df, 
+                   variety &lt;- factor(variety, 
+                                      levels=names(sort(table(variety), 
+                                                        decreasing=TRUE)[1:10]))) %&gt;% 
+  drop_na(variety)
+ggplot(grapes, aes(x = variety)) + 
+  geom_bar(binwidth = 50, color = &quot;lightblue&quot;, fill = &quot;lightblue&quot;) +
+  labs(
+    title = &quot;Top 10 most popular grapes variety using to make wines&quot;,
+    x = &quot;grapes variety&quot;,
+    y = &quot;counts&quot;
+  ) +
+  coord_flip() </code></pre>
+<pre><code>## Warning: Ignoring unknown parameters: binwidth</code></pre>
+<p><img src="p8105_final_rz2530_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 
 

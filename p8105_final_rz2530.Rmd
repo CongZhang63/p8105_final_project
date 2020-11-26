@@ -1,0 +1,18 @@
+---
+title: "Graphs"
+author: "Ruwen Zhou"
+date: "11/26/2020"
+output:  github_document
+---
+
+```{r setup, include = FALSE}
+library(tidyverse)
+library(purrr)
+library(broom)
+library(modelr)
+```
+
+```{r}
+wine_df = read_csv("./data/winemag-data_first150k.csv")
+wine_df
+```

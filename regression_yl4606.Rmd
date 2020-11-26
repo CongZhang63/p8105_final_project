@@ -31,7 +31,7 @@ wine_150k = read_csv("./wine_data/winemag-data_first150k.csv")
 conti_country = read_csv("./wine_data/country-and-continent-codes-list-csv_csv.csv")
 ```
 
-a little bit tidying
+a little bit tidying, add continent column to 150k wine data
 ```{r, warning = FALSE}
 # wine data tidy
 wine_150k = wine_150k %>% 
@@ -42,7 +42,7 @@ wine_150k = wine_150k %>%
   drop_na(country)
 
 #conti_country data tidy
-conti_country_tidy<- conti_country %>% 
+conti_country_tidy <- conti_country %>% 
   janitor::clean_names() %>% 
   separate(country_name, into = c("country", "prefix"), sep = ",") %>% 
   mutate(
@@ -51,11 +51,80 @@ conti_country_tidy<- conti_country %>%
     country = replace(country, country == "Korea", "South Korea"),
     country = replace(country, country == "United States of America", "US"),
   ) %>% ## standardize country names to do left_join
-  select(continent_name, country)
+  select(continent_name, country) %>% 
+  mutate(continent = as.factor(continent_name)) %>% 
+  select(-continent_name)
+
+rm(conti_country)
 
 #left_join to wine data to get continent info, US-France row removed
 wine_with_conti<-
   left_join(wine_150k, conti_country_tidy, by = ("country" = "country")) %>% 
-  drop_na(continent_name) 
+  mutate(continent = fct_relevel(continent, "North America")) %>%  ##let US as the reference
+  select(country, continent, everything()) %>% 
+  drop_na(continent) 
 ```
+
+price ~ points + continent
+```{r}
+# price ~ points + continent
+lm(price ~ points*continent, data = wine_with_conti) %>% 
+  tidy()
+```
+
+confounding variable: variety
+```{r, cache = TRUE}
+# test significance of categorical predictor 'variety'
+fit_null = lm(price ~ points + continent, data = wine_with_conti)
+fit_alt = lm(price ~ points + continent + variety, data = wine_with_conti)
+
+anova(fit_null, fit_alt) %>% 
+  broom::tidy()  #p-val = 0
+```
+
+continue to fit model...variety added
+```{r}
+# 632 unique varieties, select top 4 to fit the model
+top_variety <- wine_with_conti %>% 
+  group_by(variety) %>% 
+  summarise(count = n()) %>% 
+  arrange(desc(count)) %>% 
+  filter(count>10000)
+
+top_variety_list <- as.vector(top_variety$variety)
+
+# wine_with_conti filtered
+top_wine_with_conti<- 
+  wine_with_conti %>% 
+  filter(variety %in% top_variety_list) %>% 
+  mutate(
+    variety = fct_infreq(variety)
+  ) ## most frequent variety as the reference
+
+# price ~ points*continent + continent*variety
+lm(price ~ points*continent + continent*variety, data = top_wine_with_conti) %>% 
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)
+```
+
+nest within continent...
+```{r}
+nest_lm_res =
+  top_wine_with_conti %>% 
+  nest(data = -continent) %>% 
+  mutate(
+    models = map(data, ~lm(price ~ points + variety, data = .x)),
+    results = map(models, broom::tidy)) %>% 
+  select(-data, -models) %>% 
+  unnest(results)
+
+# price ~ points + variety for stratified continent
+nest_lm_res %>% 
+  select(continent, term, estimate) %>% 
+  mutate(term = fct_inorder(term)) %>% 
+  pivot_wider(
+    names_from = term, values_from = estimate) %>% 
+  knitr::kable(digits = 3)
+```
+
 

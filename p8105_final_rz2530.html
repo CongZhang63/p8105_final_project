@@ -333,37 +333,14 @@ $(document).ready(function () {
 </div>
 
 
-<pre class="r"><code>wine_df = read_csv(&quot;./data/winemag-data_first150k.csv&quot;)</code></pre>
-<pre><code>## Warning: Missing column names filled in: &#39;X1&#39; [1]</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   X1 = col_double(),
-##   country = col_character(),
-##   description = col_character(),
-##   designation = col_character(),
-##   points = col_double(),
-##   price = col_double(),
-##   province = col_character(),
-##   region_1 = col_character(),
-##   region_2 = col_character(),
-##   variety = col_character(),
-##   winery = col_character()
-## )</code></pre>
-<pre class="r"><code>wine_df</code></pre>
-<pre><code>## # A tibble: 150,930 x 11
-##       X1 country description designation points price province region_1 region_2
-##    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;   
-##  1     0 US      This treme… Martha&#39;s V…     96   235 Califor… Napa Va… Napa    
-##  2     1 Spain   Ripe aroma… Carodorum …     96   110 Norther… Toro     &lt;NA&gt;    
-##  3     2 US      Mac Watson… Special Se…     96    90 Califor… Knights… Sonoma  
-##  4     3 US      This spent… Reserve         96    65 Oregon   Willame… Willame…
-##  5     4 France  This is th… La Brûlade      95    66 Provence Bandol   &lt;NA&gt;    
-##  6     5 Spain   Deep, dens… Numanthia       95    73 Norther… Toro     &lt;NA&gt;    
-##  7     6 Spain   Slightly g… San Román       95    65 Norther… Toro     &lt;NA&gt;    
-##  8     7 Spain   Lush cedar… Carodorum …     95   110 Norther… Toro     &lt;NA&gt;    
-##  9     8 US      This re-na… Silice          95    65 Oregon   Chehale… Willame…
-## 10     9 US      The produc… Gap&#39;s Crow…     95    60 Califor… Sonoma … Sonoma  
-## # … with 150,920 more rows, and 2 more variables: variety &lt;chr&gt;, winery &lt;chr&gt;</code></pre>
+<p>Cleaning and Tidying Data</p>
+<div id="ranking-of-wines" class="section level1">
+<h1>Ranking of Wines</h1>
+<p>Some professional reviewers gave rankings to more than 150,000 types of wines based on their regions, prices, tastes, variety and winery. From the histogram we have plotted, we can see that the distribution of rankings of wines is close to normal distribution and the mean is around 87.8885274.</p>
+<pre class="r"><code>ggplot(wine_df, aes(x = points,fill=country)) + 
+  geom_histogram(binwidth = 0.5)</code></pre>
+<p><img src="p8105_final_rz2530_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
 
 
 

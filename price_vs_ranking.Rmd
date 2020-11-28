@@ -1,0 +1,51 @@
+---
+title: "Prices vs Ranking"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include = FALSE}
+library(tidyverse)
+library(purrr)
+library(broom)
+library(modelr)
+library(plotly)
+knitr::opts_chunk$set(
+	fig.width = 6, 
+  fig.asp = .6,
+  out.width = "90%"
+)
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+
+```{r, include = FALSE}
+wine_df = read_csv("./data/winemag-data_first150k.csv")
+wine_df = wine_df %>% 
+  janitor::clean_names() %>% 
+  select(country,designation, points,price,province,region_1,region_2,variety,winery) %>% 
+  drop_na(country,price,points)
+```
+```{r}
+wine_df
+```
+
+```{r}
+ggplot(wine_df, aes(x = price, y = points)) + 
+  geom_point(alpha = 5, color = "blue") +
+  theme(legend.position = "bottom") +
+  labs(
+    title = "Prices v.s. Rankings",
+    x = "Price",
+    y = "Ranking"
+  ) 
+```
+

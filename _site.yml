@@ -7,6 +7,8 @@ navbar:
       href: project_report.html
     - text: "Summary Visualization"
       menu:
+      - text: "Graphs"
+        href: p8105_final_rz2530.html
       - text: "Price vs. Ranking"
         href: price_vs_ranking.html
       - text: "Price vs. Location/Winery"

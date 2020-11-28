@@ -1,9 +1,14 @@
 ---
 title: "regression_yl4606"
-author: "Yubei Liang"
-date: "11/25/2020"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float: true
 ---
+# Statistical Analysis
+
+## Hypothesis
+In this analysis, we are insterested in 
 
 ```{r setup, include = FALSE}
 library(tidyverse)
@@ -65,26 +70,9 @@ wine_with_conti<-
   drop_na(continent) 
 ```
 
-price ~ points + continent
+# scatter plot: Price(Y) vs Points(X) by Variety(Z)
 ```{r}
-# price ~ points + continent
-lm(price ~ points*continent, data = wine_with_conti) %>% 
-  tidy()
-```
-
-confounding variable: variety
-```{r, cache = TRUE}
-# test significance of categorical predictor 'variety'
-fit_null = lm(price ~ points + continent, data = wine_with_conti)
-fit_alt = lm(price ~ points + continent + variety, data = wine_with_conti)
-
-anova(fit_null, fit_alt) %>% 
-  broom::tidy()  #p-val = 0
-```
-
-continue to fit model...variety added
-```{r}
-# 632 unique varieties, select top 4 to fit the model
+# 632 unique varieties, select most frequent 4 vareties to fit the model
 top_variety <- wine_with_conti %>% 
   group_by(variety) %>% 
   summarise(count = n()) %>% 
@@ -101,26 +89,39 @@ top_wine_with_conti<-
     variety = fct_infreq(variety)
   ) ## most frequent variety as the reference
 
-# price ~ points*continent + continent*variety
-lm(price ~ points*continent + continent*variety, data = top_wine_with_conti) %>% 
-  broom::tidy() %>% 
-  knitr::kable(digits = 3)
+# scatter plot
+top_wine_with_conti %>% 
+  ggplot(aes(x = points, y = price, color = variety)) +
+  geom_point(alpha = 0.5)+
+  geom_smooth(method='lm')+
+  ylim(0,750)
 ```
 
-nest within continent...
+# test significance of interactions between points and variety: price ~ points*variety
 ```{r}
+lm(price ~ points*variety, data = top_wine_with_conti) %>% 
+  tidy()
+```
+There is a significant interaction between points and variety. It means that the relationship between points and price varies by different variety, especially between Pinot Noir and Chardonnay, Red Blend and Chardonnay.
+
+# Stratified analysis: fit separate regression models by variety
+```{r}
+# nested within variety
 nest_lm_res =
   top_wine_with_conti %>% 
-  nest(data = -continent) %>% 
+  nest(data = -variety) %>% 
   mutate(
-    models = map(data, ~lm(price ~ points + variety, data = .x)),
+    models = map(data, ~lm(price ~ points, data = .x)),
     results = map(models, broom::tidy)) %>% 
   select(-data, -models) %>% 
   unnest(results)
+nest_lm_res
+```
 
-# price ~ points + variety for stratified continent
+```{r}
+# price ~ points for stratified variety
 nest_lm_res %>% 
-  select(continent, term, estimate) %>% 
+  select(variety, term, estimate) %>% 
   mutate(term = fct_inorder(term)) %>% 
   pivot_wider(
     names_from = term, values_from = estimate) %>% 
@@ -128,3 +129,19 @@ nest_lm_res %>%
 ```
 
 
+# Price(Y) vs. Points(X) * Variety(Z) + Continent(M) 
+
+Is continent significant?
+```{r}
+# test significance of categorical predictor 'variety'
+fit_null = lm(price ~ points * variety, data = top_wine_with_conti)
+fit_alt = lm(price ~ points * variety + continent, data = top_wine_with_conti)
+
+anova(fit_null, fit_alt) %>% 
+  broom::tidy()  #p-val = 0
+```
+Yes. 
+
+ANOVA TO check interaction
+
+Then explain

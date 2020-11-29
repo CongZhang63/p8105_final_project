@@ -1,9 +1,14 @@
 ---
 title: "regression_yl4606"
-author: "Yubei Liang"
-date: "11/25/2020"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float: true
 ---
+# Statistical Analysis
+
+## Hypothesis
+In this analysis, we are insterested in 
 
 ```{r setup, include = FALSE}
 library(tidyverse)
@@ -65,26 +70,9 @@ wine_with_conti<-
   drop_na(continent) 
 ```
 
-price ~ points + continent
+# scatter plot: Price(Y) vs Points(X) by Variety(Z)
 ```{r}
-# price ~ points + continent
-lm(price ~ points*continent, data = wine_with_conti) %>% 
-  tidy()
-```
-
-confounding variable: variety
-```{r, cache = TRUE}
-# test significance of categorical predictor 'variety'
-fit_null = lm(price ~ points + continent, data = wine_with_conti)
-fit_alt = lm(price ~ points + continent + variety, data = wine_with_conti)
-
-anova(fit_null, fit_alt) %>% 
-  broom::tidy()  #p-val = 0
-```
-
-continue to fit model...variety added
-```{r}
-# 632 unique varieties, select top 4 to fit the model
+# 632 unique varieties, select most frequent 4 vareties to fit the model
 top_variety <- wine_with_conti %>% 
   group_by(variety) %>% 
   summarise(count = n()) %>% 
@@ -101,14 +89,47 @@ top_wine_with_conti<-
     variety = fct_infreq(variety)
   ) ## most frequent variety as the reference
 
-# price ~ points*continent + continent*variety
-lm(price ~ points*continent + continent*variety, data = top_wine_with_conti) %>% 
-  broom::tidy() %>% 
-  knitr::kable(digits = 3)
+# scatter plot
+top_wine_with_conti %>% 
+  ggplot(aes(x = points, y = price, color = variety)) +
+  geom_point(alpha = 0.5)+
+  geom_smooth(method='lm')+
+  ylim(0,750)
 ```
 
-nest within continent...
+# test significance of interactions between points and variety: price ~ points*variety
+
 ```{r}
+lm_p_v_pv <- lm(price ~ points+variety, data = top_wine_with_conti)
+
+summary(lm_p_v_pv)$r.squared
+```
+
+```{r}
+lm_p_v_pv <- lm(price ~ points*variety, data = top_wine_with_conti)
+
+summary(lm_p_v_pv)$r.squared
+```
+
+Although there is a significant p-value of points - variety interactions, the coefficient of determination does not change much when interaction term is added.  Therefore, we consider the interaction is not significant, which means that the relationship between points and price does not vary by different variety. So we delete the term points*variety from model. 
+
+#  Price(Y) vs. Points(X) + Variety(Z) + Continent(M) 
+
+Is continent significant?
+
+```{r}
+# test significance of categorical predictor 'variety'
+fit_null = lm(price ~ points + variety, data = top_wine_with_conti)
+fit_alt = lm(price ~ points + variety + continent, data = top_wine_with_conti)
+
+anova(fit_null, fit_alt) %>% 
+  broom::tidy()  #p-val = 0
+```
+Yes. Since p-val = 0, the larger model (price ~ points + variety + continent) is superior, which means continent is a significant variable.
+
+# Stratified analysis: fit separate regression models by continent
+```{r}
+# nested within continent
 nest_lm_res =
   top_wine_with_conti %>% 
   nest(data = -continent) %>% 
@@ -117,7 +138,10 @@ nest_lm_res =
     results = map(models, broom::tidy)) %>% 
   select(-data, -models) %>% 
   unnest(results)
+nest_lm_res
+```
 
+```{r}
 # price ~ points + variety for stratified continent
 nest_lm_res %>% 
   select(continent, term, estimate) %>% 
@@ -127,4 +151,18 @@ nest_lm_res %>%
   knitr::kable(digits = 3)
 ```
 
+Residual plot
+```{r}
+df = fortify(fit_alt)
+ggplot(df, aes(x = .fitted, y = .resid)) + geom_point()+ylim(-50,250)
+```
 
+
+```{r}
+glance(fit_alt)$sigma
+```
+
+
+Then explain
+
+residual plot?

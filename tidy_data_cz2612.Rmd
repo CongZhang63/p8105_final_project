@@ -1,0 +1,107 @@
+---
+title: "Tidy Wine Data"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+
+knitr::opts_chunk$set(
+	fig.width = 6, 
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+
+set.seed(1)
+```
+
+<br/>
+
+### Import data
+
+```{r all wine data, message = FALSE}
+wine130_df = 
+  read_csv("./data/winemag-data-130k-v2.csv") %>% 
+  janitor::clean_names() %>% 
+	select(id = x1, points, price, country, province, variety, winery) %>% 
+  mutate(
+		country = factor(country),
+		province = factor(province),
+		variety = factor(variety),
+		winery = factor(winery)		
+	)  
+```
+
+The original dataset `winemag-data-130k-v2.csv` has `r nrow(wine130_df)` observations. <br/>
+The number of missing values for some important variables are as follows. <br/>
+`id`: `r sum(is.na(pull(wine130_df, id)))` missing observations. <br/>
+`points`: `r sum(is.na(pull(wine130_df, points)))` missing observations. <br/>
+`price`: `r sum(is.na(pull(wine130_df, price)))` missing observations. <br/>
+`country`: `r sum(is.na(pull(wine130_df, country)))` missing observations. <br/>
+`province`: `r sum(is.na(pull(wine130_df, province)))` missing observations. <br/>
+`variety`: `r sum(is.na(pull(wine130_df, variety)))` missing observations. <br/>
+`winery`: `r sum(is.na(pull(wine130_df, winery)))` missing observations. <br/>
+
+<br/>
+ 
+### Create average points and price at the country and province levels respectively.
+
+```{r wine130_location}
+wine130_tidy =
+  wine130_df %>% 
+  arrange(country, points) %>% 
+  group_by(country) %>% 
+  mutate(
+    points_avg_country = round(mean(points), 2),
+    price_avg_country = round(mean(price, na.rm = TRUE), 2)
+  ) %>% 
+  ungroup(country) %>% 
+  arrange(province, points) %>% 
+  group_by(province) %>% 
+  mutate(
+    points_avg_province = round(mean(points), 2),
+    price_avg_province = round(mean(price, na.rm = TRUE), 2)
+  ) %>% 
+  ungroup(province) %>%  
+  arrange(country, province, points)
+```
+
+Due to 63 missing values of country and province, average points and price are also created for this missing group. Caution is needed for subsequent analysis.
+
+<br/>
+
+### Create average points and price at the variety and winery levels respectively.
+
+```{r wine130_variety_winery}
+wine130_tidy =
+  wine130_tidy %>% 
+  arrange(variety, points) %>% 
+  group_by(variety) %>% 
+  mutate(
+    points_avg_variety = round(mean(points), 2),
+    price_avg_variety = round(mean(price, na.rm = TRUE), 2)
+  ) %>% 
+  ungroup(variety) %>% 
+  arrange(winery, points) %>% 
+  group_by(winery) %>% 
+  mutate(
+    points_avg_winery = round(mean(points), 2),
+    price_avg_winery = round(mean(price, na.rm = TRUE), 2)
+  ) %>% 
+  ungroup(winery) %>%    
+  arrange(variety, winery, points)
+```
+
+Due to 1 missing value of variety, average points and price are also created for this missing group. Caution is needed for subsequent analysis.
+
+

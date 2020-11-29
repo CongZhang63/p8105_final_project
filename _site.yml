@@ -12,7 +12,7 @@ navbar:
       - text: "Price vs. Ranking"
         href: price_vs_ranking.html
       - text: "Price vs. Location/Winery"
-        href: Price_vs_Location/Winery.html      
+        href: price_vs_location/winery.html      
     - text: "Statistical Analysis"
       href: statistical_analysis.html
     - text: "Interactive Map"

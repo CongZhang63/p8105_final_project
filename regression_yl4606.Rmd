@@ -98,20 +98,43 @@ top_wine_with_conti %>%
 ```
 
 # test significance of interactions between points and variety: price ~ points*variety
-```{r}
-lm(price ~ points*variety, data = top_wine_with_conti) %>% 
-  tidy()
-```
-There is a significant interaction between points and variety. It means that the relationship between points and price varies by different variety, especially between Pinot Noir and Chardonnay, Red Blend and Chardonnay.
 
-# Stratified analysis: fit separate regression models by variety
 ```{r}
-# nested within variety
+lm_p_v_pv <- lm(price ~ points+variety, data = top_wine_with_conti)
+
+summary(lm_p_v_pv)$r.squared
+```
+
+```{r}
+lm_p_v_pv <- lm(price ~ points*variety, data = top_wine_with_conti)
+
+summary(lm_p_v_pv)$r.squared
+```
+
+Although there is a significant p-value of points - variety interactions, the coefficient of determination does not change much when interaction term is added.  Therefore, we consider the interaction is not significant, which means that the relationship between points and price does not vary by different variety. So we delete the term points*variety from model. 
+
+#  Price(Y) vs. Points(X) + Variety(Z) + Continent(M) 
+
+Is continent significant?
+
+```{r}
+# test significance of categorical predictor 'variety'
+fit_null = lm(price ~ points + variety, data = top_wine_with_conti)
+fit_alt = lm(price ~ points + variety + continent, data = top_wine_with_conti)
+
+anova(fit_null, fit_alt) %>% 
+  broom::tidy()  #p-val = 0
+```
+Yes. Since p-val = 0, the larger model (price ~ points + variety + continent) is superior, which means continent is a significant variable.
+
+# Stratified analysis: fit separate regression models by continent
+```{r}
+# nested within continent
 nest_lm_res =
   top_wine_with_conti %>% 
-  nest(data = -variety) %>% 
+  nest(data = -continent) %>% 
   mutate(
-    models = map(data, ~lm(price ~ points, data = .x)),
+    models = map(data, ~lm(price ~ points + variety, data = .x)),
     results = map(models, broom::tidy)) %>% 
   select(-data, -models) %>% 
   unnest(results)
@@ -119,29 +142,27 @@ nest_lm_res
 ```
 
 ```{r}
-# price ~ points for stratified variety
+# price ~ points + variety for stratified continent
 nest_lm_res %>% 
-  select(variety, term, estimate) %>% 
+  select(continent, term, estimate) %>% 
   mutate(term = fct_inorder(term)) %>% 
   pivot_wider(
     names_from = term, values_from = estimate) %>% 
   knitr::kable(digits = 3)
 ```
 
-
-# Price(Y) vs. Points(X) * Variety(Z) + Continent(M) 
-
-Is continent significant?
+Residual plot
 ```{r}
-# test significance of categorical predictor 'variety'
-fit_null = lm(price ~ points * variety, data = top_wine_with_conti)
-fit_alt = lm(price ~ points * variety + continent, data = top_wine_with_conti)
-
-anova(fit_null, fit_alt) %>% 
-  broom::tidy()  #p-val = 0
+df = fortify(fit_alt)
+ggplot(df, aes(x = .fitted, y = .resid)) + geom_point()+ylim(-50,250)
 ```
-Yes. 
 
-ANOVA TO check interaction
+
+```{r}
+glance(fit_alt)$sigma
+```
+
 
 Then explain
+
+residual plot?

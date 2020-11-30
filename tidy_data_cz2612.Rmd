@@ -27,9 +27,88 @@ set.seed(1)
 
 <br/>
 
-### Import data
+### Import `winemag-data_first150k.csv` data.
 
-```{r all wine data, message = FALSE}
+```{r wine150_df, message = FALSE}
+wine150_df = 
+  read_csv("./data/winemag-data_first150k.csv") %>% 
+  janitor::clean_names() %>% 
+	select(id = x1, points, price, country, province, variety, winery) %>% 
+  mutate(
+		country = factor(country),
+		province = factor(province),
+		variety = factor(variety),
+		winery = factor(winery)		
+	)
+```
+
+The original dataset `winemag-data_first150k.csv` has `r nrow(wine150_df)` observations. <br/>
+The numbers of missing values for some important variables are as follows. <br/>
+`id`: `r sum(is.na(pull(wine150_df, id)))` missing observations. <br/>
+`points`: `r sum(is.na(pull(wine150_df, points)))` missing observations. <br/>
+`price`: `r sum(is.na(pull(wine150_df, price)))` missing observations. <br/>
+`country`: `r sum(is.na(pull(wine150_df, country)))` missing observations. <br/>
+`province`: `r sum(is.na(pull(wine150_df, province)))` missing observations. <br/>
+`variety`: `r sum(is.na(pull(wine150_df, variety)))` missing observations. <br/>
+`winery`: `r sum(is.na(pull(wine150_df, winery)))` missing observations. <br/>
+
+<br/>
+ 
+### Create average points and price at the country and province levels respectively for `winemag-data_first150k.csv` data.
+
+```{r wine150_location}
+wine150_tidy =
+  wine150_df %>% 
+  arrange(country, points) %>% 
+  group_by(country) %>% 
+  mutate(
+    points_avg_country = round(mean(points), 2),
+    price_avg_country = round(mean(price, na.rm = TRUE), 2)
+  ) %>% 
+  ungroup(country) %>% 
+  arrange(province, points) %>% 
+  group_by(province) %>% 
+  mutate(
+    points_avg_province = round(mean(points), 2),
+    price_avg_province = round(mean(price, na.rm = TRUE), 2)
+  ) %>% 
+  ungroup(province) %>%  
+  arrange(country, province, points)
+```
+
+Due to 5 missing values of country and province in `winemag-data_first150k.csv` data, average points and price are also created for this missing group. Caution is needed for subsequent analysis.
+
+<br/>
+
+### Create average points and price at the variety and winery levels respectively for `winemag-data_first150k.csv` data.
+
+```{r wine150_variety_winery}
+wine150_tidy =
+  wine150_tidy %>% 
+  arrange(variety, points) %>% 
+  group_by(variety) %>% 
+  mutate(
+    points_avg_variety = round(mean(points), 2),
+    price_avg_variety = round(mean(price, na.rm = TRUE), 2)
+  ) %>% 
+  ungroup(variety) %>% 
+  arrange(winery, points) %>% 
+  group_by(winery) %>% 
+  mutate(
+    points_avg_winery = round(mean(points), 2),
+    price_avg_winery = round(mean(price, na.rm = TRUE), 2)
+  ) %>% 
+  ungroup(winery) %>%    
+  arrange(variety, winery, points)
+```
+
+There is not any missing value of variety in `winemag-data_first150k.csv` data.
+
+<br/>
+
+### Import `winemag-data-130k-v2.csv` data.
+
+```{r wine130_df, message = FALSE}
 wine130_df = 
   read_csv("./data/winemag-data-130k-v2.csv") %>% 
   janitor::clean_names() %>% 
@@ -43,7 +122,7 @@ wine130_df =
 ```
 
 The original dataset `winemag-data-130k-v2.csv` has `r nrow(wine130_df)` observations. <br/>
-The number of missing values for some important variables are as follows. <br/>
+The numbers of missing values for some important variables are as follows. <br/>
 `id`: `r sum(is.na(pull(wine130_df, id)))` missing observations. <br/>
 `points`: `r sum(is.na(pull(wine130_df, points)))` missing observations. <br/>
 `price`: `r sum(is.na(pull(wine130_df, price)))` missing observations. <br/>
@@ -54,7 +133,7 @@ The number of missing values for some important variables are as follows. <br/>
 
 <br/>
  
-### Create average points and price at the country and province levels respectively.
+### Create average points and price at the country and province levels respectively for  `winemag-data-130k-v2.csv` data.
 
 ```{r wine130_location}
 wine130_tidy =
@@ -76,11 +155,11 @@ wine130_tidy =
   arrange(country, province, points)
 ```
 
-Due to 63 missing values of country and province, average points and price are also created for this missing group. Caution is needed for subsequent analysis.
+Due to 63 missing values of country and province in `winemag-data-130k-v2.csv` data, average points and price are also created for this missing group. Caution is needed for subsequent analysis.
 
 <br/>
 
-### Create average points and price at the variety and winery levels respectively.
+### Create average points and price at the variety and winery levels respectively for  `winemag-data-130k-v2.csv` data.
 
 ```{r wine130_variety_winery}
 wine130_tidy =
@@ -102,6 +181,5 @@ wine130_tidy =
   arrange(variety, winery, points)
 ```
 
-Due to 1 missing value of variety, average points and price are also created for this missing group. Caution is needed for subsequent analysis.
-
+Due to 1 missing value of variety in `winemag-data-130k-v2.csv` data, average points and price are also created for this missing group. Caution is needed for subsequent analysis.
 

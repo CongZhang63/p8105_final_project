@@ -330,8 +330,68 @@ $(document).ready(function () {
 
 
 <p><br/></p>
-<div id="import-data" class="section level3">
-<h3>Import data</h3>
+<div id="import-winemag-data_first150k.csv-data." class="section level3">
+<h3>Import <code>winemag-data_first150k.csv</code> data.</h3>
+<pre class="r"><code>wine150_df = 
+  read_csv(&quot;./data/winemag-data_first150k.csv&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+    select(id = x1, points, price, country, province, variety, winery) %&gt;% 
+  mutate(
+        country = factor(country),
+        province = factor(province),
+        variety = factor(variety),
+        winery = factor(winery)     
+    )</code></pre>
+<pre><code>## Warning: Missing column names filled in: &#39;X1&#39; [1]</code></pre>
+<p>The original dataset <code>winemag-data_first150k.csv</code> has 150930 observations. <br/> The numbers of missing values for some important variables are as follows. <br/> <code>id</code>: 0 missing observations. <br/> <code>points</code>: 0 missing observations. <br/> <code>price</code>: 13695 missing observations. <br/> <code>country</code>: 5 missing observations. <br/> <code>province</code>: 5 missing observations. <br/> <code>variety</code>: 0 missing observations. <br/> <code>winery</code>: 0 missing observations. <br/></p>
+<p><br/></p>
+</div>
+<div id="create-average-points-and-price-at-the-country-and-province-levels-respectively-for-winemag-data_first150k.csv-data." class="section level3">
+<h3>Create average points and price at the country and province levels respectively for <code>winemag-data_first150k.csv</code> data.</h3>
+<pre class="r"><code>wine150_tidy =
+  wine150_df %&gt;% 
+  arrange(country, points) %&gt;% 
+  group_by(country) %&gt;% 
+  mutate(
+    points_avg_country = round(mean(points), 2),
+    price_avg_country = round(mean(price, na.rm = TRUE), 2)
+  ) %&gt;% 
+  ungroup(country) %&gt;% 
+  arrange(province, points) %&gt;% 
+  group_by(province) %&gt;% 
+  mutate(
+    points_avg_province = round(mean(points), 2),
+    price_avg_province = round(mean(price, na.rm = TRUE), 2)
+  ) %&gt;% 
+  ungroup(province) %&gt;%  
+  arrange(country, province, points)</code></pre>
+<p>Due to 5 missing values of country and province in <code>winemag-data_first150k.csv</code> data, average points and price are also created for this missing group. Caution is needed for subsequent analysis.</p>
+<p><br/></p>
+</div>
+<div id="create-average-points-and-price-at-the-variety-and-winery-levels-respectively-for-winemag-data_first150k.csv-data." class="section level3">
+<h3>Create average points and price at the variety and winery levels respectively for <code>winemag-data_first150k.csv</code> data.</h3>
+<pre class="r"><code>wine150_tidy =
+  wine150_tidy %&gt;% 
+  arrange(variety, points) %&gt;% 
+  group_by(variety) %&gt;% 
+  mutate(
+    points_avg_variety = round(mean(points), 2),
+    price_avg_variety = round(mean(price, na.rm = TRUE), 2)
+  ) %&gt;% 
+  ungroup(variety) %&gt;% 
+  arrange(winery, points) %&gt;% 
+  group_by(winery) %&gt;% 
+  mutate(
+    points_avg_winery = round(mean(points), 2),
+    price_avg_winery = round(mean(price, na.rm = TRUE), 2)
+  ) %&gt;% 
+  ungroup(winery) %&gt;%    
+  arrange(variety, winery, points)</code></pre>
+<p>There is not any missing value of variety in <code>winemag-data_first150k.csv</code> data.</p>
+<p><br/></p>
+</div>
+<div id="import-winemag-data-130k-v2.csv-data." class="section level3">
+<h3>Import <code>winemag-data-130k-v2.csv</code> data.</h3>
 <pre class="r"><code>wine130_df = 
   read_csv(&quot;./data/winemag-data-130k-v2.csv&quot;) %&gt;% 
   janitor::clean_names() %&gt;% 
@@ -343,11 +403,11 @@ $(document).ready(function () {
         winery = factor(winery)     
     )  </code></pre>
 <pre><code>## Warning: Missing column names filled in: &#39;X1&#39; [1]</code></pre>
-<p>The original dataset <code>winemag-data-130k-v2.csv</code> has 129971 observations. <br/> The number of missing values for some important variables are as follows. <br/> <code>id</code>: 0 missing observations. <br/> <code>points</code>: 0 missing observations. <br/> <code>price</code>: 8996 missing observations. <br/> <code>country</code>: 63 missing observations. <br/> <code>province</code>: 63 missing observations. <br/> <code>variety</code>: 1 missing observations. <br/> <code>winery</code>: 0 missing observations. <br/></p>
+<p>The original dataset <code>winemag-data-130k-v2.csv</code> has 129971 observations. <br/> The numbers of missing values for some important variables are as follows. <br/> <code>id</code>: 0 missing observations. <br/> <code>points</code>: 0 missing observations. <br/> <code>price</code>: 8996 missing observations. <br/> <code>country</code>: 63 missing observations. <br/> <code>province</code>: 63 missing observations. <br/> <code>variety</code>: 1 missing observations. <br/> <code>winery</code>: 0 missing observations. <br/></p>
 <p><br/></p>
 </div>
-<div id="create-average-points-and-price-at-the-country-and-province-levels-respectively." class="section level3">
-<h3>Create average points and price at the country and province levels respectively.</h3>
+<div id="create-average-points-and-price-at-the-country-and-province-levels-respectively-for-winemag-data-130k-v2.csv-data." class="section level3">
+<h3>Create average points and price at the country and province levels respectively for <code>winemag-data-130k-v2.csv</code> data.</h3>
 <pre class="r"><code>wine130_tidy =
   wine130_df %&gt;% 
   arrange(country, points) %&gt;% 
@@ -365,11 +425,11 @@ $(document).ready(function () {
   ) %&gt;% 
   ungroup(province) %&gt;%  
   arrange(country, province, points)</code></pre>
-<p>Due to 63 missing values of country and province, average points and price are also created for this missing group. Caution is needed for subsequent analysis.</p>
+<p>Due to 63 missing values of country and province in <code>winemag-data-130k-v2.csv</code> data, average points and price are also created for this missing group. Caution is needed for subsequent analysis.</p>
 <p><br/></p>
 </div>
-<div id="create-average-points-and-price-at-the-variety-and-winery-levels-respectively." class="section level3">
-<h3>Create average points and price at the variety and winery levels respectively.</h3>
+<div id="create-average-points-and-price-at-the-variety-and-winery-levels-respectively-for-winemag-data-130k-v2.csv-data." class="section level3">
+<h3>Create average points and price at the variety and winery levels respectively for <code>winemag-data-130k-v2.csv</code> data.</h3>
 <pre class="r"><code>wine130_tidy =
   wine130_tidy %&gt;% 
   arrange(variety, points) %&gt;% 
@@ -387,7 +447,7 @@ $(document).ready(function () {
   ) %&gt;% 
   ungroup(winery) %&gt;%    
   arrange(variety, winery, points)</code></pre>
-<p>Due to 1 missing value of variety, average points and price are also created for this missing group. Caution is needed for subsequent analysis.</p>
+<p>Due to 1 missing value of variety in <code>winemag-data-130k-v2.csv</code> data, average points and price are also created for this missing group. Caution is needed for subsequent analysis.</p>
 </div>
 
 

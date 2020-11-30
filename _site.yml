@@ -13,6 +13,8 @@ navbar:
         href: price_vs_ranking.html
       - text: "Reviews of European Wines"
         href: reviews_of_eu_wines_cz2612.html
+      - text: "Reviews of American Wines"
+        href: reviews_of_am_wines_cz2612.html
       - text: "Reviews of US Wines"
         href: reviews_of_us_wines_cz2612.html
     - text: "Statistical Analysis"

@@ -12,8 +12,8 @@ library(modelr)
 ```
 
 ```{r}
-wine_130k = read_csv("./wine_data/winemag-data-130k-v2.csv")
-wine_150k = read_csv("./wine_data/winemag-data_first150k.csv")
+wine_150k = read_csv("./winemag-data_first150k.csv")
+conti_country = read_csv("./country-and-continent-codes-list-csv_csv.csv")
 ```
 
 We will be using the wine_150k dataset from now on.
@@ -22,28 +22,75 @@ wine_150k = wine_150k %>%
   janitor::clean_names() %>% 
   select(country, points, price, variety) %>% 
   mutate(country = factor(country),
-         variety = factor(variety))
+         variety = factor(variety)) %>% 
+  drop_na(country)
+
+conti_country_tidy <- conti_country %>% 
+  janitor::clean_names() %>% 
+  separate(country_name, into = c("country", "prefix"), sep = ",") %>% 
+  mutate(
+    country = replace(country, country == "Slovakia (Slovak Republic)", "Slovakia"),
+    country = replace(country, country == "United Kingdom of Great Britain & Northern Ireland", "England"),
+    country = replace(country, country == "Korea", "South Korea"),
+    country = replace(country, country == "United States of America", "US"),
+  ) %>% ## standardize country names to do left_join
+  select(continent_name, country) %>% 
+  mutate(continent = as.factor(continent_name)) %>% 
+  select(-continent_name)
+
+rm(conti_country)
+
+# Merge datasets to add continent information to the wine dataset.
+
+wine_with_conti =
+  left_join(wine_150k, conti_country_tidy, by = ("country" = "country")) %>% 
+  mutate(continent = fct_relevel(continent, "North America")) %>%  ## US as the reference
+  select(country, continent, everything()) %>% 
+  drop_na(continent)
+
+# 632 unique varieties, select most frequent 4 varieties to fit the model
+top_variety = wine_with_conti %>% 
+  group_by(variety) %>% 
+  summarise(count = n()) %>% 
+  arrange(desc(count)) %>% 
+  filter(count > 10000)
+
+top_variety_list <- as.vector(top_variety$variety)
+
+# wine_with_conti filtered
+top_wine_with_conti = 
+  wine_with_conti %>% 
+  filter(variety %in% top_variety_list) %>% 
+  mutate(
+    variety = fct_infreq(variety)
+  ) ## most frequent variety as the reference
+
+
 
 # scatter plot 
-wine_150k %>% 
-  ggplot(aes(x = points, y = price, color = country)) +
-  geom_point()
+top_wine_with_conti %>% 
+  ggplot(aes(x = points, y = price, color = variety)) +
+  geom_point(show.legend = FALSE) +
+  geom_smooth(method = 'lm') +
+  ylim(0, 750)
 
-fit = lm(price ~ points, data = wine_150k)
+# We see a linear trend in price vs. points. This implies a positive correlation between price and points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety. 
+
+
+# Fit a linear model 
+fit = lm(price ~ points + continent + variety, data = top_wine_with_conti)
 tidy(fit)
 
-modelr::add_residuals(wine_150k,
-                      fit) %>% 
+# Residual Plot
+modelr::add_residuals(top_wine_with_conti, fit) %>% 
   ggplot(aes(x = points, y = resid)) +
-  geom_point()
+  geom_point() +
+  theme_bw()
 
-lm(price ~ points + country + variety, data = wine_150k) %>% 
-  tidy()
-
-wine_150k %>% 
-  modelr::bootstrap(1000, id = "strap_number") %>% 
+top_wine_with_conti %>% 
+  modelr::bootstrap(100, id = "strap_number") %>% 
   mutate(
-    models = map(.x = strap, ~lm(price ~ points, data = .x)),
+    models = map(.x = strap, ~lm(price ~ points + continent + variety, data = .x)),
     results = map(models, tidy)) %>% 
   select(strap_number, results) %>% 
   unnest(results) %>%
@@ -51,16 +98,4 @@ wine_150k %>%
   summarize(
     mean_est = mean(estimate),
     sd_est = sd(estimate)
-  )
-  
-
-```
-
-
-```{r}
-
-
-```
-
-
-
+  ) 

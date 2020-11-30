@@ -386,7 +386,9 @@ $(document).ready(function () {
     price_avg_winery = round(mean(price, na.rm = TRUE), 2)
   ) %&gt;% 
   ungroup(winery) %&gt;%    
-  arrange(variety, winery, points)</code></pre>
+  arrange(variety, winery, points)
+
+save(wine150_tidy, file = &quot;./data/wine150_tidy&quot;)</code></pre>
 <p>There is not any missing value of variety in <code>winemag-data_first150k.csv</code> data.</p>
 <p><br/></p>
 </div>
@@ -446,7 +448,9 @@ $(document).ready(function () {
     price_avg_winery = round(mean(price, na.rm = TRUE), 2)
   ) %&gt;% 
   ungroup(winery) %&gt;%    
-  arrange(variety, winery, points)</code></pre>
+  arrange(variety, winery, points)
+
+save(wine130_tidy, file = &quot;./data/wine130_tidy&quot;)</code></pre>
 <p>Due to 1 missing value of variety in <code>winemag-data-130k-v2.csv</code> data, average points and price are also created for this missing group. Caution is needed for subsequent analysis.</p>
 </div>
 

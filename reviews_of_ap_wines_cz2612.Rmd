@@ -1,0 +1,38 @@
+---
+title: "Reviews of Asian-Pacific Wines"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include = FALSE}
+library(tidyverse)
+library(patchwork)
+library(plotly)
+library(flexdashboard)
+```
+
+<br/>
+
+### Asian-Pacific Country Comparison
+
+```{r Asian-Pacific Winery Bar Plot}
+load("./data/wine150_tidy")
+
+wine150_tidy %>% 
+  select(country, points_avg_country) %>% 
+  filter(country %in% c("Australia", "China", "Georgia", "India", "Israel", "Japan", "Lebanon", "New Zealand", "South Korea", "Turkey")) %>% 
+  mutate(country = fct_reorder(country, desc(points_avg_country))) %>% 
+  unique() %>% 
+  mutate(text_label = str_c("Country: ", country, "\nAverage Points: ", points_avg_country)) %>% 
+  plot_ly(
+    x = ~country, y = ~points_avg_country, color = ~factor(country), text = ~text_label,
+    type = "bar", colors = "viridis") %>%
+  layout(
+    xaxis = list(title = "Asian-Pacific Country"),
+    yaxis = list(title = "Average Wine Points", range = (c(80,88))),
+    title = "Average Wine Points of Asian-Pacific Country")
+```
+

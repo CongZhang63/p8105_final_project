@@ -1,0 +1,12 @@
+library(shiny)
+library(ggplot2)
+library(tidyverse)
+library(leaflet)
+library(countrycode)
+library(dplyr)
+library(plotly)
+library(shinydashboard)
+
+winedata=read_csv("./wine_first150k.csv.csv",locale = readr::locale(encoding = "UTF-8"))
+lat_long=read_csv("./latitude_and_longitude_values.csv")
+continent=read_csv("./continent.csv")

@@ -57,7 +57,7 @@ wine150_tidy %>%
 ```
 
 ## Top 20 Winery
-In this graph, we plot the top 20 winery based on their wine ranking points. Some wineries have wines ranking within a very large range. For example, Tenuta dell'Ornellaia has wine with point 100 and also has wine with ranking point 86. From boxplot, we can see not only the average point of wines a winery made, but also its median, q1, q3 and range. Some wineries have more stable outputs of products. 
+In this graph, we plot the top 30 winery based on their wine ranking points. Some wineries have wines ranking within a very large range. For example, Tenuta dell'Ornellaia has wine with point 100 and also has wine with ranking point 86. From boxplot, we can see not only the average point of wines a winery made, but also its median, q1, q3 and range. Some wineries have more stable outputs of products. 
 
 ```{r Top 20 US Winery Boxplot}
 load("./data/wine150_tidy")

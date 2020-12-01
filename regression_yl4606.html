@@ -417,63 +417,82 @@ div.tocify {
 <div id="hypothesis" class="section level1">
 <h1>Hypothesis</h1>
 <p>In this analysis, we are interested in whether wine is more expensive as its points(rated by *<a href="https://www.winemag.com/ratings/?utm_source=wineenthusiast.com&amp;utm_medium=affiliate&amp;utm_content=topnav">Wine Enthusiast</a>) increases, adjusting for variables including variety and continent of production.</p>
-<pre><code>## Parsed with column specification:
-## cols(
-##   X1 = col_double(),
-##   country = col_character(),
-##   description = col_character(),
-##   designation = col_character(),
-##   points = col_double(),
-##   price = col_double(),
-##   province = col_character(),
-##   region_1 = col_character(),
-##   region_2 = col_character(),
-##   variety = col_character(),
-##   winery = col_character()
-## )</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   Continent_Name = col_character(),
-##   Continent_Code = col_character(),
-##   Country_Name = col_character(),
-##   Two_Letter_Country_Code = col_character(),
-##   Three_Letter_Country_Code = col_character(),
-##   Country_Number = col_double()
-## )</code></pre>
-<p>a little bit tidying, add continent column to 150k wine data</p>
 </div>
 <div id="distribution-of-pricey" class="section level1">
 <h1>Distribution of Price(Y)</h1>
-<pre><code>## Warning: Removed 13697 rows containing non-finite values (stat_density).</code></pre>
-<p><img src="regression_yl4606_files/figure-html/unnamed-chunk-3-1.png" width="90%" /> The highly skewed pattern needs to be log-linear transformed before fitting the regression model.</p>
+<p><img src="regression_yl4606_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
+<p>We detect a highly skewed pattern of price distribution, thus it needs to be log-linear transformed before fitting the regression model.</p>
 </div>
 <div id="scatter-plot-log_pricey-vs-pointsx-by-varietyz" class="section level1">
-<h1>Scatter plot: log_Price(Y) vs Points(X) by Variety(Z)</h1>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 2183 rows containing non-finite values (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 2183 rows containing missing values (geom_point).</code></pre>
+<h1>Scatter plot: Log_Price(Y) vs Points(X) by Variety(Z)</h1>
 <p><img src="regression_yl4606_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
-<p>Comment: We see a linear trend in price vs. points. This implies a positive correlation between price and points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety.</p>
+<p>After log-transforming of independent variable price, we observe a linear trend in price vs. points. This implies a positive correlation between price and log_points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety.</p>
 </div>
-<div id="significance-of-interaction-pointsvariety" class="section level1">
-<h1>Significance of interaction points*variety</h1>
-<pre><code>## [1] 0.4291898</code></pre>
-<pre><code>## [1] 0.433479</code></pre>
-<p>Comment: r^2 of 0.429 without interaction term suggests a moderate association between points, variety and log(price). Although there is a significant p-value of points - variety interactions, the coefficient of determination does not change much when interaction term is added. Therefore, we consider the interaction as not significant, which means that the relationship between points and price does not vary by different variety. So we delete the term points*variety from model.</p>
+<div id="significance-of-interaction-between-pointsx-and-varietyz" class="section level1">
+<h1>Significance of interaction between Points(X) and Variety(Z)</h1>
+<table>
+<thead>
+<tr class="header">
+<th align="right">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0.429</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th align="right">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0.433</td>
+</tr>
+</tbody>
+</table>
+<p>Coefficient of determination (r-squared) 0.429 without interaction term suggests a moderate association between points, variety and log(price). Although there is a significant p-value of points - variety interactions, the coefficient of determination does not change much when interaction term is added. Therefore, we consider the interaction as not significant, which means that the relationship between points and price does not vary by different variety. So we delete the term points * variety from model.</p>
 </div>
 <div id="log_pricey-vs.-pointsx-varietyz-continentm" class="section level1">
-<h1>log_Price(Y) vs. Points(X) + Variety(Z) + Continent(M)</h1>
-<p>Is continent significant?</p>
-<pre><code>## # A tibble: 2 x 6
-##   res.df    rss    df sumsq statistic p.value
-##    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
-## 1  49478 12566.    NA   NA        NA       NA
-## 2  49473 11632.     5  934.      794.       0</code></pre>
-<p>Yes. Since p-val = 0, the larger model (log_price ~ points + variety + continent) is superior, which means continent is a significant variable.</p>
+<h1>Log_Price(Y) vs. Points(X) + Variety(Z) + Continent(M)</h1>
+<p>Qustion: Is variable continent significant?</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">res.df</th>
+<th align="right">rss</th>
+<th align="right">df</th>
+<th align="right">sumsq</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">49478</td>
+<td align="right">12565.96</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="right">49473</td>
+<td align="right">11632.08</td>
+<td align="right">5</td>
+<td align="right">933.875</td>
+<td align="right">794.382</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>Yes. Since p-value equals to zero, the larger model ’ log_price ~ points + variety + continent ’ is superior, which means continent is a significant variable. For easier interpretation, we decide to stratify the analysis by continent.</p>
 </div>
-<div id="for-easier-interpretation-stratified-analysis-by-continent" class="section level1">
-<h1>For easier interpretation: stratified analysis by continent</h1>
+<div id="stratified-analysis-by-continent-m" class="section level1">
+<h1>Stratified analysis by Continent (M)</h1>
 <table style="width:100%;">
 <colgroup>
 <col width="14%" />
@@ -544,22 +563,53 @@ div.tocify {
 </tr>
 </tbody>
 </table>
+<p>By fitting models in nested datasets, we got the following findings: (1) For all continents, since the estimates of points are positive, price increases as points increases adjusting for variable variety. It corresponds to our hypothesis that wine is more expensive as its points review increases. (2) In Europe only, Carbernet Sauvignon and Red Blend have negative estimates. It implies that the expected price of variety Carbernet Sauvignon and Red Blend in Europe are lower than the expected price of Chardonnay (adjusting for points). This could be resulted by high yields of specific varieties, which lower the price of wine. And we need to do more research on the yields for further analysis. (3) Asia has the smallest estimate of points. So the price of wine in Asia is leastly affected by its points, adjusted for variety. In explain, on average, one point increase of wine in Asia leads to 8.5% (= e ^ (0.082) * 100 - 1) increase in expected price, which is only one-third of the increase 19.1%(= e ^ (0.175) * 100 - 1) in Europe.</p>
 </div>
-<div id="take-a-closer-look-at-north-america" class="section level1">
-<h1>Take a closer look at North America</h1>
-<p><img src="regression_yl4606_files/figure-html/unnamed-chunk-10-1.png" width="90%" /> Unequal variance of residual tells us that we need to do bootstrap before fitting the model.</p>
-</div>
-<div id="bootstrap-1000-times" class="section level1">
-<h1>bootstrap 1000 times</h1>
+<div id="take-a-closer-look-in-north-america-continent" class="section level1">
+<h1>Take a closer look in North America continent</h1>
+<p><img src="regression_yl4606_files/figure-html/unnamed-chunk-10-1.png" width="90%" /></p>
+<p>Non-random distribution of variances of residual tells us that bootstrapping needs to be down before fitting the model for price of wine in North America.</p>
+<div id="bootstrap-1000-times" class="section level2">
+<h2>Bootstrap 1000 times</h2>
 <pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<pre><code>## # A tibble: 5 x 3
-##   term                      mean_est   sd_est
-##   &lt;chr&gt;                        &lt;dbl&gt;    &lt;dbl&gt;
-## 1 (Intercept)                -4.98   0.0678  
-## 2 points                      0.0931 0.000768
-## 3 varietyCabernet Sauvignon   0.403  0.00722 
-## 4 varietyPinot Noir           0.343  0.00596 
-## 5 varietyRed Blend            0.171  0.00902</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">mean_est</th>
+<th align="right">sd_est</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">-4.977</td>
+<td align="right">0.066</td>
+</tr>
+<tr class="even">
+<td align="left">points</td>
+<td align="right">0.093</td>
+<td align="right">0.001</td>
+</tr>
+<tr class="odd">
+<td align="left">varietyCabernet Sauvignon</td>
+<td align="right">0.403</td>
+<td align="right">0.007</td>
+</tr>
+<tr class="even">
+<td align="left">varietyPinot Noir</td>
+<td align="right">0.343</td>
+<td align="right">0.006</td>
+</tr>
+<tr class="odd">
+<td align="left">varietyRed Blend</td>
+<td align="right">0.171</td>
+<td align="right">0.009</td>
+</tr>
+</tbody>
+</table>
+<p>After bootstrapping, we</p>
+</div>
 </div>
 
 

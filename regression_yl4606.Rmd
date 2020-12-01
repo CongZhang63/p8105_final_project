@@ -5,10 +5,11 @@ output:
     toc: true
     toc_float: true
 ---
+
 # Hypothesis
 In this analysis, we are interested in whether wine is more expensive as its points(rated by *[Wine Enthusiast](https://www.winemag.com/ratings/?utm_source=wineenthusiast.com&utm_medium=affiliate&utm_content=topnav)) increases, adjusting for variables including variety and continent of production.
 
-```{r setup, include = FALSE, echo = FALSE}
+```{r setup, echo = FALSE, warning = FALSE, message=FALSE}
 library(tidyverse)
 library(purrr)
 library(broom)
@@ -28,18 +29,16 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-```{r, warning = FALSE, echo=FALSE}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # reading two datasets
 wine_150k = read_csv("./data/winemag-data_first150k.csv")
 conti_country = read_csv("./data/country-and-continent-codes-list-csv_csv.csv")
 ```
-
-a little bit tidying, add continent column to 150k wine data
-```{r, warning = FALSE, echo=FALSE}
+```{r, echo = FALSE, warning = FALSE}
 # wine data tidy
 wine_150k = wine_150k %>% 
   janitor::clean_names() %>% 
-  select(country, points, price, variety) %>% 
+  select(country, points, price, variety, winery) %>% 
   mutate(country = factor(country),
          variety = factor(variety)) %>% 
   drop_na(country)
@@ -69,15 +68,16 @@ wine_with_conti<-
 ```
 
 # Distribution of Price(Y)
-```{r, echo=FALSE}
+```{r, echo = FALSE, warning = FALSE}
 wine_with_conti %>% 
-  ggplot(x = price) +
+  ggplot(x = points) +
   stat_density(aes(x= price), geom="line")
 ```
-The highly skewed pattern needs to be log-linear transformed before fitting the regression model.
 
-# Scatter plot: log_Price(Y) vs Points(X) by Variety(Z)
-```{r, echo=FALSE}
+We detect a highly skewed pattern of price distribution, thus it needs to be log-linear transformed before fitting the regression model.
+
+# Scatter plot: Log_Price(Y) vs Points(X) by Variety(Z)
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # 632 unique varieties, select most frequent 4 vareties to fit the model
 top_variety <- wine_with_conti %>% 
   group_by(variety) %>% 
@@ -86,6 +86,15 @@ top_variety <- wine_with_conti %>%
   filter(count>10000)
 
 top_variety_list <- as.vector(top_variety$variety)
+
+# select most frequent 4 wineries 
+top_winery <- wine_with_conti %>% 
+  group_by(winery) %>% 
+  summarise(count = n()) %>% 
+  arrange(desc(count)) %>% 
+  filter(count>200)
+
+top_winery_list <- as.vector(top_winery$winery)
 
 # wine_with_conti filtered
 top_wine_with_conti<- 
@@ -103,41 +112,42 @@ top_wine_with_conti %>%
   geom_smooth(method='lm')
 ```
 
-Comment: We see a linear trend in price vs. points. This implies a positive correlation between price and points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety. 
+After log-transforming of independent variable price, we observe a linear trend in price vs. points. This implies a positive correlation between price and log_points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety. 
 
-# Significance of interaction points*variety
+# Significance of interaction between Points(X) and Variety(Z)
 
-```{r, warning = FALSE, echo=FALSE}
+```{r, echo = FALSE, warning = FALSE}
 lm_p_v_pv <- lm(log_price ~ points + variety, data = top_wine_with_conti)
 
-summary(lm_p_v_pv)$r.squared
+summary(lm_p_v_pv)$r.squared %>% knitr::kable(digits = 3)
 ```
 
-```{r, warning = FALSE, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 lm_p_v_pv <- lm(log_price ~ points*variety, data = top_wine_with_conti)
 
-summary(lm_p_v_pv)$r.squared
+summary(lm_p_v_pv)$r.squared %>% knitr::kable(digits = 3)
 ```
 
-Comment: r^2 of 0.429 without interaction term suggests a moderate association between points, variety and log(price). Although there is a significant p-value of points - variety interactions, the coefficient of determination does not change much when interaction term is added.  Therefore, we consider the interaction as not significant, which means that the relationship between points and price does not vary by different variety. So we delete the term points*variety from model. 
+Coefficient of determination (r-squared) 0.429 without interaction term suggests a moderate association between points, variety and log(price). Although there is a significant p-value of points - variety interactions, the coefficient of determination does not change much when interaction term is added.  Therefore, we consider the interaction as not significant, which means that the relationship between points and price does not vary by different variety. So we delete the term points * variety from model. 
 
-# log_Price(Y) vs. Points(X) + Variety(Z) + Continent(M) 
+# Log_Price(Y) vs. Points(X) + Variety(Z) + Continent(M) 
 
-Is continent significant?
+Qustion: Is variable continent significant?
 
-```{r, warning = FALSE, echo=FALSE}
+```{r, echo = FALSE, warning = FALSE}
 # test significance of categorical predictor 'variety'
 fit_null = lm(log_price ~ points + variety, data = top_wine_with_conti)
 fit_alt = lm(log_price ~ points + variety + continent, data = top_wine_with_conti)
 
 anova(fit_null, fit_alt) %>% 
-  broom::tidy()  #p-val = 0
+  broom::tidy() %>% 
+  knitr::kable(digits = 3)  #p-val = 0
 ```
 
-Yes. Since p-val = 0, the larger model (log_price ~ points + variety + continent) is superior, which means continent is a significant variable.
+Yes. Since p-value equals to zero, the larger model ' log_price ~ points + variety + continent ' is superior, which means continent is a significant variable. For easier interpretation, we decide to stratify the analysis by continent.
 
-# For easier interpretation: stratified analysis by continent
-```{r, warning = FALSE, echo=FALSE}
+# Stratified analysis by Continent (M)
+```{r, echo = FALSE, warning = FALSE}
 # nested within continent
 nest_lm_res =
   top_wine_with_conti %>% 
@@ -149,7 +159,7 @@ nest_lm_res =
   unnest(results)
 ```
 
-```{r, warning = FALSE, echo=FALSE}
+```{r, echo = FALSE, warning = FALSE}
 # price ~ points + variety for stratified continent
 nest_lm_res %>% 
   select(continent, term, estimate) %>% 
@@ -159,8 +169,13 @@ nest_lm_res %>%
   knitr::kable(digits = 3)
 ```
 
-# Take a closer look at North America
-```{r, warning = FALSE, echo=FALSE}
+By fitting models in nested datasets, we got the following findings:
+(1) For all continents, since the estimates of points are positive, price increases as points increases adjusting for variable variety. It corresponds to our hypothesis that wine is more expensive as its points review increases.
+(2) In Europe only, Carbernet Sauvignon and Red Blend have negative estimates. It implies that the expected price of variety Carbernet Sauvignon and Red Blend in Europe are lower than the expected price of Chardonnay (adjusting for points). This could be resulted by high yields of specific varieties, which lower the price of wine. And we need to do more research on the yields for further analysis.
+(3) Asia has the smallest estimate of points. So the price of wine in Asia is leastly affected by its points, adjusted for variety. In explain, on average, one point increase of wine in Asia leads to 8.5% (= e ^ (0.082) * 100 - 1) increase in expected price, which is only one-third of the increase 19.1%(= e ^ (0.175) * 100 - 1) in Europe.
+
+# Take a closer look in North America continent
+```{r, echo = FALSE, warning = FALSE}
 # check residual assumption for continent North America
 north_america_df <- top_wine_with_conti %>% 
   filter(continent == 'North America')
@@ -172,11 +187,12 @@ modelr::add_residuals(north_america_df, fit_na) %>%
   geom_point() +
   theme_bw()
 ```
-Unequal variance of residual tells us that we need to do bootstrap before fitting the model.
 
-# bootstrap 1000 times
+Non-random distribution of variances of residual tells us that bootstrapping needs to be down before fitting the model for price of wine in North America.
 
-```{r, warning = FALSE, echo=FALSE, cache = TRUE}
+## Bootstrap 1000 times
+
+```{r, echo = FALSE, warning = FALSE, cache = TRUE}
 north_america_df %>% 
   modelr::bootstrap(1000, id = "strap_number") %>% 
   mutate(
@@ -188,7 +204,8 @@ north_america_df %>%
   summarize(
     mean_est = mean(estimate),
     sd_est = sd(estimate)
-  ) 
+  ) %>% 
+  knitr::kable(digits = 3)
 ```
 
-
+After bootstrapping, we 

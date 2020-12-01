@@ -88,3 +88,20 @@ function(input, output) {
     
   }
   )
+  
+  output$map1 <- renderPlotly({
+    
+    statistics=
+      wine_location %>%
+      filter(continent == input[["continent_choice"]] | input[["continent_choice"]] == "All Continents",
+             price %in% input$price_range[1]:input$price_range[2],
+             points == input[["rating_chose"]] | input[["rating_chose"]] == "All Ratings"
+      )%>%
+      plot_ly(
+        y= ~price, x = ~country, color = ~country, type = "box", colors = "viridis"
+      )%>%
+      layout(yaxis = list(title = 'Price'),
+             xaxis = list(title = 'Country')  
+      )
+  })
+  

@@ -23,6 +23,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -250,6 +251,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -398,6 +402,14 @@ div.tocify {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Prices vs Ranking</h1>
@@ -405,21 +417,6 @@ div.tocify {
 </div>
 
 
-<pre class="r"><code>wine_df</code></pre>
-<pre><code>## # A tibble: 137,230 x 9
-##    country designation  points price province  region_1  region_2 variety winery
-##    &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt; 
-##  1 US      Martha&#39;s Vi…     96   235 Californ… Napa Val… Napa     Cabern… Heitz 
-##  2 Spain   Carodorum S…     96   110 Northern… Toro      &lt;NA&gt;     Tinta … Bodeg…
-##  3 US      Special Sel…     96    90 Californ… Knights … Sonoma   Sauvig… Macau…
-##  4 US      Reserve          96    65 Oregon    Willamet… Willame… Pinot … Ponzi 
-##  5 France  La Brûlade       95    66 Provence  Bandol    &lt;NA&gt;     Proven… Domai…
-##  6 Spain   Numanthia        95    73 Northern… Toro      &lt;NA&gt;     Tinta … Numan…
-##  7 Spain   San Román        95    65 Northern… Toro      &lt;NA&gt;     Tinta … Mauro…
-##  8 Spain   Carodorum Ú…     95   110 Northern… Toro      &lt;NA&gt;     Tinta … Bodeg…
-##  9 US      Silice           95    65 Oregon    Chehalem… Willame… Pinot … Bergs…
-## 10 US      Gap&#39;s Crown…     95    60 Californ… Sonoma C… Sonoma   Pinot … Blue …
-## # … with 137,220 more rows</code></pre>
 <pre class="r"><code>ggplot(wine_df, aes(x = price, y = points)) + 
   geom_point(alpha = 5, color = &quot;blue&quot;) +
   theme(legend.position = &quot;bottom&quot;) +
@@ -428,7 +425,7 @@ div.tocify {
     x = &quot;Price&quot;,
     y = &quot;Ranking&quot;
   ) </code></pre>
-<p><img src="price_vs_ranking_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
+<p><img src="price_vs_ranking_files/figure-html/unnamed-chunk-2-1.png" width="90%" /></p>
 
 
 
@@ -465,6 +462,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {

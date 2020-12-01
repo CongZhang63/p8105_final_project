@@ -9,9 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Ruwen Zhou" />
 
-<meta name="date" content="2020-11-26" />
 
 <title>Graphs</title>
 
@@ -21,7 +19,11 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -249,7 +251,73 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
 
 
 
@@ -259,6 +327,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -324,30 +402,21 @@ $(document).ready(function () {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Graphs</h1>
-<h4 class="author">Ruwen Zhou</h4>
-<h4 class="date">11/26/2020</h4>
 
 </div>
 
 
-<pre class="r"><code>wine_df</code></pre>
-<pre><code>## # A tibble: 150,925 x 9
-##    country designation  points price province  region_1  region_2 variety winery
-##    &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt; 
-##  1 US      Martha&#39;s Vi…     96   235 Californ… Napa Val… Napa     Cabern… Heitz 
-##  2 Spain   Carodorum S…     96   110 Northern… Toro      &lt;NA&gt;     Tinta … Bodeg…
-##  3 US      Special Sel…     96    90 Californ… Knights … Sonoma   Sauvig… Macau…
-##  4 US      Reserve          96    65 Oregon    Willamet… Willame… Pinot … Ponzi 
-##  5 France  La Brûlade       95    66 Provence  Bandol    &lt;NA&gt;     Proven… Domai…
-##  6 Spain   Numanthia        95    73 Northern… Toro      &lt;NA&gt;     Tinta … Numan…
-##  7 Spain   San Román        95    65 Northern… Toro      &lt;NA&gt;     Tinta … Mauro…
-##  8 Spain   Carodorum Ú…     95   110 Northern… Toro      &lt;NA&gt;     Tinta … Bodeg…
-##  9 US      Silice           95    65 Oregon    Chehalem… Willame… Pinot … Bergs…
-## 10 US      Gap&#39;s Crown…     95    60 Californ… Sonoma C… Sonoma   Pinot … Blue …
-## # … with 150,915 more rows</code></pre>
 <div id="ranking-of-wines" class="section level1">
 <h1>Ranking of Wines</h1>
 <p>Some professional reviewers gave rankings to more than 150,000 types of wines based on their regions, prices, tastes, variety and winery. From the histogram we have plotted, we can see that the distribution of rankings of wines is close to normal distribution and the mean is around 87.8885274.</p>
@@ -358,7 +427,7 @@ $(document).ready(function () {
     x = &quot;Rankings&quot;,
     y = &quot;Counts&quot;
   )</code></pre>
-<p><img src="p8105_final_rz2530_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="p8105_final_rz2530_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
 <div id="the-popularity-of-different-types-of-grapes-used-to-make-the-wine" class="section level1">
 <h1>The popularity of different types of grapes used to make the wine</h1>
@@ -377,11 +446,13 @@ ggplot(grapes, aes(x = variety)) +
   ) +
   coord_flip() </code></pre>
 <pre><code>## Warning: Ignoring unknown parameters: binwidth</code></pre>
-<p><img src="p8105_final_rz2530_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="p8105_final_rz2530_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -413,7 +484,38 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

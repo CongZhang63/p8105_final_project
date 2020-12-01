@@ -41,3 +41,34 @@ min_price = wine_location %>% distinct(price) %>% min(na.rm = T)
 rating = wine_location %>% distinct(points) %>% pull()
 rating=sort(rating, decreasing = T)
 rating=prepend(rating, "All Ratings")
+
+sidebar <-dashboardSidebar(
+  
+  radioButtons(
+    "continent_choice",
+    label = h3("Choose Continent"),
+    choices = continent_choice,
+    selected = "All Continents"
+  ),
+  #--------------------------------------------------------------------
+  # sliderInput widget
+  
+  
+  
+  sliderInput(
+    "price_range",
+    label = h3("Choose Price Range"),
+    min = min_price, max = max_price, value = c(4, 2000)),
+  
+  #--------------------------------------------------------------------
+  # selectInput widget
+  
+  
+  selectInput(
+    "rating_chose",
+    label = h3("Select Rating"),
+    choices = rating,
+    selected = "All Ratings"
+  )
+  
+)

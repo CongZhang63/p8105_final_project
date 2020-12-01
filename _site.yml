@@ -20,7 +20,7 @@ navbar:
     - text: "Statistical Analysis"
       href: regression_yl4606.html
     - text: "Interactive Map"
-      href: interactive_map.html      
+      href: https://bluedenw.shinyapps.io/interactive_map/     
     - icon: fa-youtube fa-lg    
       href: 
     - icon: fa-github fa-lg

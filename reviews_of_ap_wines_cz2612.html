@@ -11,7 +11,7 @@
 
 
 
-<title>CHEERS! Professional Wine Reviews   - Course P8105 Data Science I Project</title>
+<title>Reviews of Asian-Pacific Wines</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -26,6 +26,13 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -421,36 +428,36 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">CHEERS! Professional Wine Reviews <br/> - Course P8105 Data Science I Project</h1>
+<h1 class="title toc-ignore">Reviews of Asian-Pacific Wines</h1>
 
 </div>
 
 
-<p><img src="images/Wine.jpg" style="width:100%"></p>
 <p><br/></p>
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<p>Wine is an essential component in western food culture. Due to the variety of wine brands, people may easily get lost. Therefore, we would like to provide a review of wines by professional wine tasters and guidance for wine lovers based on variety, location, winery and price. Wine lovers can select and buy wines more easily with information provided on our website.</p>
-<p><br/></p>
-</div>
-<div id="data" class="section level1">
-<h1>Data</h1>
-<p>This <a href="https://www.kaggle.com/zynicide/wine-reviews?select=winemag-data-130k-v2.csvm">dataset</a> contains 13 columns, including country, designation(The vineyard within the winery where the grapes that made the wine are from), points(The number of points WineEnthusiast rated the wine on a scale of 1-100), price, province, region_2, region_2, variety(The type of grapes used to make the wine), winery(The winery that made the wine)</p>
-<p><br/></p>
-</div>
-<div id="findings" class="section level1">
-<h1>Findings</h1>
-<p><br/></p>
-</div>
-<div id="contributors" class="section level1">
-<h1>Contributors</h1>
-<ul>
-<li><a href="https://bluedenw.github.io">Zhourong Li</a></li>
-<li><a href="https://yubei-yl4606.github.io/yl4606.github.io">Yubei Liang</a></li>
-<li><a href="https://leooolzh.github.io">Leo Liu</a></li>
-<li><a href="https://congzhang63.github.io">Cong Zhang</a></li>
-<li><a href="https://carmenzhou.github.io/rz2530.github.io">Ruwen Zhou</a></li>
-</ul>
+<div id="asian-pacific-country-comparison" class="section level3">
+<h3>Asian-Pacific Country Comparison</h3>
+<pre class="r"><code>load(&quot;./data/wine150_tidy&quot;)
+
+wine150_tidy %&gt;% 
+  select(country, points_avg_country) %&gt;% 
+  filter(country %in% c(&quot;Australia&quot;, &quot;China&quot;, &quot;Georgia&quot;, &quot;India&quot;, &quot;Israel&quot;, &quot;Japan&quot;, &quot;Lebanon&quot;, &quot;New Zealand&quot;, &quot;South Korea&quot;, &quot;Turkey&quot;)) %&gt;% 
+  mutate(country = fct_reorder(country, desc(points_avg_country))) %&gt;% 
+  unique() %&gt;% 
+  mutate(text_label = str_c(&quot;Country: &quot;, country, &quot;\nAverage Points: &quot;, points_avg_country)) %&gt;% 
+  plot_ly(
+    x = ~country, y = ~points_avg_country, color = ~factor(country), text = ~text_label,
+    type = &quot;bar&quot;, colors = &quot;viridis&quot;) %&gt;%
+  layout(
+    xaxis = list(title = &quot;Asian-Pacific Country&quot;),
+    yaxis = list(title = &quot;Average Wine Points&quot;, range = (c(80,88))),
+    title = &quot;Average Wine Points of Asian-Pacific Country&quot;)</code></pre>
+<pre><code>## Warning: `arrange_()` is deprecated as of dplyr 0.7.0.
+## Please use `arrange()` instead.
+## See vignette(&#39;programming&#39;) for more help
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+<div id="htmlwidget-27fbea65daa97060594b" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-27fbea65daa97060594b">{"x":{"visdat":{"28785baf715a":["function () ","plotlyVisDat"]},"cur_data":"28785baf715a","attrs":{"28785baf715a":{"x":{},"y":{},"text":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"Asian-Pacific Country","type":"category","categoryorder":"array","categoryarray":["Turkey","Australia","India","New Zealand","Israel","Lebanon","Georgia","Japan","China","South Korea","Albania","Argentina","Austria","Bosnia and Herzegovina","Brazil","Bulgaria","Canada","Chile","Croatia","Cyprus","Czech Republic","Egypt","England","France","Germany","Greece","Hungary","Italy","Lithuania","Luxembourg","Macedonia","Mexico","Moldova","Montenegro","Morocco","Portugal","Romania","Serbia","Slovakia","Slovenia","South Africa","Spain","Switzerland","Tunisia","Ukraine","Uruguay","US","US-France"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Average Wine Points","range":[80,88]},"title":"Average Wine Points of Asian-Pacific Country","hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["Turkey"],"y":[88.1],"text":"Country: Turkey<br />Average Points: 88.1","type":"bar","name":"Turkey","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,1)"},"error_y":{"color":"rgba(68,1,84,1)"},"error_x":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Australia"],"y":[87.89],"text":"Country: Australia<br />Average Points: 87.89","type":"bar","name":"Australia","marker":{"color":"rgba(72,40,120,1)","line":{"color":"rgba(72,40,120,1)"}},"textfont":{"color":"rgba(72,40,120,1)"},"error_y":{"color":"rgba(72,40,120,1)"},"error_x":{"color":"rgba(72,40,120,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["India"],"y":[87.62],"text":"Country: India<br />Average Points: 87.62","type":"bar","name":"India","marker":{"color":"rgba(62,74,137,1)","line":{"color":"rgba(62,74,137,1)"}},"textfont":{"color":"rgba(62,74,137,1)"},"error_y":{"color":"rgba(62,74,137,1)"},"error_x":{"color":"rgba(62,74,137,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["New Zealand"],"y":[87.55],"text":"Country: New Zealand<br />Average Points: 87.55","type":"bar","name":"New Zealand","marker":{"color":"rgba(49,104,142,1)","line":{"color":"rgba(49,104,142,1)"}},"textfont":{"color":"rgba(49,104,142,1)"},"error_y":{"color":"rgba(49,104,142,1)"},"error_x":{"color":"rgba(49,104,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Israel"],"y":[87.18],"text":"Country: Israel<br />Average Points: 87.18","type":"bar","name":"Israel","marker":{"color":"rgba(38,130,142,1)","line":{"color":"rgba(38,130,142,1)"}},"textfont":{"color":"rgba(38,130,142,1)"},"error_y":{"color":"rgba(38,130,142,1)"},"error_x":{"color":"rgba(38,130,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Lebanon"],"y":[85.7],"text":"Country: Lebanon<br />Average Points: 85.7","type":"bar","name":"Lebanon","marker":{"color":"rgba(31,158,137,1)","line":{"color":"rgba(31,158,137,1)"}},"textfont":{"color":"rgba(31,158,137,1)"},"error_y":{"color":"rgba(31,158,137,1)"},"error_x":{"color":"rgba(31,158,137,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Georgia"],"y":[85.51],"text":"Country: Georgia<br />Average Points: 85.51","type":"bar","name":"Georgia","marker":{"color":"rgba(53,183,121,1)","line":{"color":"rgba(53,183,121,1)"}},"textfont":{"color":"rgba(53,183,121,1)"},"error_y":{"color":"rgba(53,183,121,1)"},"error_x":{"color":"rgba(53,183,121,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Japan"],"y":[85],"text":"Country: Japan<br />Average Points: 85","type":"bar","name":"Japan","marker":{"color":"rgba(109,205,89,1)","line":{"color":"rgba(109,205,89,1)"}},"textfont":{"color":"rgba(109,205,89,1)"},"error_y":{"color":"rgba(109,205,89,1)"},"error_x":{"color":"rgba(109,205,89,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["China"],"y":[82],"text":"Country: China<br />Average Points: 82","type":"bar","name":"China","marker":{"color":"rgba(180,222,44,1)","line":{"color":"rgba(180,222,44,1)"}},"textfont":{"color":"rgba(180,222,44,1)"},"error_y":{"color":"rgba(180,222,44,1)"},"error_x":{"color":"rgba(180,222,44,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["South Korea"],"y":[81.5],"text":"Country: South Korea<br />Average Points: 81.5","type":"bar","name":"South Korea","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,1)"},"error_y":{"color":"rgba(253,231,37,1)"},"error_x":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 
 

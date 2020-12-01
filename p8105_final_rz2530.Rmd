@@ -1,5 +1,5 @@
 ---
-title: "Reviews of Wines From the Globe"
+title: "Reviews of Wines from the Globe"
 output: 
   html_document:
     code_folding: hide
@@ -67,7 +67,7 @@ wine150_tidy %>%
     type = "bar", colors = "viridis") %>%
   layout(
     xaxis = list(title = "Country"),
-    yaxis = list(title = "Average Wine Points", range = (c(80,88))),
+    yaxis = list(title = "Average Wine Points", range = (c(80,92))),
     title = "Average Wine Points of Countries Around the Globe")
 ```
 

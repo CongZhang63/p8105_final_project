@@ -29,6 +29,9 @@ This [dataset](https://www.kaggle.com/zynicide/wine-reviews?select=winemag-data-
 
 ## Summary Visualization
 
+In this part, we try to analyze our data and visualize them for better understandings. The data 
+
+
 ## Statistical Analysis
 
 ## Interactive Map

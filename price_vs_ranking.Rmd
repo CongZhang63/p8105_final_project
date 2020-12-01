@@ -34,11 +34,11 @@ wine_df = wine_df %>%
   select(country,designation, points,price,province,region_1,region_2,variety,winery) %>% 
   drop_na(country,price,points)
 ```
-```{r}
+```{r，ECHO = FALSE}
 wine_df
 ```
 
-```{r}
+```{r，ECHO = FALSE}
 ggplot(wine_df, aes(x = price, y = points)) + 
   geom_point(alpha = 5, color = "blue") +
   theme(legend.position = "bottom") +

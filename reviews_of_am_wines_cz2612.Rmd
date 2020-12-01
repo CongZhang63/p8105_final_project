@@ -38,7 +38,7 @@ wine150_tidy %>%
     type = "bar", colors = "viridis") %>%
   layout(
     xaxis = list(title = "American Country"),
-    yaxis = list(title = "Average Wine Points", range = (c(82,88))),
+    yaxis = list(title = "Average Wine Points", range = (c(80,88))),
     title = "Average Wine Points of American Country")
 ```
 

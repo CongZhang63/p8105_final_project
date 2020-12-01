@@ -99,7 +99,8 @@ body <- dashboardBody(
 )
 
 dashboardPage(
-  dashboardHeader(title = "Interactive tabs"),
+  
+  dashboardHeader(title = "Interactive Dashboard"),
   sidebar,
   body
 )

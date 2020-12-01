@@ -1,16 +1,14 @@
 ---
-title: "regression_yl4606"
+title: "Statistical Analysis"
 output: 
   html_document:
     toc: true
     toc_float: true
 ---
-# Statistical Analysis
-
-## Hypothesis
+# Hypothesis
 In this analysis, we are interested in whether wine is more expensive as its points(rated by *[Wine Enthusiast](https://www.winemag.com/ratings/?utm_source=wineenthusiast.com&utm_medium=affiliate&utm_content=topnav)) increases, adjusting for variables including variety and continent of production.
 
-```{r setup, include = FALSE}
+```{r setup, include = FALSE, echo = FALSE}
 library(tidyverse)
 library(purrr)
 library(broom)
@@ -30,14 +28,14 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-reading two datasets
-```{r, warning = FALSE}
-wine_150k = read_csv("./wine_data/winemag-data_first150k.csv")
-conti_country = read_csv("./wine_data/country-and-continent-codes-list-csv_csv.csv")
+```{r, warning = FALSE, echo=FALSE}
+# reading two datasets
+wine_150k = read_csv("./data/winemag-data_first150k.csv")
+conti_country = read_csv("./data/country-and-continent-codes-list-csv_csv.csv")
 ```
 
 a little bit tidying, add continent column to 150k wine data
-```{r, warning = FALSE}
+```{r, warning = FALSE, echo=FALSE}
 # wine data tidy
 wine_150k = wine_150k %>% 
   janitor::clean_names() %>% 
@@ -71,15 +69,15 @@ wine_with_conti<-
 ```
 
 # Distribution of Price(Y)
-```{r}
+```{r, echo=FALSE}
 wine_with_conti %>% 
   ggplot(x = price) +
   stat_density(aes(x= price), geom="line")
 ```
 The highly skewed pattern needs to be log-linear transformed before fitting the regression model.
 
-# scatter plot: log_Price(Y) vs Points(X) by Variety(Z)
-```{r}
+# Scatter plot: log_Price(Y) vs Points(X) by Variety(Z)
+```{r, echo=FALSE}
 # 632 unique varieties, select most frequent 4 vareties to fit the model
 top_variety <- wine_with_conti %>% 
   group_by(variety) %>% 
@@ -107,15 +105,15 @@ top_wine_with_conti %>%
 
 Comment: We see a linear trend in price vs. points. This implies a positive correlation between price and points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety. 
 
-# test significance of interactions between points and variety: log_price ~ points*variety
+# Significance of interaction points*variety
 
-```{r}
+```{r, warning = FALSE, echo=FALSE}
 lm_p_v_pv <- lm(log_price ~ points + variety, data = top_wine_with_conti)
 
 summary(lm_p_v_pv)$r.squared
 ```
 
-```{r}
+```{r, warning = FALSE, echo = FALSE}
 lm_p_v_pv <- lm(log_price ~ points*variety, data = top_wine_with_conti)
 
 summary(lm_p_v_pv)$r.squared
@@ -123,11 +121,11 @@ summary(lm_p_v_pv)$r.squared
 
 Comment: r^2 of 0.429 without interaction term suggests a moderate association between points, variety and log(price). Although there is a significant p-value of points - variety interactions, the coefficient of determination does not change much when interaction term is added.  Therefore, we consider the interaction as not significant, which means that the relationship between points and price does not vary by different variety. So we delete the term points*variety from model. 
 
-#  log_Price(Y) vs. Points(X) + Variety(Z) + Continent(M) 
+# log_Price(Y) vs. Points(X) + Variety(Z) + Continent(M) 
 
 Is continent significant?
 
-```{r}
+```{r, warning = FALSE, echo=FALSE}
 # test significance of categorical predictor 'variety'
 fit_null = lm(log_price ~ points + variety, data = top_wine_with_conti)
 fit_alt = lm(log_price ~ points + variety + continent, data = top_wine_with_conti)
@@ -138,8 +136,8 @@ anova(fit_null, fit_alt) %>%
 
 Yes. Since p-val = 0, the larger model (log_price ~ points + variety + continent) is superior, which means continent is a significant variable.
 
-# (for easier interpretation) Stratified analysis: fit separate regression models by continent
-```{r}
+# For easier interpretation: stratified analysis by continent
+```{r, warning = FALSE, echo=FALSE}
 # nested within continent
 nest_lm_res =
   top_wine_with_conti %>% 
@@ -149,10 +147,9 @@ nest_lm_res =
     results = map(models, broom::tidy)) %>% 
   select(-data, -models) %>% 
   unnest(results)
-nest_lm_res
 ```
 
-```{r}
+```{r, warning = FALSE, echo=FALSE}
 # price ~ points + variety for stratified continent
 nest_lm_res %>% 
   select(continent, term, estimate) %>% 
@@ -162,8 +159,8 @@ nest_lm_res %>%
   knitr::kable(digits = 3)
 ```
 
-# take a closer look at North America
-```{r}
+# Take a closer look at North America
+```{r, warning = FALSE, echo=FALSE}
 # check residual assumption for continent North America
 north_america_df <- top_wine_with_conti %>% 
   filter(continent == 'North America')
@@ -179,7 +176,7 @@ Unequal variance of residual tells us that we need to do bootstrap before fittin
 
 # bootstrap 1000 times
 
-```{r}
+```{r, warning = FALSE, echo=FALSE, cache = TRUE}
 north_america_df %>% 
   modelr::bootstrap(1000, id = "strap_number") %>% 
   mutate(

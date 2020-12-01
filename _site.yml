@@ -20,7 +20,7 @@ navbar:
       - text: "Reviews of US Wines"
         href: reviews_of_us_wines_cz2612.html
     - text: "Statistical Analysis"
-      href: statistical_analysis.html
+      href: regression_yl4606.html
     - text: "Interactive Map"
       href: interactive_map.html      
     - icon: fa-youtube fa-lg    

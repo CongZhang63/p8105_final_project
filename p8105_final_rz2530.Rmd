@@ -25,33 +25,6 @@ wine_df = wine_df %>%
 ```
 
 
-# Ranking of Wines
-Some professional reviewers gave rankings to more than 150,000 types of wines based on their regions, prices, tastes, variety and winery. From the histogram we have plotted, we can see that the distribution of rankings of wines is close to normal distribution and the mean is around `r mean(wine_df$points)`.
-```{r,warning = FALSE}
-ggplot(wine_df, aes(x = points,fill=country)) + 
-  geom_histogram(binwidth = 0.5) +
-  labs(
-    title = "Ranking of wines and their regions",
-    x = "Rankings",
-    y = "Counts"
-  )
-```
-
-## The popularity of different types of grapes used to make the wine
-In our dataset, there are also records of the types of grapes used of a bottle of wine. The top 10 most famous grapes variety used by wine makers are: Chardonnay, Pinot Noir, Cabernet Sauvignon, Red Blend, Bordeaux-style Red Blend, Sauvignon Blanc, Syrah, Riesling, Merlot, Zinfandel. Wine lovers can pay more attention to these grapes types while buying wines that are familiar.
-```{r,warning = FALSE}
-grapes = within(wine_df, variety <- factor(variety, levels=names(sort(table(variety), decreasing=TRUE)[1:10]))) %>% 
-  drop_na(variety)
-
-ggplot(grapes, aes(x = variety)) + 
-  geom_bar(color = "lightblue", fill = "lightblue") +
-  labs(
-    title = "Top 10 most popular grapes variety using to make wines",
-    x = "grapes variety",
-    y = "counts"
-  ) +
-  coord_flip() 
-```
 
 ## Global Country Comparison
 Based on our dataset, England (92.89) has the highest average wine ranking points around the world and it is much higher than the second country which is Austria (89.28). Countries with the lowest average wine points are South Korea, Montenego, China, Brazil.
@@ -90,9 +63,33 @@ wine150_tidy %>%
     title = "Top 30 Winery: Highest Professional Recognition")
 ```
 
+## Ranking of Wines
+Some professional reviewers gave rankings to more than 150,000 types of wines based on their regions, prices, tastes, variety and winery. From the histogram we have plotted, we can see that the distribution of rankings of wines is close to normal distribution and the mean is around `r mean(wine_df$points)`.
+```{r,warning = FALSE}
+ggplot(wine_df, aes(x = points,fill=country)) + 
+  geom_histogram(binwidth = 0.5) +
+  labs(
+    title = "Ranking of wines and their regions",
+    x = "Rankings",
+    y = "Counts"
+  )
+```
 
+## The Popularity of Grapes Used
+In our dataset, there are also records of the types of grapes used of a bottle of wine. The top 10 most famous grapes variety used by wine makers are: Chardonnay, Pinot Noir, Cabernet Sauvignon, Red Blend, Bordeaux-style Red Blend, Sauvignon Blanc, Syrah, Riesling, Merlot, Zinfandel. Wine lovers can pay more attention to these grapes types while buying wines that are familiar.
+```{r,warning = FALSE}
+grapes = within(wine_df, variety <- factor(variety, levels=names(sort(table(variety), decreasing=TRUE)[1:10]))) %>% 
+  drop_na(variety)
 
-
+ggplot(grapes, aes(x = variety)) + 
+  geom_bar(color = "lightblue", fill = "lightblue") +
+  labs(
+    title = "Top 10 most popular grapes variety using to make wines",
+    x = "grapes variety",
+    y = "counts"
+  ) +
+  coord_flip() 
+```
 
 
 

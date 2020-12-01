@@ -11,7 +11,7 @@
 
 
 
-<title>CHEERS! Professional Wine Reviews   - Course P8105 Data Science I Project</title>
+<title>Reviews of American Wines</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -26,6 +26,13 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -421,36 +428,36 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">CHEERS! Professional Wine Reviews <br/> - Course P8105 Data Science I Project</h1>
+<h1 class="title toc-ignore">Reviews of American Wines</h1>
 
 </div>
 
 
-<p><img src="images/Wine.jpg" style="width:100%"></p>
 <p><br/></p>
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<p>Wine is an essential component in western food culture. Due to the variety of wine brands, people may easily get lost. Therefore, we would like to provide a review of wines by professional wine tasters and guidance for wine lovers based on variety, location, winery and price. Wine lovers can select and buy wines more easily with information provided on our website.</p>
-<p><br/></p>
-</div>
-<div id="data" class="section level1">
-<h1>Data</h1>
-<p>This <a href="https://www.kaggle.com/zynicide/wine-reviews?select=winemag-data-130k-v2.csvm">dataset</a> contains 13 columns, including country, designation(The vineyard within the winery where the grapes that made the wine are from), points(The number of points WineEnthusiast rated the wine on a scale of 1-100), price, province, region_2, region_2, variety(The type of grapes used to make the wine), winery(The winery that made the wine)</p>
-<p><br/></p>
-</div>
-<div id="findings" class="section level1">
-<h1>Findings</h1>
-<p><br/></p>
-</div>
-<div id="contributors" class="section level1">
-<h1>Contributors</h1>
-<ul>
-<li><a href="https://bluedenw.github.io">Zhourong Li</a></li>
-<li><a href="https://yubei-yl4606.github.io/yl4606.github.io">Yubei Liang</a></li>
-<li><a href="https://leooolzh.github.io">Leo Liu</a></li>
-<li><a href="https://congzhang63.github.io">Cong Zhang</a></li>
-<li><a href="https://carmenzhou.github.io/rz2530.github.io">Ruwen Zhou</a></li>
-</ul>
+<div id="american-country-comparison" class="section level3">
+<h3>American Country Comparison</h3>
+<pre class="r"><code>load(&quot;./data/wine150_tidy&quot;)
+
+wine150_tidy %&gt;% 
+  select(country, points_avg_country) %&gt;% 
+  filter(country %in% c(&quot;Argentina&quot;, &quot;Brazil&quot;, &quot;Canada&quot;, &quot;Chile&quot;, &quot;Mexico&quot;, &quot;Uruguay&quot;, &quot;US&quot;)) %&gt;% 
+  mutate(country = fct_reorder(country, desc(points_avg_country))) %&gt;% 
+  unique() %&gt;% 
+  mutate(text_label = str_c(&quot;Country: &quot;, country, &quot;\nAverage Points: &quot;, points_avg_country)) %&gt;% 
+  plot_ly(
+    x = ~country, y = ~points_avg_country, color = ~factor(country), text = ~text_label,
+    type = &quot;bar&quot;, colors = &quot;viridis&quot;) %&gt;%
+  layout(
+    xaxis = list(title = &quot;American Country&quot;),
+    yaxis = list(title = &quot;Average Wine Points&quot;, range = (c(82,88))),
+    title = &quot;Average Wine Points of American Country&quot;)</code></pre>
+<pre><code>## Warning: `arrange_()` is deprecated as of dplyr 0.7.0.
+## Please use `arrange()` instead.
+## See vignette(&#39;programming&#39;) for more help
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+<div id="htmlwidget-2afa6164ebb950ad0ecf" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2afa6164ebb950ad0ecf">{"x":{"visdat":{"2e64b684aac":["function () ","plotlyVisDat"]},"cur_data":"2e64b684aac","attrs":{"2e64b684aac":{"x":{},"y":{},"text":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"American Country","type":"category","categoryorder":"array","categoryarray":["Canada","US","Chile","Argentina","Mexico","Uruguay","Brazil","Albania","Australia","Austria","Bosnia and Herzegovina","Bulgaria","China","Croatia","Cyprus","Czech Republic","Egypt","England","France","Georgia","Germany","Greece","Hungary","India","Israel","Italy","Japan","Lebanon","Lithuania","Luxembourg","Macedonia","Moldova","Montenegro","Morocco","New Zealand","Portugal","Romania","Serbia","Slovakia","Slovenia","South Africa","South Korea","Spain","Switzerland","Tunisia","Turkey","Ukraine","US-France"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Average Wine Points","range":[82,88]},"title":"Average Wine Points of American Country","hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["Canada"],"y":[88.24],"text":"Country: Canada<br />Average Points: 88.24","type":"bar","name":"Canada","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,1)"},"error_y":{"color":"rgba(68,1,84,1)"},"error_x":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["US"],"y":[87.82],"text":"Country: US<br />Average Points: 87.82","type":"bar","name":"US","marker":{"color":"rgba(68,58,131,1)","line":{"color":"rgba(68,58,131,1)"}},"textfont":{"color":"rgba(68,58,131,1)"},"error_y":{"color":"rgba(68,58,131,1)"},"error_x":{"color":"rgba(68,58,131,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Chile"],"y":[86.3],"text":"Country: Chile<br />Average Points: 86.3","type":"bar","name":"Chile","marker":{"color":"rgba(49,104,142,1)","line":{"color":"rgba(49,104,142,1)"}},"textfont":{"color":"rgba(49,104,142,1)"},"error_y":{"color":"rgba(49,104,142,1)"},"error_x":{"color":"rgba(49,104,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Argentina"],"y":[86],"text":"Country: Argentina<br />Average Points: 86","type":"bar","name":"Argentina","marker":{"color":"rgba(33,144,141,1)","line":{"color":"rgba(33,144,141,1)"}},"textfont":{"color":"rgba(33,144,141,1)"},"error_y":{"color":"rgba(33,144,141,1)"},"error_x":{"color":"rgba(33,144,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Mexico"],"y":[84.76],"text":"Country: Mexico<br />Average Points: 84.76","type":"bar","name":"Mexico","marker":{"color":"rgba(53,183,121,1)","line":{"color":"rgba(53,183,121,1)"}},"textfont":{"color":"rgba(53,183,121,1)"},"error_y":{"color":"rgba(53,183,121,1)"},"error_x":{"color":"rgba(53,183,121,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Uruguay"],"y":[84.48],"text":"Country: Uruguay<br />Average Points: 84.48","type":"bar","name":"Uruguay","marker":{"color":"rgba(143,214,68,1)","line":{"color":"rgba(143,214,68,1)"}},"textfont":{"color":"rgba(143,214,68,1)"},"error_y":{"color":"rgba(143,214,68,1)"},"error_x":{"color":"rgba(143,214,68,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Brazil"],"y":[83.24],"text":"Country: Brazil<br />Average Points: 83.24","type":"bar","name":"Brazil","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,1)"},"error_y":{"color":"rgba(253,231,37,1)"},"error_x":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 
 

@@ -1,0 +1,57 @@
+---
+title: "Reviews of US Wines"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include = FALSE}
+library(tidyverse)
+library(patchwork)
+library(plotly)
+library(flexdashboard)
+```
+
+<br/>
+
+### Top 20 US Winery
+
+```{r Top 20 US Winery Boxplot}
+load("./data/wine150_tidy")
+
+wine150_tidy %>% 
+  select(points, country, winery, variety, points_avg_variety, points_avg_winery) %>% 
+  filter(country == "US") %>% 
+  mutate(winery = fct_reorder(winery, desc(points_avg_winery))) %>% 
+  filter(as.numeric(winery) <= 20) %>% 
+  arrange(winery) %>% 
+  plot_ly(
+    x = ~winery, y = ~points, color = ~factor(winery),
+    type = "box", colors = "viridis") %>%
+  layout(
+    xaxis = list(title = "US Winery"),
+    yaxis = list(title = "Wine Points"),
+    title = "Top 20 US Winery: Highest Professional Recognition")
+```
+
+### Bottom 20 US Winery
+
+```{r Bottom 20 US Winery Boxplot}
+load("./data/wine150_tidy")
+
+wine150_tidy %>% 
+  select(points, country, winery, variety, points_avg_variety, points_avg_winery) %>% 
+  filter(country == "US") %>% 
+  mutate(winery = fct_reorder(winery, points_avg_winery)) %>% 
+  filter(as.numeric(winery) <= 20) %>% 
+  arrange(winery) %>% 
+  plot_ly(
+    x = ~winery, y = ~points, color = ~factor(winery),
+    type = "box", colors = "viridis") %>%
+  layout(
+    xaxis = list(title = "US Winery"),
+    yaxis = list(title = "Wine Points"),
+    title = "Bottom 20 US Winery: Lowest Professional Recognition")
+```

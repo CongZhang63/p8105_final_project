@@ -1,0 +1,38 @@
+---
+title: "Reviews of European Wines"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include = FALSE}
+library(tidyverse)
+library(patchwork)
+library(plotly)
+library(flexdashboard)
+```
+
+<br/>
+
+### European Country Comparison
+
+```{r European Wines Bar Plot}
+load("./data/wine150_tidy")
+
+wine150_tidy %>% 
+  select(country, points_avg_country) %>% 
+  filter(country %in% c("Albania", "Austria", "Bosnia and Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "England", "France", "Germany", "Greece", "Hungary", "Italy", "Lithuania", "Luxembourg", "Macedonia", "Moldova", "Montenegro", "Portugal", "Romania", "Serbia", "Slovakia", "Slovenia", "Spain", "Switzerland", "Ukraine")) %>% 
+  mutate(country = fct_reorder(country, desc(points_avg_country))) %>% 
+  unique() %>% 
+  mutate(text_label = str_c("Country: ", country, "\nAverage Points: ", points_avg_country)) %>% 
+  plot_ly(
+    x = ~country, y = ~points_avg_country, color = ~factor(country), text = ~text_label,
+    type = "bar", colors = "viridis") %>%
+  layout(
+    xaxis = list(title = "European Country"),
+    yaxis = list(title = "Average Wine Points", range = (c(81,95))),
+    title = "Average Wine Points of European Country")
+```
+

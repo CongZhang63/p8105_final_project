@@ -37,7 +37,7 @@ wine_df = wine_df %>%
 ```
 
 
-```{r}
+```{r,warning = FALSE}
 ggplot(wine_df, aes(x = price, y = points)) + 
   geom_point(alpha = 5, color = "blue") +
   theme(legend.position = "bottom") +

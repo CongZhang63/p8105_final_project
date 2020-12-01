@@ -1,5 +1,5 @@
 ---
-title: "Graphs"
+title: "Reviews of Wines From the Globe"
 output: 
   html_document:
     code_folding: hide
@@ -12,6 +12,7 @@ library(tidyverse)
 library(purrr)
 library(broom)
 library(modelr)
+library(plotly)
 ```
 
 
@@ -26,7 +27,7 @@ wine_df = wine_df %>%
 
 # Ranking of Wines
 Some professional reviewers gave rankings to more than 150,000 types of wines based on their regions, prices, tastes, variety and winery. From the histogram we have plotted, we can see that the distribution of rankings of wines is close to normal distribution and the mean is around `r mean(wine_df$points)`.
-```{r}
+```{r,warning = FALSE}
 ggplot(wine_df, aes(x = points,fill=country)) + 
   geom_histogram(binwidth = 0.5) +
   labs(
@@ -38,14 +39,12 @@ ggplot(wine_df, aes(x = points,fill=country)) +
 
 # The popularity of different types of grapes used to make the wine
 In our dataset, there are also records of the types of grapes used of a bottle of wine. The top 10 most famous grapes variety used by wine makers are: Chardonnay, Pinot Noir, Cabernet Sauvignon, Red Blend, Bordeaux-style Red Blend, Sauvignon Blanc, Syrah, Riesling, Merlot, Zinfandel. Wine lovers can pay more attention to these grapes types while buying wines that are familiar.
-```{r}
-grapes = within(wine_df, 
-                   variety <- factor(variety, 
-                                      levels=names(sort(table(variety), 
-                                                        decreasing=TRUE)[1:10]))) %>% 
+```{r,warning = FALSE}
+grapes = within(wine_df, variety <- factor(variety, levels=names(sort(table(variety), decreasing=TRUE)[1:10]))) %>% 
   drop_na(variety)
+
 ggplot(grapes, aes(x = variety)) + 
-  geom_bar(binwidth = 50, color = "lightblue", fill = "lightblue") +
+  geom_bar(color = "lightblue", fill = "lightblue") +
   labs(
     title = "Top 10 most popular grapes variety using to make wines",
     x = "grapes variety",
@@ -54,7 +53,23 @@ ggplot(grapes, aes(x = variety)) +
   coord_flip() 
 ```
 
+# Global Country Comparison
 
+```{r, warning = FALSE}
+load("./data/wine150_tidy")
+wine150_tidy %>% 
+  select(country, points_avg_country) %>% 
+  mutate(country = fct_reorder(country, desc(points_avg_country))) %>% 
+  unique() %>% 
+  mutate(text_label = str_c("Country: ", country, "\nAverage Points: ", points_avg_country)) %>% 
+  plot_ly(
+    x = ~country, y = ~points_avg_country, color = ~factor(country), text = ~text_label,
+    type = "bar", colors = "viridis") %>%
+  layout(
+    xaxis = list(title = "Country"),
+    yaxis = list(title = "Average Wine Points", range = (c(80,88))),
+    title = "Average Wine Points of Countries Around the Globe")
+```
 
 
 

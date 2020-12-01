@@ -12,13 +12,19 @@ library(tidyverse)
 library(patchwork)
 library(plotly)
 library(flexdashboard)
+
+knitr::opts_chunk$set(
+	fig.width = 10, 
+  fig.asp = .6,
+  out.width = "100%"
+)
 ```
 
 <br/>
 
 ### Asian-Pacific Country Comparison
 
-```{r Asian-Pacific Winery Bar Plot}
+```{r Asian-Pacific Winery Bar Plot, warning = FALSE}
 load("./data/wine150_tidy")
 
 wine150_tidy %>% 
@@ -36,3 +42,24 @@ wine150_tidy %>%
     title = "Average Wine Points of Asian-Pacific Country")
 ```
 
+<br/>
+
+### Top 20 Asian-Pacific Winery
+
+```{r Top 20 Asian-Pacific Winery Boxplot}
+load("./data/wine150_tidy")
+
+wine150_tidy %>% 
+  select(points, country, winery, variety, points_avg_variety, points_avg_winery) %>% 
+  filter(country %in% c("Australia", "China", "Georgia", "India", "Israel", "Japan", "Lebanon", "New Zealand", "South Korea", "Turkey")) %>% 
+  mutate(winery = fct_reorder(winery, desc(points_avg_winery))) %>% 
+  filter(as.numeric(winery) <= 20) %>% 
+  arrange(winery) %>% 
+  plot_ly(
+    x = ~winery, y = ~points, color = ~factor(winery),
+    type = "box", colors = "viridis") %>%
+  layout(
+    xaxis = list(title = "Asian-Pacific Winery"),
+    yaxis = list(title = "Wine Points"),
+    title = "Top 20 Asian-Pacific Winery: Highest Professional Recognition")
+```

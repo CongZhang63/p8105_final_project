@@ -105,3 +105,29 @@ function(input, output) {
       )
   })
   
+  output$map2 <- renderPlotly({
+    
+    statistics=
+      wine_location %>%
+      filter(continent == input[["continent_choice"]] | input[["continent_choice"]] == "All Continents",
+             price %in% input$price_range[1]:input$price_range[2],
+             points == input[["rating_chose"]] | input[["rating_chose"]] == "All Ratings"
+      )%>%
+      dplyr::group_by(country) %>%
+      dplyr::summarize(
+        n_obs = n()
+      ) %>%
+      arrange(n_obs)
+    
+    plot_ly(
+      statistics, y= ~n_obs, x = ~country, color = ~country, type = "bar", colors = "viridis"
+    )%>%
+      layout(yaxis = list(title = 'Number of Records'),
+             xaxis = list(
+               title = 'Country',
+               categoryorder = "array",
+               categoryarray = ~country))
+    
+  })
+}
+  

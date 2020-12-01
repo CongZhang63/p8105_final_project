@@ -72,3 +72,28 @@ sidebar <-dashboardSidebar(
   )
   
 )
+
+body <- dashboardBody(
+  fluidRow(
+    # column(width = 12,
+    box(
+      title = "Wine Information World Map", background = "black",
+      width = 12, 
+      leafletOutput("map")
+    )
+    # )
+  ),
+  
+  fluidRow(              
+    # column(width = 6, 
+    box(
+      width = 6, 
+      plotlyOutput("map1")
+    ),
+    box(
+      width = 6, 
+      plotlyOutput("map2")
+    )
+    # )
+  )     
+)

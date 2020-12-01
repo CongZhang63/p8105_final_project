@@ -27,6 +27,12 @@ This [dataset](https://www.kaggle.com/zynicide/wine-reviews?select=winemag-data-
 
 # Findings
 
+## Summary Visualization
+
+## Statistical Analysis
+
+## Interactive Map
+
 <br/>
 
 # Contributors

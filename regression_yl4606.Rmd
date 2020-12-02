@@ -2,12 +2,14 @@
 title: "Statistical Analysis"
 output: 
   html_document:
-    toc: true
+    toc: false
     toc_float: true
 ---
+<br/>
 
-# Hypothesis
-In this analysis, we are interested in whether wine is more expensive as its points(rated by *[Wine Enthusiast](https://www.winemag.com/ratings/?utm_source=wineenthusiast.com&utm_medium=affiliate&utm_content=topnav)) increases, adjusting for variables including variety and continent of production.
+### Hypothesis
+
+In this analysis, we are interested in whether wine would be more expensive if its points (X1) (rated by [Wine Enthusiast](https://www.winemag.com/ratings/?utm_source=wineenthusiast.com&utm_medium=affiliate&utm_content=topnav)) increases, adjusting for categorical variables variety (X2) and continent of production (X3). 
 
 ```{r setup, echo = FALSE, warning = FALSE, message=FALSE}
 library(tidyverse)
@@ -67,18 +69,39 @@ wine_with_conti<-
   drop_na(continent) 
 ```
 
-# Distribution of Price(Y)
+<br/>
+
+### Distribution of Outcomes : Wine Prices over the World
+
+<br/>
+
+```{r, echo = FALSE, warning = FALSE}
+# compute mean of price
+wine_with_conti %>% 
+  ggplot(aes(x = price)) +
+  geom_density(geom = "line", fill = 'dodgerblue', adjust = 3, alpha = 0.3) +
+  labs(x = 'Price of Wines', y = 'Density')
+```
+<br/>
+
+We detect a highly skewed pattern of the price distribution, thus our response variable 'Price' needs to be log transformed before fitting into the regression model. After log transformation, the distribution becomes much more normal.
+
+<br/>
+
 ```{r, echo = FALSE, warning = FALSE}
 wine_with_conti %>% 
-  ggplot(x = points) +
-  stat_density(aes(x= price), geom="line")
+  ggplot() +
+  geom_density(aes(x = log(price)), geom = "line", adjust = 3, fill = "dodgerblue", alpha = 0.3) +
+  labs(x = 'Log_Price of Wines', y = 'Density')
 ```
+<br/>
 
-We detect a highly skewed pattern of price distribution, thus it needs to be log-linear transformed before fitting the regression model.
+## Modeling
 
-# Scatter plot: Log_Price(Y) vs Points(X) by Variety(Z)
+<br/>
+
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-# 632 unique varieties, select most frequent 4 vareties to fit the model
+# 632 unique varieties, select most frequent 4 varieties to fit the model
 top_variety <- wine_with_conti %>% 
   group_by(variety) %>% 
   summarise(count = n()) %>% 
@@ -86,7 +109,29 @@ top_variety <- wine_with_conti %>%
   filter(count>10000)
 
 top_variety_list <- as.vector(top_variety$variety)
+```
 
+Here, we try to fit a final model in the following form:
+
+$$ log(Price) = \beta_1 + \beta_2X_{Points} + \beta_3X_{Variety} + \beta_4X_{Continent}$$
+
+**Price:** The cost for a bottle of the wine.
+
+**Points:** The number of points [Wine Enthusiast](https://www.winemag.com/ratings/?utm_source=wineenthusiast.com&utm_medium=affiliate&utm_content=topnav) rated the wine on a scale of 1-100.
+
+**Variety:** The top four types of grapes used to make the wine (i.e. `r pull(top_variety, variety)`).
+
+**Continent:** The continent that the wine is produced from.
+
+Since **log(Price)** and **Points** are numerical variables, we only need to worry about **Variety**, which includes 632 unique levels. To simplify our model, we choose to select the most representative four varieties: `r pull(top_variety, variety)`. Here, we define representative as having more than ten thousands counts of wines for the particular variety.
+
+<br/>
+
+### Interaction: Points and Variety
+
+<br/>
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # select most frequent 4 wineries 
 top_winery <- wine_with_conti %>% 
   group_by(winery) %>% 
@@ -109,12 +154,25 @@ top_wine_with_conti<-
 top_wine_with_conti %>% 
   ggplot(aes(x = points, y = log_price, color = variety)) +
   geom_point(alpha = 0.5)+
-  geom_smooth(method='lm')
+  geom_smooth(method='lm') +
+  labs(x = 'Points', y = 'Log_Price', title = 'Scatter Plot - Log_Price vs. Points + Variety') +
+  scale_colour_discrete(name = 'Variety') +
+  theme(legend.position = "right")
 ```
 
-After log-transforming of independent variable price, we observe a linear trend in price vs. points. This implies a positive correlation between price and log_points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety. 
+After log-transforming of independent variable Price, we observe a linear trend in Log_Price vs. Points. This implies a positive correlation between price and log_points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety. We also observe that lines of Cabernet Sauvignon and Chardonnay cross with each other, so let's take a look at p-value of each term of in 'log_price ~ points * variety':
 
-# Significance of interaction between Points(X) and Variety(Z)
+<br/>
+
+```{r, echo = FALSE, warning = FALSE}
+lm(log_price ~ points * variety, data = top_wine_with_conti) %>% 
+  broom::tidy() %>% 
+  select(term, estimate, p.value) %>% 
+  knitr::kable()
+```
+<br/>
+
+Since two interaction terms points * Pinot Noir and points * Red Blend are significant at alpha = 0.05, we further check the change of determination coefficient before and after adding the interaction term to decide whether to include it in our final model:
 
 ```{r, echo = FALSE, warning = FALSE}
 lm_p_v_pv <- lm(log_price ~ points + variety, data = top_wine_with_conti)
@@ -128,11 +186,15 @@ lm_p_v_pv <- lm(log_price ~ points*variety, data = top_wine_with_conti)
 summary(lm_p_v_pv)$r.squared %>% knitr::kable(digits = 3)
 ```
 
-Coefficient of determination (r-squared) 0.429 without interaction term suggests a moderate association between points, variety and log(price). Although there is a significant p-value of points - variety interactions, the coefficient of determination does not change much when interaction term is added.  Therefore, we consider the interaction as not significant, which means that the relationship between points and price does not vary by different variety. So we delete the term points * variety from model. 
+Coefficient of determination (r-squared) 0.429 without interaction term suggests a moderate association between points, variety and log(price). Although there is a significant p-value of **Points** - **Variety** interactions, the coefficient of determination does not change much (0.429 to 0.433) when interaction term is added.  Therefore, we consider the interaction as not significant, which means that the relationship between points and price does not vary by different variety. So we delete the term **Points * Variety** from model. 
 
-# Log_Price(Y) vs. Points(X) + Variety(Z) + Continent(M) 
+<br/>
 
-Qustion: Is variable continent significant?
+### Final model fitting: Log_Price vs. Points + Variety + Continent
+
+<br/>
+
+Qustion: Is variable **Continent** significant enough to be added?
 
 ```{r, echo = FALSE, warning = FALSE}
 # test significance of categorical predictor 'variety'
@@ -144,9 +206,24 @@ anova(fit_null, fit_alt) %>%
   knitr::kable(digits = 3)  #p-val = 0
 ```
 
-Yes. Since p-value equals to zero, the larger model ' log_price ~ points + variety + continent ' is superior, which means continent is a significant variable. For easier interpretation, we decide to stratify the analysis by continent.
+Yes. By doing an ANOVA test, we find that p-value equals to zero, which tells us that the larger model ' log_price ~ points + variety + continent ' is superior over 'log_price ~ points + variety', which means continent is a significant variable. Therefore, we get the following model :
 
-# Stratified analysis by Continent (M)
+```{r}
+fit_alt %>% 
+  broom::tidy() %>%
+  select(term, estimate) %>% 
+  knitr::kable(digits = 3)
+```
+<br/>
+
+For easier interpretation, we decide to stratify the analysis by continent.
+
+<br/>
+
+### Stratified Analysis by Continent
+
+<br/>
+
 ```{r, echo = FALSE, warning = FALSE}
 # nested within continent
 nest_lm_res =
@@ -169,12 +246,22 @@ nest_lm_res %>%
   knitr::kable(digits = 3)
 ```
 
-By fitting models in nested datasets, we got the following findings:
-(1) For all continents, since the estimates of points are positive, price increases as points increases adjusting for variable variety. It corresponds to our hypothesis that wine is more expensive as its points review increases.
-(2) In Europe only, Carbernet Sauvignon and Red Blend have negative estimates. It implies that the expected price of variety Carbernet Sauvignon and Red Blend in Europe are lower than the expected price of Chardonnay (adjusting for points). This could be resulted by high yields of specific varieties, which lower the price of wine. And we need to do more research on the yields for further analysis.
-(3) Asia has the smallest estimate of points. So the price of wine in Asia is leastly affected by its points, adjusted for variety. In explain, on average, one point increase of wine in Asia leads to 8.5% (= e ^ (0.082) * 100 - 1) increase in expected price, which is only one-third of the increase 19.1%(= e ^ (0.175) * 100 - 1) in Europe.
+<br/>
 
-# Take a closer look in North America continent
+By fitting models in nested datasets, we got the following findings:
+
+* For all continents, since the estimates of points are positive, price increases as points increases adjusting for variable variety. It corresponds to our hypothesis that wine is more expensive as its points review increases.
+
+* In Europe only, Carbernet Sauvignon and Red Blend have negative estimates. It implies that the expected price of variety Carbernet Sauvignon and Red Blend in Europe are lower than the expected price of Chardonnay (adjusting for points). This could be resulted by high yields of specific varieties, which lower the price of wine. And we need to do more research on the yields for further analysis.
+
+* Asia has the smallest estimate of points. So the price of wine in Asia is leastly affected by its points, adjusted for variety. In explain, on average, one point increase of wine in Asia leads to 8.5% (= e ^ (0.082) * 100 - 1) increase in expected price, which is only one-third of the increase 19.1%(= e ^ (0.175) * 100 - 1) in Europe.
+
+<br/>
+
+### Closer Look in North America
+
+<br/>
+
 ```{r, echo = FALSE, warning = FALSE}
 # check residual assumption for continent North America
 north_america_df <- top_wine_with_conti %>% 
@@ -190,7 +277,11 @@ modelr::add_residuals(north_america_df, fit_na) %>%
 
 Non-random distribution of variances of residual tells us that bootstrapping needs to be down before fitting the model for price of wine in North America.
 
-## Bootstrap 1000 times
+<br/>
+
+#### Bootstrap 1000 times
+
+<br/>
 
 ```{r, echo = FALSE, warning = FALSE, cache = TRUE}
 north_america_df %>% 
@@ -208,4 +299,4 @@ north_america_df %>%
   knitr::kable(digits = 3)
 ```
 
-After bootstrapping, we 
+After 1000 times bootstraps, we get a almost 20 percent lower in standard error for Pinot Noir estimate, which gives us more accurate confidence interval when predicting the price. 

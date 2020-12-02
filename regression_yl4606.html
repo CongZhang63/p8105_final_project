@@ -19,9 +19,6 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -253,69 +250,6 @@ $(document).ready(function () {
 
 
 
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
 
 </head>
 
@@ -323,16 +257,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -414,22 +338,90 @@ div.tocify {
 </div>
 
 
-<div id="hypothesis" class="section level1">
-<h1>Hypothesis</h1>
-<p>In this analysis, we are interested in whether wine is more expensive as its points(rated by *<a href="https://www.winemag.com/ratings/?utm_source=wineenthusiast.com&amp;utm_medium=affiliate&amp;utm_content=topnav">Wine Enthusiast</a>) increases, adjusting for variables including variety and continent of production.</p>
+<p><br/></p>
+<div id="hypothesis" class="section level3">
+<h3>Hypothesis</h3>
+<p>In this analysis, we are interested in whether wine would be more expensive if its points (X1) (rated by <a href="https://www.winemag.com/ratings/?utm_source=wineenthusiast.com&amp;utm_medium=affiliate&amp;utm_content=topnav">Wine Enthusiast</a>) increases, adjusting for categorical variables variety (X2) and continent of production (X3).</p>
+<p><br/></p>
 </div>
-<div id="distribution-of-pricey" class="section level1">
-<h1>Distribution of Price(Y)</h1>
-<p><img src="regression_yl4606_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
-<p>We detect a highly skewed pattern of price distribution, thus it needs to be log-linear transformed before fitting the regression model.</p>
+<div id="distribution-of-outcomes-wine-prices-over-the-world" class="section level3">
+<h3>Distribution of Outcomes : Wine Prices over the World</h3>
+<p><br/></p>
+<p><img src="regression_yl4606_files/figure-html/unnamed-chunk-3-1.png" width="90%" /> <br/></p>
+<p>We detect a highly skewed pattern of the price distribution, thus our response variable ‘Price’ needs to be log transformed before fitting into the regression model. After log transformation, the distribution becomes much more normal.</p>
+<p><br/></p>
+<p><img src="regression_yl4606_files/figure-html/unnamed-chunk-4-1.png" width="90%" /> <br/></p>
 </div>
-<div id="scatter-plot-log_pricey-vs-pointsx-by-varietyz" class="section level1">
-<h1>Scatter plot: Log_Price(Y) vs Points(X) by Variety(Z)</h1>
-<p><img src="regression_yl4606_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
-<p>After log-transforming of independent variable price, we observe a linear trend in price vs. points. This implies a positive correlation between price and log_points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety.</p>
-</div>
-<div id="significance-of-interaction-between-pointsx-and-varietyz" class="section level1">
-<h1>Significance of interaction between Points(X) and Variety(Z)</h1>
+<div id="modeling" class="section level2">
+<h2>Modeling</h2>
+<p><br/></p>
+<p>Here, we try to fit a final model in the following form:</p>
+<p><span class="math display">\[ log(Price) = \beta_1 + \beta_2X_{Points} + \beta_3X_{Variety} + \beta_4X_{Continent}\]</span></p>
+<p><strong>Price:</strong> The cost for a bottle of the wine.</p>
+<p><strong>Points:</strong> The number of points <a href="https://www.winemag.com/ratings/?utm_source=wineenthusiast.com&amp;utm_medium=affiliate&amp;utm_content=topnav">Wine Enthusiast</a> rated the wine on a scale of 1-100.</p>
+<p><strong>Variety:</strong> The top four types of grapes used to make the wine (i.e. Chardonnay, Pinot Noir, Cabernet Sauvignon, Red Blend).</p>
+<p><strong>Continent:</strong> The continent that the wine is produced from.</p>
+<p>Since <strong>log(Price)</strong> and <strong>Points</strong> are numerical variables, we only need to worry about <strong>Variety</strong>, which includes 632 unique levels. To simplify our model, we choose to select the most representative four varieties: Chardonnay, Pinot Noir, Cabernet Sauvignon, Red Blend. Here, we define representative as having more than ten thousands counts of wines for the particular variety.</p>
+<p><br/></p>
+<div id="interaction-points-and-variety" class="section level3">
+<h3>Interaction: Points and Variety</h3>
+<p><br/></p>
+<p><img src="regression_yl4606_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
+<p>After log-transforming of independent variable Price, we observe a linear trend in Log_Price vs. Points. This implies a positive correlation between price and log_points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety. We also observe that lines of Cabernet Sauvignon and Chardonnay cross with each other, so let’s take a look at p-value of each term of in ‘log_price ~ points * variety’:</p>
+<p><br/></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">-8.2792558</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">points</td>
+<td align="right">0.1310157</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">varietyPinot Noir</td>
+<td align="right">2.8857093</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">varietyCabernet Sauvignon</td>
+<td align="right">0.0542255</td>
+<td align="right">0.7309678</td>
+</tr>
+<tr class="odd">
+<td align="left">varietyRed Blend</td>
+<td align="right">1.2574494</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">points:varietyPinot Noir</td>
+<td align="right">-0.0293591</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">points:varietyCabernet Sauvignon</td>
+<td align="right">0.0016767</td>
+<td align="right">0.3497581</td>
+</tr>
+<tr class="even">
+<td align="left">points:varietyRed Blend</td>
+<td align="right">-0.0131835</td>
+<td align="right">0.0000000</td>
+</tr>
+</tbody>
+</table>
+<p><br/></p>
+<p>Since two interaction terms points * Pinot Noir and points * Red Blend are significant at alpha = 0.05, we further check the change of determination coefficient before and after adding the interaction term to decide whether to include it in our final model:</p>
 <table>
 <thead>
 <tr class="header">
@@ -454,11 +446,13 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<p>Coefficient of determination (r-squared) 0.429 without interaction term suggests a moderate association between points, variety and log(price). Although there is a significant p-value of points - variety interactions, the coefficient of determination does not change much when interaction term is added. Therefore, we consider the interaction as not significant, which means that the relationship between points and price does not vary by different variety. So we delete the term points * variety from model.</p>
+<p>Coefficient of determination (r-squared) 0.429 without interaction term suggests a moderate association between points, variety and log(price). Although there is a significant p-value of <strong>Points</strong> - <strong>Variety</strong> interactions, the coefficient of determination does not change much (0.429 to 0.433) when interaction term is added. Therefore, we consider the interaction as not significant, which means that the relationship between points and price does not vary by different variety. So we delete the term <strong>Points * Variety</strong> from model.</p>
+<p><br/></p>
 </div>
-<div id="log_pricey-vs.-pointsx-varietyz-continentm" class="section level1">
-<h1>Log_Price(Y) vs. Points(X) + Variety(Z) + Continent(M)</h1>
-<p>Qustion: Is variable continent significant?</p>
+<div id="final-model-fitting-log_price-vs.-points-variety-continent" class="section level3">
+<h3>Final model fitting: Log_Price vs. Points + Variety + Continent</h3>
+<p><br/></p>
+<p>Qustion: Is variable <strong>Continent</strong> significant enough to be added?</p>
 <table>
 <thead>
 <tr class="header">
@@ -489,10 +483,68 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<p>Yes. Since p-value equals to zero, the larger model ’ log_price ~ points + variety + continent ’ is superior, which means continent is a significant variable. For easier interpretation, we decide to stratify the analysis by continent.</p>
+<p>Yes. By doing an ANOVA test, we find that p-value equals to zero, which tells us that the larger model ’ log_price ~ points + variety + continent ’ is superior over ‘log_price ~ points + variety’, which means continent is a significant variable. Therefore, we get the following model :</p>
+<pre class="r"><code>fit_alt %&gt;% 
+  broom::tidy() %&gt;%
+  select(term, estimate) %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">-6.656</td>
+</tr>
+<tr class="even">
+<td align="left">points</td>
+<td align="right">0.113</td>
+</tr>
+<tr class="odd">
+<td align="left">varietyPinot Noir</td>
+<td align="right">0.278</td>
+</tr>
+<tr class="even">
+<td align="left">varietyCabernet Sauvignon</td>
+<td align="right">0.248</td>
+</tr>
+<tr class="odd">
+<td align="left">varietyRed Blend</td>
+<td align="right">0.059</td>
+</tr>
+<tr class="even">
+<td align="left">continentAfrica</td>
+<td align="right">-0.341</td>
+</tr>
+<tr class="odd">
+<td align="left">continentAsia</td>
+<td align="right">-0.049</td>
+</tr>
+<tr class="even">
+<td align="left">continentEurope</td>
+<td align="right">0.089</td>
+</tr>
+<tr class="odd">
+<td align="left">continentOceania</td>
+<td align="right">-0.241</td>
+</tr>
+<tr class="even">
+<td align="left">continentSouth America</td>
+<td align="right">-0.411</td>
+</tr>
+</tbody>
+</table>
+<p><br/></p>
+<p>For easier interpretation, we decide to stratify the analysis by continent.</p>
+<p><br/></p>
 </div>
-<div id="stratified-analysis-by-continent-m" class="section level1">
-<h1>Stratified analysis by Continent (M)</h1>
+<div id="stratified-analysis-by-continent" class="section level3">
+<h3>Stratified Analysis by Continent</h3>
+<p><br/></p>
 <table style="width:100%;">
 <colgroup>
 <col width="14%" />
@@ -563,14 +615,24 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<p>By fitting models in nested datasets, we got the following findings: (1) For all continents, since the estimates of points are positive, price increases as points increases adjusting for variable variety. It corresponds to our hypothesis that wine is more expensive as its points review increases. (2) In Europe only, Carbernet Sauvignon and Red Blend have negative estimates. It implies that the expected price of variety Carbernet Sauvignon and Red Blend in Europe are lower than the expected price of Chardonnay (adjusting for points). This could be resulted by high yields of specific varieties, which lower the price of wine. And we need to do more research on the yields for further analysis. (3) Asia has the smallest estimate of points. So the price of wine in Asia is leastly affected by its points, adjusted for variety. In explain, on average, one point increase of wine in Asia leads to 8.5% (= e ^ (0.082) * 100 - 1) increase in expected price, which is only one-third of the increase 19.1%(= e ^ (0.175) * 100 - 1) in Europe.</p>
+<p><br/></p>
+<p>By fitting models in nested datasets, we got the following findings:</p>
+<ul>
+<li><p>For all continents, since the estimates of points are positive, price increases as points increases adjusting for variable variety. It corresponds to our hypothesis that wine is more expensive as its points review increases.</p></li>
+<li><p>In Europe only, Carbernet Sauvignon and Red Blend have negative estimates. It implies that the expected price of variety Carbernet Sauvignon and Red Blend in Europe are lower than the expected price of Chardonnay (adjusting for points). This could be resulted by high yields of specific varieties, which lower the price of wine. And we need to do more research on the yields for further analysis.</p></li>
+<li><p>Asia has the smallest estimate of points. So the price of wine in Asia is leastly affected by its points, adjusted for variety. In explain, on average, one point increase of wine in Asia leads to 8.5% (= e ^ (0.082) * 100 - 1) increase in expected price, which is only one-third of the increase 19.1%(= e ^ (0.175) * 100 - 1) in Europe.</p></li>
+</ul>
+<p><br/></p>
 </div>
-<div id="take-a-closer-look-in-north-america-continent" class="section level1">
-<h1>Take a closer look in North America continent</h1>
-<p><img src="regression_yl4606_files/figure-html/unnamed-chunk-10-1.png" width="90%" /></p>
+<div id="closer-look-in-north-america" class="section level3">
+<h3>Closer Look in North America</h3>
+<p><br/></p>
+<p><img src="regression_yl4606_files/figure-html/unnamed-chunk-14-1.png" width="90%" /></p>
 <p>Non-random distribution of variances of residual tells us that bootstrapping needs to be down before fitting the model for price of wine in North America.</p>
-<div id="bootstrap-1000-times" class="section level2">
-<h2>Bootstrap 1000 times</h2>
+<p><br/></p>
+<div id="bootstrap-1000-times" class="section level4">
+<h4>Bootstrap 1000 times</h4>
+<p><br/></p>
 <pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table>
 <thead>
@@ -584,7 +646,7 @@ div.tocify {
 <tr class="odd">
 <td align="left">(Intercept)</td>
 <td align="right">-4.977</td>
-<td align="right">0.066</td>
+<td align="right">0.068</td>
 </tr>
 <tr class="even">
 <td align="left">points</td>
@@ -594,7 +656,7 @@ div.tocify {
 <tr class="odd">
 <td align="left">varietyCabernet Sauvignon</td>
 <td align="right">0.403</td>
-<td align="right">0.007</td>
+<td align="right">0.008</td>
 </tr>
 <tr class="even">
 <td align="left">varietyPinot Noir</td>
@@ -603,19 +665,18 @@ div.tocify {
 </tr>
 <tr class="odd">
 <td align="left">varietyRed Blend</td>
-<td align="right">0.171</td>
-<td align="right">0.009</td>
+<td align="right">0.170</td>
+<td align="right">0.010</td>
 </tr>
 </tbody>
 </table>
-<p>After bootstrapping, we</p>
+<p>After 1000 times bootstraps, we get a almost 20 percent lower in standard error for Pinot Noir estimate, which gives us more accurate confidence interval when predicting the price.</p>
+</div>
 </div>
 </div>
 
 
 
-</div>
-</div>
 
 </div>
 
@@ -648,32 +709,6 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

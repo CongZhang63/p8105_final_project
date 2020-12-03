@@ -384,7 +384,7 @@ div.tocify {
   </ul>
 </li>
 <li>
-  <a href="regression_yl4606.html">Statistical Analysis</a>
+  <a href="statistial_analysis_yl4606_ll3452.html">Statistical Analysis</a>
 </li>
 <li>
   <a href="https://bluedenw.shinyapps.io/interactive_map/">Interactive Map</a>
@@ -429,11 +429,16 @@ div.tocify {
 <h1>Introduction</h1>
 <p>Wine is an essential component in western food culture. Due to the variety of wine brands, people may easily get lost. Therefore, we would like to provide a review of wines by professional wine tasters and guidance for wine lovers based on variety, location, winery and price. Wine lovers can select and buy wines more easily with information provided on our website.</p>
 <p><br/></p>
-</div>
-<div id="data" class="section level1">
-<h1>Data</h1>
-<p>This <a href="https://www.kaggle.com/zynicide/wine-reviews?select=winemag-data-130k-v2.csvm">dataset</a> contains 13 columns, including country, designation(The vineyard within the winery where the grapes that made the wine are from), points(The number of points WineEnthusiast rated the wine on a scale of 1-100), price, province, region_2, region_2, variety(The type of grapes used to make the wine), winery(The winery that made the wine). <br/> * <strong>country:</strong> The country that the wine is from <br/> * <strong>description:</strong> A few sentences from a sommelier describing the wine’s taste, smell, look, feel, etc. <br/> * <strong>designation</strong> The vineyard within the winery where the grapes that made the wine are from <br/> * <strong>points</strong> The number of points WineEnthusiast rated the wine on a scale of 1-100 (though they say they only post reviews for wines that score larger than 80) <br/> * <strong>price</strong> The cost for a bottle of the wine <br/> * <strong>province</strong> The province or state that the wine is from <br/> * <strong>region_1</strong> The wine growing area in a province or state (ie Napa) <br/> * <strong>region_2</strong> Sometimes there are more specific regions specified within a wine growing area (ie Rutherford inside the Napa Valley), but this value can sometimes be blank <br/> * <strong>variety</strong> The type of grapes used to make the wine (ie Pinot Noir) <br/> * <strong>winery</strong> The winery that made the wine <br/></p>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>This <a href="https://www.kaggle.com/zynicide/wine-reviews?select=winemag-data-130k-v2.csvm">dataset</a> contains 13 columns, including country, designation(The vineyard within the winery where the grapes that made the wine are from), points(The number of points WineEnthusiast rated the wine on a scale of 1-100), price, province, region_2, region_2, variety(The type of grapes used to make the wine), winery(The winery that made the wine). <br/> <code>country</code>: The country that the wine is from <br/> <code>description</code>: A few sentences from a sommelier describing the wine’s taste, smell, look, feel, etc. <br/> <code>designation</code>: The vineyard within the winery where the grapes that made the wine are from <br/> <code>points</code>: The number of points WineEnthusiast rated the wine on a scale of 1-100 (though they say they only post reviews for wines that score larger than 80) <br/> <code>price</code>: The cost for a bottle of the wine <br/> <code>province</code>: The province or state that the wine is from <br/> <code>region_1</code>: The wine growing area in a province or state (ie Napa) <br/> <code>region_2</code>: Sometimes there are more specific regions specified within a wine growing area (ie Rutherford inside the Napa Valley), but this value can sometimes be blank <br/> <code>variety</code>: The type of grapes used to make the wine (ie Pinot Noir) <br/> <code>winery</code>: The winery that made the wine <br/></p>
 <p><br/></p>
+</div>
+<div id="data-cleaning" class="section level2">
+<h2>Data Cleaning</h2>
+<p>The original dataset <code>winemag-data_first150k.csv</code> has 150930 observations. <br/> The numbers of missing values for some important variables are as follows. <br/> <code>id</code>: 0 missing observations. <br/> <code>points</code>: 0 missing observations. <br/> <code>price</code>: 13695 missing observations. <br/> <code>country</code>: 5 missing observations. <br/> <code>province</code>: 5 missing observations. <br/> <code>variety</code>: 0 missing observations. <br/> <code>winery</code>: 0 missing observations. <br/> Then we create average points and price at the country and province levels respectively for <code>winemag-data_first150k.csv</code> data.</p>
+<p><br/> ’[]</p>
+</div>
 </div>
 <div id="findings" class="section level1">
 <h1>Findings</h1>

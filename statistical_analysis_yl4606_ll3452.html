@@ -287,7 +287,7 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="reviews_of_wines_from_the_globe_rz2530.html">Reviews of Wines from the Globe</a>
+      <a href="rz2530_reviews_of_wines_from_the_globe.html">Reviews of Wines from the Globe</a>
     </li>
     <li>
       <a href="reviews_of_ap_wines_cz2612.html">Reviews of Asian-Pacific Wines</a>
@@ -336,8 +336,8 @@ $(document).ready(function () {
 
 
 <p><br/></p>
-<div id="hypothesis" class="section level2">
-<h2>Hypothesis</h2>
+<div id="hypothesis" class="section level1">
+<h1>Hypothesis</h1>
 <p>In this analysis, we are interested in whether wine would be more expensive if its points (X1) (rated by <a href="https://www.winemag.com/ratings/?utm_source=wineenthusiast.com&amp;utm_medium=affiliate&amp;utm_content=topnav">Wine Enthusiast</a>) increases, adjusting for categorical variables variety (X2) and continent of production (X3).</p>
 <p><br/></p>
 <div id="distribution-of-outcomes-wine-prices-over-the-world" class="section level3">
@@ -360,8 +360,8 @@ $(document).ready(function () {
 <p><strong>Continent:</strong> The continent that the wine is produced from.</p>
 <p>Since <strong>log(Price)</strong> and <strong>Points</strong> are numerical variables, we only need to worry about <strong>Variety</strong>, which includes 632 unique levels. To simplify our model, we choose to select the most representative four varieties: Chardonnay, Pinot Noir, Cabernet Sauvignon, Red Blend. Here, we define representative as having more than ten thousands counts of wines for the particular variety.</p>
 <p><br/></p>
-<div id="interaction-points-and-variety" class="section level2">
-<h2>Interaction: Points and Variety</h2>
+<div id="interaction-points-and-variety" class="section level3">
+<h3>Interaction: Points and Variety</h3>
 <p><br/></p>
 <p><img src="statistical_analysis_yl4606_ll3452_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
 <p>After log-transforming of independent variable Price, we observe a linear trend in Log_Price vs. Points. This implies a positive correlation between price and log_points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety. We also observe that lines of Cabernet Sauvignon and Chardonnay cross with each other, so let’s take a look at p-value of each term of in ‘log_price ~ points * variety’:</p>
@@ -418,7 +418,7 @@ $(document).ready(function () {
 </tbody>
 </table>
 <p><br/></p>
-<p>Since two interaction terms points * Pinot Noir and points * Red Blend are significant at alpha = 0.05, we further check the change of determination coefficient before and after adding the interaction term to decide whether to include it in our final model:</p>
+<p>Since two interaction terms Points * Pinot Noir and Points * Red Blend are significant at alpha = 0.05, we further check the change of determination coefficient before and after adding the interaction term to decide whether to include it in our final model:</p>
 <table>
 <thead>
 <tr class="header">
@@ -443,11 +443,11 @@ $(document).ready(function () {
 </tr>
 </tbody>
 </table>
-<p>Coefficient of determination (r-squared) 0.429 without interaction term suggests a moderate association between points, variety and log(price). Although there is a significant p-value of <strong>Points</strong> - <strong>Variety</strong> interactions, the coefficient of determination does not change much (0.429 to 0.433) when interaction term is added. Therefore, we consider the interaction as not significant, which means that the relationship between points and price does not vary by different variety. So we delete the term <strong>Points * Variety</strong> from model.</p>
+<p>Coefficient of determination (<span class="math inline">\(R^2\)</span>) equals to 0.429 without interaction term suggests a moderate association between points, variety and log(price). Although there is a significant p-value of <strong>Points</strong> - <strong>Variety</strong> interactions, the coefficient of determination does not change much (0.429 to 0.433) when interaction term is added. Therefore, we consider the interaction as not significant, which means that the relationship between points and price does not vary by different variety. So we delete the interaction term <strong>Points * Variety</strong> from model.</p>
 <p><br/></p>
 </div>
-<div id="final-model-fitting-log_price-vs.-points-variety-continent" class="section level2">
-<h2>Final model fitting: Log_Price vs. Points + Variety + Continent</h2>
+<div id="complete-model-log_price-vs.-points-variety-continent" class="section level3">
+<h3>Complete Model: Log_Price vs. Points + Variety + Continent</h3>
 <p><br/></p>
 <p>Qustion: Is variable <strong>Continent</strong> significant enough to be added?</p>
 <table>
@@ -480,7 +480,7 @@ $(document).ready(function () {
 </tr>
 </tbody>
 </table>
-<p>Yes. By doing an ANOVA test, we find that p-value equals to zero, which tells us that the larger model ’ log_price ~ points + variety + continent ’ is superior over ‘log_price ~ points + variety’, which means continent is a significant variable. Therefore, we get the following model :</p>
+<p>Yes. By doing an ANOVA test, we find that p-value equals to zero, which tells us that the larger model <strong>Log_Price ~ Points + Variety + Continent</strong> is superior over <strong>Log_Price ~ Points + Variety</strong>, which means continent is a significant variable. Therefore, we get the following estimates of model :</p>
 <table>
 <thead>
 <tr class="header">
@@ -543,11 +543,13 @@ $(document).ready(function () {
 </tbody>
 </table>
 <p><br/></p>
-<p>Based on the summary table of estimates, we see that all of our main effects are statistically significant except in Asia. This indicates that different groups in variety and continent indeed affect the price of a bottle of wine. However, in Asia, price of wine is not affected by points and variety. Since p-value of points estimate is close to zero, wine would be more expensive if its points (X1) increases, adjusting for categorical variables variety (X2) and continent of production (X3), as we proposed in the hypothesis. Since our <span class="math inline">\(R^2\)</span> value is 0.429, which indicated that chosen variables together are able to explain 42.9% of observed variation in price. Therefore, a moderate association has been observed. For easier interpretation, we decide to stratify the analysis by continent.</p>
+<p>We can get the complete model:</p>
+<p><span class="math display">\[ log(Price) = -6.656 + 0.113Points + 0.278Pinot Noir +0.248Cabernet Sauvignon + 0.059Red Blend - 0.341Africa - 0.049Asia + 0.089 Europe - 0.241Oceania -0.411SouthAmerica\]</span></p>
+<p>For easier interpretation, we decide to stratify the analysis by continent.</p>
 <p><br/></p>
 </div>
-<div id="stratified-analysis-by-continent" class="section level2">
-<h2>Stratified Analysis by Continent</h2>
+<div id="stratified-analysis-by-continent" class="section level3">
+<h3>Stratified Analysis by Continent</h3>
 <p><br/></p>
 <table style="width:100%;">
 <colgroup>
@@ -621,19 +623,23 @@ $(document).ready(function () {
 </table>
 <p><br/></p>
 </div>
-<div id="findings" class="section level2">
-<h2>Findings</h2>
+</div>
+<div id="finding" class="section level1">
+<h1>Finding</h1>
 <p><br/></p>
-<p>By fitting models in nested datasets, we got the following findings:</p>
+<ul>
+<li><p>Complete Model (<strong>Points, Variety, Continent</strong>): Based on the summary table of estimates, we see that all of our main effects are statistically significant except in Asia. This indicates that different groups in variety and continent indeed affect the price of a bottle of wine. However, in Asia, price of wine is not affected by points and variety. Since p-value of points estimate is close to zero, wine would be more expensive if its points (X1) increases, adjusting for categorical variables variety (X2) and continent of production (X3), as we proposed in the hypothesis. Since our <span class="math inline">\(R^2\)</span> value is 0.429, which indicated that chosen variables together are able to explain 42.9% of observed variation in price. Therefore, a moderate association has been observed.</p></li>
+<li><p>Nested Models (<strong>Points, Variety by Continent</strong>):</p>
 <ul>
 <li><p>For all continents, since the estimates of points are positive, price increases as points increases adjusting for variable variety. It corresponds to our hypothesis that wine is more expensive as its points review increases.</p></li>
 <li><p>In Europe only, Carbernet Sauvignon and Red Blend have negative estimates. It implies that the expected price of variety Carbernet Sauvignon and Red Blend in Europe are lower than the expected price of Chardonnay (adjusting for points). This could be resulted by high yields of specific varieties, which lower the price of wine. And we need to do more research on the yields for further analysis.</p></li>
-<li><p>Asia has the smallest estimate of points. So the price of wine in Asia is leastly affected by its points, adjusted for variety. In explain, on average, one point increase of wine in Asia leads to 8.5% (= e ^ (0.082) * 100 - 1) increase in expected price, which is only one-third of the increase 19.1%(= e ^ (0.175) * 100 - 1) in Europe.</p></li>
+<li><p>Asia has the smallest estimate of points. So the price of wine in Asia is leastly affected by its points, adjusted for variety. In explain, on average, one point increase of wine in Asia leads to 8.5% (= <span class="math inline">\(e ^ {(0.082)} 100 - 1\)</span>) increase in expected price, which is only one-third of the increase 19.1%(= <span class="math inline">\(e ^ {(0.175)} 100 - 1\)</span>) in Europe.</p></li>
+</ul></li>
 </ul>
 <p><br/></p>
 </div>
-<div id="more-analysis-closer-look-in-north-america" class="section level2">
-<h2>More analysis: Closer Look in North America</h2>
+<div id="porfound-analysis-closer-look-in-north-america" class="section level1">
+<h1>Porfound Analysis: Closer Look in North America</h1>
 <p><br/></p>
 <p><img src="statistical_analysis_yl4606_ll3452_files/figure-html/unnamed-chunk-14-1.png" width="90%" /></p>
 <p>Non-random distribution of variances of residual tells us that bootstrapping needs to be down before fitting the model for price of wine in North America.</p>
@@ -678,7 +684,6 @@ $(document).ready(function () {
 </tbody>
 </table>
 <p>After 1000 times bootstraps, we get a almost 20 percent lower (0.006 compared to 0.007) in standard error for Pinot Noir estimate, which gives us more accurate confidence interval when predicting the price. Therefore, it is necessary to do bootstrap before we predict the price range of Pinot Noir in North America.</p>
-</div>
 </div>
 </div>
 

@@ -7,7 +7,7 @@ output:
 ---
 <br/>
 
-## Hypothesis
+# Hypothesis
 
 In this analysis, we are interested in whether wine would be more expensive if its points (X1) (rated by [Wine Enthusiast](https://www.winemag.com/ratings/?utm_source=wineenthusiast.com&utm_medium=affiliate&utm_content=topnav)) increases, adjusting for categorical variables variety (X2) and continent of production (X3). 
 
@@ -127,7 +127,7 @@ Since **log(Price)** and **Points** are numerical variables, we only need to wor
 
 <br/>
 
-## Interaction: Points and Variety
+### Interaction: Points and Variety
 
 <br/>
 
@@ -172,7 +172,7 @@ lm(log_price ~ points * variety, data = top_wine_with_conti) %>%
 ```
 <br/>
 
-Since two interaction terms points * Pinot Noir and points * Red Blend are significant at alpha = 0.05, we further check the change of determination coefficient before and after adding the interaction term to decide whether to include it in our final model:
+Since two interaction terms Points * Pinot Noir and Points * Red Blend are significant at alpha = 0.05, we further check the change of determination coefficient before and after adding the interaction term to decide whether to include it in our final model:
 
 ```{r, echo = FALSE, warning = FALSE}
 lm_p_v_pv <- lm(log_price ~ points + variety, data = top_wine_with_conti)
@@ -186,11 +186,11 @@ lm_p_v_pv <- lm(log_price ~ points*variety, data = top_wine_with_conti)
 summary(lm_p_v_pv)$r.squared %>% knitr::kable(digits = 3)
 ```
 
-Coefficient of determination (r-squared) 0.429 without interaction term suggests a moderate association between points, variety and log(price). Although there is a significant p-value of **Points** - **Variety** interactions, the coefficient of determination does not change much (0.429 to 0.433) when interaction term is added.  Therefore, we consider the interaction as not significant, which means that the relationship between points and price does not vary by different variety. So we delete the term **Points * Variety** from model. 
+Coefficient of determination ($R^2$) equals to 0.429 without interaction term suggests a moderate association between points, variety and log(price). Although there is a significant p-value of **Points** - **Variety** interactions, the coefficient of determination does not change much (0.429 to 0.433) when interaction term is added. Therefore, we consider the interaction as not significant, which means that the relationship between points and price does not vary by different variety. So we delete the interaction term **Points * Variety** from model. 
 
 <br/>
 
-## Final model fitting: Log_Price vs. Points + Variety + Continent
+### Complete Model: Log_Price vs. Points + Variety + Continent
 
 <br/>
 
@@ -206,7 +206,7 @@ anova(fit_null, fit_alt) %>%
   knitr::kable(digits = 3)  #p-val = 0
 ```
 
-Yes. By doing an ANOVA test, we find that p-value equals to zero, which tells us that the larger model ' log_price ~ points + variety + continent ' is superior over 'log_price ~ points + variety', which means continent is a significant variable. Therefore, we get the following model :
+Yes. By doing an ANOVA test, we find that p-value equals to zero, which tells us that the larger model **Log_Price ~ Points + Variety + Continent** is superior over **Log_Price ~ Points + Variety**, which means continent is a significant variable. Therefore, we get the following estimates of model :
 
 ```{r, echo = FALSE, warning = FALSE}
 fit_alt %>% 
@@ -216,11 +216,15 @@ fit_alt %>%
 ```
 <br/>
 
-Based on the summary table of estimates, we see that all of our main effects are statistically significant except in Asia. This indicates that different groups in variety and continent indeed affect the price of a bottle of wine. However, in Asia, price of wine is not affected by points and variety. Since p-value of points estimate is close to zero,  wine would be more expensive if its points (X1) increases, adjusting for categorical variables variety (X2) and continent of production (X3), as we proposed in the hypothesis. Since our $R^2$ value is 0.429, which indicated that chosen variables together are able to explain 42.9% of observed variation in price. Therefore, a moderate association has been observed. For easier interpretation, we decide to stratify the analysis by continent.
+We can get the complete model:
+
+$$ log(Price) = -6.656 + 0.113Points + 0.278Pinot Noir +0.248Cabernet Sauvignon + 0.059Red Blend - 0.341Africa - 0.049Asia + 0.089 Europe - 0.241Oceania -0.411SouthAmerica$$
+
+For easier interpretation, we decide to stratify the analysis by continent.
 
 <br/>
 
-## Stratified Analysis by Continent
+### Stratified Analysis by Continent
 
 <br/>
 
@@ -248,21 +252,23 @@ nest_lm_res %>%
 
 <br/>
 
-## Findings
+# Finding
 
 <br/>
 
-By fitting models in nested datasets, we got the following findings:
+* Complete Model (**Points, Variety, Continent**): Based on the summary table of estimates, we see that all of our main effects are statistically significant except in Asia. This indicates that different groups in variety and continent indeed affect the price of a bottle of wine. However, in Asia, price of wine is not affected by points and variety. Since p-value of points estimate is close to zero,  wine would be more expensive if its points (X1) increases, adjusting for categorical variables variety (X2) and continent of production (X3), as we proposed in the hypothesis. Since our $R^2$ value is 0.429, which indicated that chosen variables together are able to explain 42.9% of observed variation in price. Therefore, a moderate association has been observed. 
 
-* For all continents, since the estimates of points are positive, price increases as points increases adjusting for variable variety. It corresponds to our hypothesis that wine is more expensive as its points review increases.
+* Nested Models (**Points, Variety by Continent**):
 
-* In Europe only, Carbernet Sauvignon and Red Blend have negative estimates. It implies that the expected price of variety Carbernet Sauvignon and Red Blend in Europe are lower than the expected price of Chardonnay (adjusting for points). This could be resulted by high yields of specific varieties, which lower the price of wine. And we need to do more research on the yields for further analysis.
+  + For all continents, since the estimates of points are positive, price increases as points increases adjusting for variable variety. It corresponds to our hypothesis that wine is more expensive as its points review increases.
 
-* Asia has the smallest estimate of points. So the price of wine in Asia is leastly affected by its points, adjusted for variety. In explain, on average, one point increase of wine in Asia leads to 8.5% (= e ^ (0.082) * 100 - 1) increase in expected price, which is only one-third of the increase 19.1%(= e ^ (0.175) * 100 - 1) in Europe.
+  + In Europe only, Carbernet Sauvignon and Red Blend have negative estimates. It implies that the expected price of variety Carbernet Sauvignon and Red Blend in Europe are lower than the expected price of Chardonnay (adjusting for points). This could be resulted by high yields of specific varieties, which lower the price of wine. And we need to do more research on the yields for further analysis.
+
+  + Asia has the smallest estimate of points. So the price of wine in Asia is leastly affected by its points, adjusted for variety. In explain, on average, one point increase of wine in Asia leads to 8.5% (= $e ^ {(0.082)} 100 - 1$) increase in expected price, which is only one-third of the increase 19.1%(= $e ^ {(0.175)} 100 - 1$) in Europe.
 
 <br/>
 
-## More analysis: Closer Look in North America
+# Porfound Analysis: Closer Look in North America
 
 <br/>
 

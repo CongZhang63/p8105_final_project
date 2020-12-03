@@ -216,7 +216,7 @@ fit_alt %>%
 ```
 <br/>
 
-Based on the summary table of estimates, we see that all of our main effects are statistically significant except in Asia. This indicates that different groups in variety and continent indeed affect the price of a bottle of wine. However, in Asia, price of wine is not affected by points and variety. Since p-value of points estimate is close to zero,  wine would be more expensive if its points (X1) increases, adjusting for categorical variables variety (X2) and continent of production (X3), as we proposed in the hypothesis. Since our $$R^2$$ value is 0.429, which indicated that chosen variables together are able to explain 42.9% of observed variation in price. Therefore, a moderate association has been observed. For easier interpretation, we decide to stratify the analysis by continent.
+Based on the summary table of estimates, we see that all of our main effects are statistically significant except in Asia. This indicates that different groups in variety and continent indeed affect the price of a bottle of wine. However, in Asia, price of wine is not affected by points and variety. Since p-value of points estimate is close to zero,  wine would be more expensive if its points (X1) increases, adjusting for categorical variables variety (X2) and continent of production (X3), as we proposed in the hypothesis. Since our $R^2$ value is 0.429, which indicated that chosen variables together are able to explain 42.9% of observed variation in price. Therefore, a moderate association has been observed. For easier interpretation, we decide to stratify the analysis by continent.
 
 <br/>
 

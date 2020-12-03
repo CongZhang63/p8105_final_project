@@ -119,11 +119,3 @@ wine150_tidy %>%
     yaxis = list(title = "counts"),
     title = "Grapes variety used to make wines" )
 ```
-
-
-
-
-
-
-
-

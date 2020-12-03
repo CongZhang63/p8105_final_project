@@ -8,7 +8,7 @@ navbar:
     - text: "Summary Visualization"
       menu:
       - text: "Reviews of Global Wines"
-        href: rz2530_reviews_of_wines_from_the_globe.html
+        href: reviews_of_gl_wines_rz2530.html
       - text: "Reviews of Asian-Pacific Wines"
         href: reviews_of_ap_wines_cz2612.html
       - text: "Reviews of European Wines"

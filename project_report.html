@@ -367,7 +367,7 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="reviews_of_wines_from_the_globe_rz2530.html">Reviews of Wines from the Globe</a>
+      <a href="rz2530_reviews_of_wines_from_the_globe.html">Reviews of Wines from the Globe</a>
     </li>
     <li>
       <a href="reviews_of_ap_wines_cz2612.html">Reviews of Asian-Pacific Wines</a>
@@ -433,24 +433,72 @@ div.tocify {
 </div>
 <div id="data" class="section level1">
 <h1>Data</h1>
-<p>This <a href="https://www.kaggle.com/zynicide/wine-reviews?select=winemag-data-130k-v2.csvm">dataset</a> contains 13 columns, including country, designation(The vineyard within the winery where the grapes that made the wine are from), points(The number of points WineEnthusiast rated the wine on a scale of 1-100), price, province, region_2, region_2, variety(The type of grapes used to make the wine), winery(The winery that made the wine). <br/> * <strong>country:</strong> The country that the wine is from <br/> * <strong>description:</strong> A few sentences from a sommelier describing the wine’s taste, smell, look, feel, etc. <br/> * <strong>designation</strong> The vineyard within the winery where the grapes that made the wine are from <br/> * <strong>points</strong> The number of points WineEnthusiast rated the wine on a scale of 1-100 (though they say they only post reviews for wines that score larger than 80) <br/> * <strong>price</strong> The cost for a bottle of the wine <br/> * <strong>province</strong> The province or state that the wine is from <br/> * <strong>region_1</strong> The wine growing area in a province or state (ie Napa) <br/> * <strong>region_2</strong> Sometimes there are more specific regions specified within a wine growing area (ie Rutherford inside the Napa Valley), but this value can sometimes be blank <br/> * <strong>variety</strong> The type of grapes used to make the wine (ie Pinot Noir) <br/> * <strong>winery</strong> The winery that made the wine <br/></p>
+<p>This wine <a href="https://www.kaggle.com/zynicide/wine-reviews?select=winemag-data-130k-v2.csvm">dataset</a> contains 13 columns, including country, designation(The vineyard within the winery where the grapes that made the wine are from), points(The number of points WineEnthusiast rated the wine on a scale of 1-100), price, province, region_2, region_2, variety(The type of grapes used to make the wine), winery(The winery that made the wine). <br/></p>
+<ul>
+<li><p><strong>country:</strong> The country that the wine is from.</p></li>
+<li><p><strong>description:</strong> A few sentences from a sommelier describing the wine’s taste, smell, look, feel, etc.</p></li>
+<li><p><strong>designation</strong> The vineyard within the winery where the grapes that made the wine are from.</p></li>
+<li><p><strong>points</strong> The number of points WineEnthusiast rated the wine on a scale of 1-100 (though they say they only post reviews for wines that score larger than 80).</p></li>
+<li><p><strong>price</strong> The cost for a bottle of the wine.</p></li>
+<li><p><strong>province</strong> The province or state that the wine is from.</p></li>
+<li><p><strong>region_1</strong> The wine growing area in a province or state (i.e. Napa).</p></li>
+<li><p><strong>region_2</strong> Sometimes there are more specific regions specified within a wine growing area (i.e. Rutherford inside the Napa Valley), but this value can sometimes be blank.</p></li>
+<li><p><strong>variety</strong> The type of grapes used to make the wine (i.e. Pinot Noir).</p></li>
+<li><p><strong>winery</strong> The winery that made the wine.</p></li>
+</ul>
 <p><br/></p>
+<p>In regression, we import a supplemental continent <a href="https://datahub.io/JohnSnowLabs/country-and-continent-codes-list">dataset</a> which contains 6 columns. In this project, we will use only Continent_Name and Country_Name to categorize wine dataset by continent.</p>
+<ul>
+<li><p><strong>Continent_Name</strong> Name of the continent.</p></li>
+<li><p><strong>Country_Name</strong> Name of the country.</p></li>
+</ul>
 </div>
-<div id="findings" class="section level1">
-<h1>Findings</h1>
-<div id="summary-visualization" class="section level2">
-<h2>Summary Visualization</h2>
+<div id="summary-visualization" class="section level1">
+<h1>Summary Visualization</h1>
 <p>In this part, we try to analyze our data and visualize them for better understandings. The data is filtered based on different scales, including continent, countries, cities and even areas. Since the amount of data is large, we have separated the data based on regions. We have analyzed and plotted graphs from the scale of globe, continents and countries.</p>
 <p><br/></p>
 <p>We first plotted the average wine Points of Countries Around the Globe and around the Europe. From the graphs, we can find out which country has the highest average wine ranking points and which has the lowest. In general, European countries have higher average wine rankings than Asian countries. Then we analyzed the winery by plotting boxplot. We can see not only the average point of wines a winery made, but also its median, q1, q3 and range. Some wineries have more stable outputs than the others. The ranking histogram indicates that the distribution of rankings of wines is close to normal distribution. Another variable that is important when we are choosing wines is the variety of grapes. The taste of wine, on a great extent, depend on the grapes it chooses. Therefore, we have ranked the most preferred grape types used by different wineries.</p>
 </div>
-<div id="statistical-analysis" class="section level2">
-<h2>Statistical Analysis</h2>
+<div id="statistical-analysis" class="section level1">
+<h1>Statistical Analysis</h1>
+<p>In this analysis, we are interested in whether wine would be more expensive if its points increases, adjusting for categorical variables variety and continent of production.</p>
+<div id="log-transformation" class="section level4">
+<h4>Log Transformation</h4>
+<p>We detect a highly skewed pattern of the price distribution, thus our response variable ‘Price’ needs to be log transformed before fitting into the regression model. After log transformation, the distribution becomes much more normal.</p>
 <p><br/></p>
 </div>
-<div id="interactive-map" class="section level2">
-<h2>Interactive Map</h2>
+<div id="modeling" class="section level4">
+<h4>Modeling</h4>
+<p>Here, we try to fit a final model in the following form:</p>
+<p><span class="math display">\[ log(Price) = \beta_1 + \beta_2X_{Points} + \beta_3X_{Variety} + \beta_4X_{Continent}\]</span></p>
+<p>For predictor <strong>Variety</strong>, we select the top four types of grapes for simplicity.</p>
+<p><br/></p>
+<p><code>Question: Should we include interaction term Points * Variety?</code></p>
+<p>After log-transforming of independent variable Price, we observe a linear trend in Log_Price vs. Points. This implies a positive correlation between price and log_points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety. We also observe that lines of Cabernet Sauvignon and Chardonnay cross with each other. However, because <span class="math inline">\(R^2\)</span> does not change significantly before and after adding the interaction term, we decide to remove <strong>Points * Variety</strong> form the final model.</p>
+<p><br/></p>
+<p><code>Question: Is Continent a significant predictor variable?</code></p>
+<p>By doing an ANOVA test, we find that p-value equals to zero, which tells us that the larger model <strong>Log_Price ~ Points + Variety + Continent</strong> is superior over <strong>Log_Price ~ Points + Variety</strong>, which means continent is a significant variable. Therefore, we get the following complete model :</p>
+<p><span class="math display">\[ log(Price) = -6.656 + 0.113Points + 0.278Pinot Noir +0.248Cabernet Sauvignon + 0.059Red Blend - 0.341Africa - 0.049Asia + 0.089 Europe - 0.241Oceania -0.411SouthAmerica\]</span> Based on the summary table of estimates, we see that all of our main effects are statistically significant except in Asia. This indicates that different groups in variety and continent indeed affect the price of a bottle of wine. However, in Asia, price of wine is not affected by points and variety. Since p-value of points estimate is close to zero, wine would be more expensive if its points (X1) increases, adjusting for categorical variables variety (X2) and continent of production (X3), as we proposed in the hypothesis. Since our <span class="math inline">\(R^2\)</span> value is 0.429, which indicated that chosen variables together are able to explain 42.9% of observed variation in price. Therefore, a moderate association has been observed.</p>
+<p><br/></p>
 </div>
+<div id="stratified-analysis-by-continent" class="section level4">
+<h4>Stratified Analysis by Continent</h4>
+<p>Main Findings:</p>
+<ul>
+<li><p>For all continents, since the estimates of points are positive, price increases as points increases adjusting for variable variety. It corresponds to our hypothesis that wine is more expensive as its points review increases.</p></li>
+<li><p>In Europe only, Carbernet Sauvignon and Red Blend have negative estimates. It implies that the expected price of variety Carbernet Sauvignon and Red Blend in Europe are lower than the expected price of Chardonnay (adjusting for points). This could be resulted by high yields of specific varieties, which lower the price of wine. And we need to do more research on the yields for further analysis.</p></li>
+<li><p>Asia has the smallest estimate of points. So the price of wine in Asia is leastly affected by its points, adjusted for variety. In explain, on average, one point increase of wine in Asia leads to 8.5% (= <span class="math inline">\(e ^ {(0.082)} 100 - 1\)</span>) increase in expected price, which is only one-third of the increase 19.1%(= <span class="math inline">\(e ^ {(0.175)} 100 - 1\)</span>) in Europe.</p></li>
+</ul>
+<p><br/></p>
+</div>
+<div id="porfound-analysis-bootstraps-for-north-america" class="section level4">
+<h4>Porfound Analysis: Bootstraps for North America</h4>
+<p>To ensure accuracy, we examined the assumptions of our model for North America. Non-random distribution of variances of residual tells us that bootstrapping needs to be down before fitting the model for price of wine in North America. Therefore, we do bootstrap for 1000 times. Then, we get a almost 20 percent lower (0.006 compared to 0.007) in standard error for Pinot Noir estimate, which gives us more accurate confidence interval when predicting the price. Therefore, it is necessary to do bootstrap before we predict the price range of Pinot Noir in North America.</p>
+<p><br/></p>
+</div>
+</div>
+<div id="interactive-map" class="section level1">
+<h1>Interactive Map</h1>
 </div>
 
 

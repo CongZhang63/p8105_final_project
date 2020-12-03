@@ -28,4 +28,4 @@ navbar:
       
 output:
   html_document:
-    theme: flatly
+    theme: readable

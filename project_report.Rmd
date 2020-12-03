@@ -1,5 +1,5 @@
 ---
-title: "CHEERS! Professional Wine Reviews <br/> - Course P8105 Data Science I Project"
+title: "Project Report"
 output: 
   html_document:
     code_folding: hide
@@ -7,11 +7,11 @@ output:
     toc_float: true
 ---
 
-<img src="images/Wine1.jpg" style="width:100%">
-
-
 <br/>
 
+<img src="images/Wine2.jpg" style="width:100%">
+
+<br/>
 
 # Introduction
 
@@ -64,11 +64,3 @@ We first plotted the average wine Points of Countries Around the Globe and aroun
 
 ## Interactive Map
 
-<br/>
-
-# Contributors
-* [Zhourong Li](https://bluedenw.github.io)
-* [Yubei Liang](https://yubei-yl4606.github.io/yl4606.github.io)
-* [Leo Liu](https://leooolzh.github.io)
-* [Cong Zhang](https://congzhang63.github.io)
-* [Ruwen Zhou](https://carmenzhou.github.io/rz2530.github.io)

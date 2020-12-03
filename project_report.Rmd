@@ -1,5 +1,5 @@
 ---
-title: "CHEERS! Professional Wine Reviews <br/> - Course P8105 Data Science I Project"
+title: "Project Report"
 output: 
   html_document:
     code_folding: hide
@@ -7,11 +7,11 @@ output:
     toc_float: true
 ---
 
-<img src="images/Wine1.jpg" style="width:100%">
-
-
 <br/>
 
+<img src="images/Wine2.jpg" style="width:100%">
+
+<br/>
 
 # Introduction
 
@@ -19,50 +19,34 @@ Wine is an essential component in western food culture. Due to the variety of wi
 
 <br/>
 
-## Data
+# Data
 
 This [dataset](https://www.kaggle.com/zynicide/wine-reviews?select=winemag-data-130k-v2.csvm) contains 13 columns, including country, designation(The vineyard within the winery where the grapes that made the wine are from), points(The number of points WineEnthusiast rated the wine on a scale of 1-100), price, province, region_2, region_2, variety(The type of grapes used to make the wine), winery(The winery that made the wine).
 <br/>
-`country`: The country that the wine is from
+* **country:** The country that the wine is from
 <br/>
-`description`: A few sentences from a sommelier describing the wine's taste, smell, look, feel, etc.
+* **description:** A few sentences from a sommelier describing the wine's taste, smell, look, feel, etc.
 <br/>
-`designation`: The vineyard within the winery where the grapes that made the wine are from
+* **designation** The vineyard within the winery where the grapes that made the wine are from
 <br/>
-`points`: The number of points WineEnthusiast rated the wine on a scale of 1-100 (though they say they only post reviews for wines that score larger than 80)
+* **points** The number of points WineEnthusiast rated the wine on a scale of 1-100 (though they say they only post reviews for wines that score larger than 80)
 <br/>
-`price`: The cost for a bottle of the wine
+* **price** The cost for a bottle of the wine
 <br/>
-`province`: The province or state that the wine is from
+* **province** The province or state that the wine is from
 <br/>
-`region_1`: The wine growing area in a province or state (ie Napa)
+* **region_1** The wine growing area in a province or state (ie Napa)
 <br/>
-`region_2`: Sometimes there are more specific regions specified within a wine growing area (ie Rutherford inside the Napa Valley), but this value can sometimes be blank
+* **region_2** Sometimes there are more specific regions specified within a wine growing area (ie Rutherford inside the Napa Valley), but this value can sometimes be blank
 <br/>
-`variety`: The type of grapes used to make the wine (ie Pinot Noir)
+* **variety** The type of grapes used to make the wine (ie Pinot Noir)
 <br/>
-`winery`: The winery that made the wine
-<br/>
-
-
-
+* **winery** The winery that made the wine
 <br/>
 
-## Data Cleaning
 
-The original dataset `winemag-data_first150k.csv` has 150930 observations. <br/>
-The numbers of missing values for some important variables are as follows. <br/>
-`id`: 0 missing observations. <br/>
-`points`: 0 missing observations. <br/>
-`price`: 13695 missing observations. <br/>
-`country`: 5 missing observations. <br/>
-`province`: 5 missing observations. <br/>
-`variety`: 0 missing observations. <br/>
-`winery`: 0 missing observations. <br/>
-Then we create average points and price at the country and province levels respectively for `winemag-data_first150k.csv` data.
 
 <br/>
-'[]
 
 # Findings
 
@@ -80,11 +64,3 @@ We first plotted the average wine Points of Countries Around the Globe and aroun
 
 ## Interactive Map
 
-<br/>
-
-# Contributors
-* [Zhourong Li](https://bluedenw.github.io)
-* [Yubei Liang](https://yubei-yl4606.github.io/yl4606.github.io)
-* [Leo Liu](https://leooolzh.github.io)
-* [Cong Zhang](https://congzhang63.github.io)
-* [Ruwen Zhou](https://carmenzhou.github.io/rz2530.github.io)

@@ -91,6 +91,20 @@ ggplot(wine_df, aes(x = points,fill=country)) +
 In our dataset, there are also records of the types of grapes used of a bottle of wine. The top 10 most famous grapes variety used by wine makers are: Chardonnay, Pinot Noir, Cabernet Sauvignon, Red Blend, Bordeaux-style Red Blend, Sauvignon Blanc, Syrah, Riesling, Merlot, Zinfandel. Wine lovers can pay more attention to these grapes types while buying wines that are familiar.
 
 ```{r}
+grapes = within(wine_df, variety <- factor(variety, levels=names(sort(table(variety), decreasing=TRUE)[1:10]))) %>% 
+  drop_na(variety)
+ggplot(grapes, aes(x = variety)) +
+  geom_bar(fill="lightblue") +
+  labs(
+    title = "Top 10 most popular grapes variety using to make wines",
+    x = "grapes variety",
+    y = "Counts"
+  ) +
+  coord_flip()
+  
+```
+
+```{r}
 wine150_tidy %>% 
   arrange(variety, points) %>% 
   group_by(variety) %>% 
@@ -107,23 +121,6 @@ wine150_tidy %>%
 ```
 
 
-
-
-
-
-```{r}
-grapes = within(wine_df, variety <- factor(variety, levels=names(sort(table(variety), decreasing=TRUE)[1:10]))) %>% 
-  drop_na(variety)
-ggplot(grapes, aes(x = variety)) +
-  geom_bar(fill="lightblue") +
-  labs(
-    title = "Top 10 most popular grapes variety using to make wines",
-    x = "grapes variety",
-    y = "Counts"
-  ) +
-  coord_flip()
-  
-```
 
 
 

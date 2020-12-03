@@ -82,7 +82,7 @@ ggplot(wine_df, aes(x = points,fill=country)) +
   geom_histogram(binwidth = 0.5) +
   labs(
     title = "Ranking of wines and their regions",
-    x = "Rankings",
+    x = "Wine Points",
     y = "Counts"
   )
 ```
@@ -103,7 +103,7 @@ wine150_tidy %>%
   layout(
     xaxis = list(title = "grapes variety"),
     yaxis = list(title = "counts"),
-    title = "Top 10 most popular grapes variety using to make wines" )
+    title = "Grapes variety used to make wines" )
 ```
 
 
@@ -111,9 +111,18 @@ wine150_tidy %>%
 
 
 
-```{r, include = FALSE}
+```{r}
 grapes = within(wine_df, variety <- factor(variety, levels=names(sort(table(variety), decreasing=TRUE)[1:10]))) %>% 
   drop_na(variety)
+ggplot(grapes, aes(x = variety)) +
+  geom_bar(fill="lightblue") +
+  labs(
+    title = "Top 10 most popular grapes variety using to make wines",
+    x = "grapes variety",
+    y = "Counts"
+  ) +
+  coord_flip()
+  
 ```
 
 

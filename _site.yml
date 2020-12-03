@@ -7,7 +7,7 @@ navbar:
       href: project_report.html
     - text: "Summary Visualization"
       menu:
-      - text: "Reviews of Wines From the Globe"
+      - text: "Reviews of Wines from the Globe"
         href: p8105_final_rz2530.html
       - text: "Reviews of Asian-Pacific Wines"
         href: reviews_of_ap_wines_cz2612.html

@@ -287,10 +287,7 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="p8105_final_rz2530.html">Graphs</a>
-    </li>
-    <li>
-      <a href="price_vs_ranking.html">Price vs. Ranking</a>
+      <a href="reviews_of_wines_from_the_globe_rz2530.html">Reviews of Wines from the Globe</a>
     </li>
     <li>
       <a href="reviews_of_ap_wines_cz2612.html">Reviews of Asian-Pacific Wines</a>
@@ -307,10 +304,10 @@ $(document).ready(function () {
   </ul>
 </li>
 <li>
-  <a href="regression_yl4606.html">Statistical Analysis</a>
+  <a href="statistial_analysis_yl4606_ll3452.html">Statistical Analysis</a>
 </li>
 <li>
-  <a href="interactive_map.html">Interactive Map</a>
+  <a href="https://bluedenw.shinyapps.io/interactive_map/">Interactive Map</a>
 </li>
 <li>
   <a>
@@ -347,10 +344,10 @@ $(document).ready(function () {
 <div id="distribution-of-outcomes-wine-prices-over-the-world" class="section level3">
 <h3>Distribution of Outcomes : Wine Prices over the World</h3>
 <p><br/></p>
-<p><img src="regression_yl4606_files/figure-html/unnamed-chunk-3-1.png" width="90%" /> <br/></p>
+<p><img src="statistical_analysis_yl4606_ll3452_files/figure-html/unnamed-chunk-3-1.png" width="90%" /> <br/></p>
 <p>We detect a highly skewed pattern of the price distribution, thus our response variable ‘Price’ needs to be log transformed before fitting into the regression model. After log transformation, the distribution becomes much more normal.</p>
 <p><br/></p>
-<p><img src="regression_yl4606_files/figure-html/unnamed-chunk-4-1.png" width="90%" /> <br/></p>
+<p><img src="statistical_analysis_yl4606_ll3452_files/figure-html/unnamed-chunk-4-1.png" width="90%" /> <br/></p>
 </div>
 <div id="modeling" class="section level2">
 <h2>Modeling</h2>
@@ -366,7 +363,7 @@ $(document).ready(function () {
 <div id="interaction-points-and-variety" class="section level3">
 <h3>Interaction: Points and Variety</h3>
 <p><br/></p>
-<p><img src="regression_yl4606_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
+<p><img src="statistical_analysis_yl4606_ll3452_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
 <p>After log-transforming of independent variable Price, we observe a linear trend in Log_Price vs. Points. This implies a positive correlation between price and log_points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety. We also observe that lines of Cabernet Sauvignon and Chardonnay cross with each other, so let’s take a look at p-value of each term of in ‘log_price ~ points * variety’:</p>
 <p><br/></p>
 <table>
@@ -627,13 +624,12 @@ $(document).ready(function () {
 <div id="closer-look-in-north-america" class="section level3">
 <h3>Closer Look in North America</h3>
 <p><br/></p>
-<p><img src="regression_yl4606_files/figure-html/unnamed-chunk-14-1.png" width="90%" /></p>
+<p><img src="statistical_analysis_yl4606_ll3452_files/figure-html/unnamed-chunk-14-1.png" width="90%" /></p>
 <p>Non-random distribution of variances of residual tells us that bootstrapping needs to be down before fitting the model for price of wine in North America.</p>
 <p><br/></p>
 <div id="bootstrap-1000-times" class="section level4">
 <h4>Bootstrap 1000 times</h4>
 <p><br/></p>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -645,7 +641,7 @@ $(document).ready(function () {
 <tbody>
 <tr class="odd">
 <td align="left">(Intercept)</td>
-<td align="right">-4.977</td>
+<td align="right">-4.980</td>
 <td align="right">0.068</td>
 </tr>
 <tr class="even">
@@ -655,8 +651,8 @@ $(document).ready(function () {
 </tr>
 <tr class="odd">
 <td align="left">varietyCabernet Sauvignon</td>
-<td align="right">0.403</td>
-<td align="right">0.008</td>
+<td align="right">0.402</td>
+<td align="right">0.007</td>
 </tr>
 <tr class="even">
 <td align="left">varietyPinot Noir</td>
@@ -665,8 +661,8 @@ $(document).ready(function () {
 </tr>
 <tr class="odd">
 <td align="left">varietyRed Blend</td>
-<td align="right">0.170</td>
-<td align="right">0.010</td>
+<td align="right">0.171</td>
+<td align="right">0.009</td>
 </tr>
 </tbody>
 </table>

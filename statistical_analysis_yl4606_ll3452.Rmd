@@ -11,7 +11,7 @@ output:
 
 In this analysis, we are interested in whether wine would be more expensive if its points (X1) (rated by [Wine Enthusiast](https://www.winemag.com/ratings/?utm_source=wineenthusiast.com&utm_medium=affiliate&utm_content=topnav)) increases, adjusting for categorical variables variety (X2) and continent of production (X3). 
 
-```{r setup, echo = FALSE, warning = FALSE, message=FALSE}
+```{r setup, echo = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
 library(purrr)
 library(broom)
@@ -283,7 +283,7 @@ Non-random distribution of variances of residual tells us that bootstrapping nee
 
 <br/>
 
-```{r, echo = FALSE, warning = FALSE, cache = TRUE}
+```{r, echo = FALSE, warning = FALSE, message = FALSE, cache = TRUE}
 north_america_df %>% 
   modelr::bootstrap(1000, id = "strap_number") %>% 
   mutate(

@@ -18,7 +18,7 @@ navbar:
       - text: "Reviews of US Wines"
         href: reviews_of_us_wines_cz2612.html
     - text: "Statistical Analysis"
-      href: regression_yl4606.html
+      href: statistial_analysis_yl4606_ll3452.html
     - text: "Interactive Map"
       href: https://bluedenw.shinyapps.io/interactive_map/     
     - icon: fa-youtube fa-lg    

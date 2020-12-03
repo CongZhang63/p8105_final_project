@@ -12,13 +12,19 @@ library(tidyverse)
 library(patchwork)
 library(plotly)
 library(flexdashboard)
+
+knitr::opts_chunk$set(
+	fig.width = 10, 
+  fig.asp = .6,
+  out.width = "100%"
+)
 ```
 
 <br/>
 
 ### European Country Comparison
 
-```{r European Wines Bar Plot}
+```{r European Wines Bar Plot, warning = FALSE}
 load("./data/wine150_tidy")
 
 wine150_tidy %>% 
@@ -32,7 +38,50 @@ wine150_tidy %>%
     type = "bar", colors = "viridis") %>%
   layout(
     xaxis = list(title = "European Country"),
-    yaxis = list(title = "Average Wine Points", range = (c(81,95))),
+    yaxis = list(title = "Average Wine Points", range = (c(80,92))),
     title = "Average Wine Points of European Country")
 ```
 
+<br/>
+
+### Top 20 European Winery
+
+```{r Top 20 European Winery Boxplot}
+load("./data/wine150_tidy")
+
+wine150_tidy %>% 
+  select(points, country, winery, variety, points_avg_variety, points_avg_winery) %>% 
+  filter(country %in% c("Albania", "Austria", "Bosnia and Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "England", "France", "Germany", "Greece", "Hungary", "Italy", "Lithuania", "Luxembourg", "Macedonia", "Moldova", "Montenegro", "Portugal", "Romania", "Serbia", "Slovakia", "Slovenia", "Spain", "Switzerland", "Ukraine")) %>% 
+  mutate(winery = fct_reorder(winery, desc(points_avg_winery))) %>% 
+  filter(as.numeric(winery) <= 20) %>% 
+  arrange(winery) %>% 
+  plot_ly(
+    x = ~winery, y = ~points, color = ~factor(winery),
+    type = "box", colors = "viridis") %>%
+  layout(
+    xaxis = list(title = "European Winery"),
+    yaxis = list(title = "Wine Points"),
+    title = "Top 20 European Winery: Highest Professional Recognition")
+```
+
+<br/>
+
+### Bottom 20 European Winery
+
+```{r Bottom 20 European Winery Boxplot}
+load("./data/wine150_tidy")
+
+wine150_tidy %>% 
+  select(points, country, winery, variety, points_avg_variety, points_avg_winery) %>% 
+  filter(country %in% c("Albania", "Austria", "Bosnia and Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "England", "France", "Germany", "Greece", "Hungary", "Italy", "Lithuania", "Luxembourg", "Macedonia", "Moldova", "Montenegro", "Portugal", "Romania", "Serbia", "Slovakia", "Slovenia", "Spain", "Switzerland", "Ukraine")) %>% 
+  mutate(winery = fct_reorder(winery, points_avg_winery)) %>% 
+  filter(as.numeric(winery) <= 20) %>% 
+  arrange(winery) %>% 
+  plot_ly(
+    x = ~winery, y = ~points, color = ~factor(winery),
+    type = "box", colors = "viridis") %>%
+  layout(
+    xaxis = list(title = "European Winery"),
+    yaxis = list(title = "Wine Points"),
+    title = "Bottom 20 European Winery: Lowest Professional Recognition")
+```

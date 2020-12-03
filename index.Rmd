@@ -27,6 +27,18 @@ This [dataset](https://www.kaggle.com/zynicide/wine-reviews?select=winemag-data-
 
 # Findings
 
+## Summary Visualization
+
+In this part, we try to analyze our data and visualize them for better understandings. The data is filtered based on different scales, including continent, countries, cities and even areas. Since the amount of data is large, we have separated the data based on regions. We have analyzed and plotted graphs from the scale of globe, continents and countries.
+
+<br/>
+
+We first plotted the average wine Points of Countries Around the Globe and around the Europe. From the graphs, we can find out which country has the highest average wine ranking points and which has the lowest. In general, European countries have higher average wine rankings than Asian countries. Then we analyzed the winery by plotting boxplot. We can see not only the average point of wines a winery made, but also its median, q1, q3 and range. Some wineries have more stable outputs than the others. The ranking histogram indicates that the distribution of rankings of wines is close to normal distribution. Another variable that is important when we are choosing wines is the variety of grapes. The taste of wine, on a great extent, depend on the grapes it chooses. Therefore, we have ranked the most preferred grape types used by different wineries.
+
+## Statistical Analysis
+
+## Interactive Map
+
 <br/>
 
 # Contributors

@@ -12,13 +12,19 @@ library(tidyverse)
 library(patchwork)
 library(plotly)
 library(flexdashboard)
+
+knitr::opts_chunk$set(
+	fig.width = 10, 
+  fig.asp = .6,
+  out.width = "100%"
+)
 ```
 
 <br/>
 
 ### American Country Comparison
 
-```{r American Wines Bar Plot}
+```{r American Wines Bar Plot, warning = FALSE}
 load("./data/wine150_tidy")
 
 wine150_tidy %>% 
@@ -32,7 +38,51 @@ wine150_tidy %>%
     type = "bar", colors = "viridis") %>%
   layout(
     xaxis = list(title = "American Country"),
-    yaxis = list(title = "Average Wine Points", range = (c(82,88))),
+    yaxis = list(title = "Average Wine Points", range = (c(80,88))),
     title = "Average Wine Points of American Country")
+```
+
+<br/>
+
+### Top 20 American Winery
+
+```{r Top 20 American Winery Boxplot}
+load("./data/wine150_tidy")
+
+wine150_tidy %>% 
+  select(points, country, winery, variety, points_avg_variety, points_avg_winery) %>% 
+  filter(country %in% c("Argentina", "Brazil", "Canada", "Chile", "Mexico", "Uruguay", "US")) %>% 
+  mutate(winery = fct_reorder(winery, desc(points_avg_winery))) %>% 
+  filter(as.numeric(winery) <= 20) %>% 
+  arrange(winery) %>% 
+  plot_ly(
+    x = ~winery, y = ~points, color = ~factor(winery),
+    type = "box", colors = "viridis") %>%
+  layout(
+    xaxis = list(title = "American Winery"),
+    yaxis = list(title = "Wine Points"),
+    title = "Top 20 American Winery: Highest Professional Recognition")
+```
+
+<br/>
+
+### Bottom 20 American Winery
+
+```{r Bottom 20 American Winery Boxplot}
+load("./data/wine150_tidy")
+
+wine150_tidy %>% 
+  select(points, country, winery, variety, points_avg_variety, points_avg_winery) %>% 
+  filter(country %in% c("Argentina", "Brazil", "Canada", "Chile", "Mexico", "Uruguay", "US")) %>% 
+  mutate(winery = fct_reorder(winery, points_avg_winery)) %>% 
+  filter(as.numeric(winery) <= 20) %>% 
+  arrange(winery) %>% 
+  plot_ly(
+    x = ~winery, y = ~points, color = ~factor(winery),
+    type = "box", colors = "viridis") %>%
+  layout(
+    xaxis = list(title = "American Winery"),
+    yaxis = list(title = "Wine Points"),
+    title = "Bottom American US Winery: Lowest Professional Recognition")
 ```
 

@@ -7,10 +7,8 @@ navbar:
       href: project_report.html
     - text: "Summary Visualization"
       menu:
-      - text: "Graphs"
+      - text: "Reviews of Wines from the Globe"
         href: p8105_final_rz2530.html
-      - text: "Price vs. Ranking"
-        href: price_vs_ranking.html
       - text: "Reviews of Asian-Pacific Wines"
         href: reviews_of_ap_wines_cz2612.html
       - text: "Reviews of European Wines"
@@ -22,7 +20,7 @@ navbar:
     - text: "Statistical Analysis"
       href: regression_yl4606.html
     - text: "Interactive Map"
-      href: interactive_map.html      
+      href: https://bluedenw.shinyapps.io/interactive_map/     
     - icon: fa-youtube fa-lg    
       href: 
     - icon: fa-github fa-lg

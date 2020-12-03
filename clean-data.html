@@ -11,7 +11,7 @@
 
 
 
-<title>Prices vs Ranking</title>
+<title>Clean Data</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,9 +19,6 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -253,69 +250,6 @@ $(document).ready(function () {
 
 
 
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
 
 </head>
 
@@ -323,16 +257,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -369,7 +293,16 @@ div.tocify {
       <a href="price_vs_ranking.html">Price vs. Ranking</a>
     </li>
     <li>
-      <a href="Price_vs_Location/Winery.html">Price vs. Location/Winery</a>
+      <a href="reviews_of_ap_wines_cz2612.html">Reviews of Asian-Pacific Wines</a>
+    </li>
+    <li>
+      <a href="reviews_of_eu_wines_cz2612.html">Reviews of European Wines</a>
+    </li>
+    <li>
+      <a href="reviews_of_am_wines_cz2612.html">Reviews of American Wines</a>
+    </li>
+    <li>
+      <a href="reviews_of_us_wines_cz2612.html">Reviews of US Wines</a>
     </li>
   </ul>
 </li>
@@ -400,40 +333,75 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Prices vs Ranking</h1>
+<h1 class="title toc-ignore">Clean Data</h1>
 
 </div>
 
 
-<pre class="r"><code>wine_df</code></pre>
-<pre><code>## # A tibble: 137,230 x 9
-##    country designation  points price province  region_1  region_2 variety winery
-##    &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt; 
-##  1 US      Martha&#39;s Vi…     96   235 Californ… Napa Val… Napa     Cabern… Heitz 
-##  2 Spain   Carodorum S…     96   110 Northern… Toro      &lt;NA&gt;     Tinta … Bodeg…
-##  3 US      Special Sel…     96    90 Californ… Knights … Sonoma   Sauvig… Macau…
-##  4 US      Reserve          96    65 Oregon    Willamet… Willame… Pinot … Ponzi 
-##  5 France  La Brûlade       95    66 Provence  Bandol    &lt;NA&gt;     Proven… Domai…
-##  6 Spain   Numanthia        95    73 Northern… Toro      &lt;NA&gt;     Tinta … Numan…
-##  7 Spain   San Román        95    65 Northern… Toro      &lt;NA&gt;     Tinta … Mauro…
-##  8 Spain   Carodorum Ú…     95   110 Northern… Toro      &lt;NA&gt;     Tinta … Bodeg…
-##  9 US      Silice           95    65 Oregon    Chehalem… Willame… Pinot … Bergs…
-## 10 US      Gap&#39;s Crown…     95    60 Californ… Sonoma C… Sonoma   Pinot … Blue …
-## # … with 137,220 more rows</code></pre>
-<pre class="r"><code>ggplot(wine_df, aes(x = price, y = points)) + 
-  geom_point(alpha = 5, color = &quot;blue&quot;) +
-  theme(legend.position = &quot;bottom&quot;) +
-  labs(
-    title = &quot;Prices v.s. Rankings&quot;,
-    x = &quot;Price&quot;,
-    y = &quot;Ranking&quot;
-  ) </code></pre>
-<p><img src="price_vs_ranking_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
-
-
-
+<p><br/></p>
+<div id="import-winemag-data_first150k.csv-data." class="section level3">
+<h3>Import <code>winemag-data_first150k.csv</code> data.</h3>
+<pre class="r"><code>wine150_df = 
+  read_csv(&quot;./data/winemag-data_first150k.csv&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+    select(id = x1, points, price, country, province, variety, winery) %&gt;% 
+  mutate(
+        country = factor(country),
+        province = factor(province),
+        variety = factor(variety),
+        winery = factor(winery)     
+    )</code></pre>
+<pre><code>## Warning: Missing column names filled in: &#39;X1&#39; [1]</code></pre>
+<p>The original dataset <code>winemag-data_first150k.csv</code> has 150930 observations. <br/> The numbers of missing values for some important variables are as follows. <br/> <code>id</code>: 0 missing observations. <br/> <code>points</code>: 0 missing observations. <br/> <code>price</code>: 13695 missing observations. <br/> <code>country</code>: 5 missing observations. <br/> <code>province</code>: 5 missing observations. <br/> <code>variety</code>: 0 missing observations. <br/> <code>winery</code>: 0 missing observations. <br/></p>
+<p><br/></p>
 </div>
+<div id="create-average-points-and-price-at-the-country-and-province-levels-respectively-for-winemag-data_first150k.csv-data." class="section level3">
+<h3>Create average points and price at the country and province levels respectively for <code>winemag-data_first150k.csv</code> data.</h3>
+<pre class="r"><code>wine150_tidy =
+  wine150_df %&gt;% 
+  arrange(country, points) %&gt;% 
+  group_by(country) %&gt;% 
+  mutate(
+    points_avg_country = round(mean(points), 2),
+    price_avg_country = round(mean(price, na.rm = TRUE), 2)
+  ) %&gt;% 
+  ungroup(country) %&gt;% 
+  arrange(province, points) %&gt;% 
+  group_by(province) %&gt;% 
+  mutate(
+    points_avg_province = round(mean(points), 2),
+    price_avg_province = round(mean(price, na.rm = TRUE), 2)
+  ) %&gt;% 
+  ungroup(province) %&gt;%  
+  arrange(country, province, points)</code></pre>
+<p>Due to 5 missing values of country and province in <code>winemag-data_first150k.csv</code> data, average points and price are also created for this missing group. Caution is needed for subsequent analysis.</p>
+<p><br/></p>
 </div>
+<div id="create-average-points-and-price-at-the-variety-and-winery-levels-respectively-for-winemag-data_first150k.csv-data." class="section level3">
+<h3>Create average points and price at the variety and winery levels respectively for <code>winemag-data_first150k.csv</code> data.</h3>
+<pre class="r"><code>wine150_tidy =
+  wine150_tidy %&gt;% 
+  arrange(variety, points) %&gt;% 
+  group_by(variety) %&gt;% 
+  mutate(
+    points_avg_variety = round(mean(points), 2),
+    price_avg_variety = round(mean(price, na.rm = TRUE), 2)
+  ) %&gt;% 
+  ungroup(variety) %&gt;% 
+  arrange(winery, points) %&gt;% 
+  group_by(winery) %&gt;% 
+  mutate(
+    points_avg_winery = round(mean(points), 2),
+    price_avg_winery = round(mean(price, na.rm = TRUE), 2)
+  ) %&gt;% 
+  ungroup(winery) %&gt;%    
+  arrange(variety, winery, points)
+save(wine150_tidy, file = &quot;./data/wine150_tidy&quot;)</code></pre>
+<p>There is not any missing value of variety in <code>winemag-data_first150k.csv</code> data.</p>
+</div>
+
+
+
 
 </div>
 
@@ -466,32 +434,6 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

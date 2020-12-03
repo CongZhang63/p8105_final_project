@@ -304,7 +304,7 @@ $(document).ready(function () {
   </ul>
 </li>
 <li>
-  <a href="statistial_analysis_yl4606_ll3452.html">Statistical Analysis</a>
+  <a href="statistical_analysis_yl4606_ll3452.html">Statistical Analysis</a>
 </li>
 <li>
   <a href="https://bluedenw.shinyapps.io/interactive_map/">Interactive Map</a>
@@ -336,11 +336,10 @@ $(document).ready(function () {
 
 
 <p><br/></p>
-<div id="hypothesis" class="section level3">
-<h3>Hypothesis</h3>
+<div id="hypothesis" class="section level2">
+<h2>Hypothesis</h2>
 <p>In this analysis, we are interested in whether wine would be more expensive if its points (X1) (rated by <a href="https://www.winemag.com/ratings/?utm_source=wineenthusiast.com&amp;utm_medium=affiliate&amp;utm_content=topnav">Wine Enthusiast</a>) increases, adjusting for categorical variables variety (X2) and continent of production (X3).</p>
 <p><br/></p>
-</div>
 <div id="distribution-of-outcomes-wine-prices-over-the-world" class="section level3">
 <h3>Distribution of Outcomes : Wine Prices over the World</h3>
 <p><br/></p>
@@ -349,8 +348,9 @@ $(document).ready(function () {
 <p><br/></p>
 <p><img src="statistical_analysis_yl4606_ll3452_files/figure-html/unnamed-chunk-4-1.png" width="90%" /> <br/></p>
 </div>
-<div id="modeling" class="section level2">
-<h2>Modeling</h2>
+</div>
+<div id="modeling" class="section level1">
+<h1>Modeling</h1>
 <p><br/></p>
 <p>Here, we try to fit a final model in the following form:</p>
 <p><span class="math display">\[ log(Price) = \beta_1 + \beta_2X_{Points} + \beta_3X_{Variety} + \beta_4X_{Continent}\]</span></p>
@@ -360,8 +360,8 @@ $(document).ready(function () {
 <p><strong>Continent:</strong> The continent that the wine is produced from.</p>
 <p>Since <strong>log(Price)</strong> and <strong>Points</strong> are numerical variables, we only need to worry about <strong>Variety</strong>, which includes 632 unique levels. To simplify our model, we choose to select the most representative four varieties: Chardonnay, Pinot Noir, Cabernet Sauvignon, Red Blend. Here, we define representative as having more than ten thousands counts of wines for the particular variety.</p>
 <p><br/></p>
-<div id="interaction-points-and-variety" class="section level3">
-<h3>Interaction: Points and Variety</h3>
+<div id="interaction-points-and-variety" class="section level2">
+<h2>Interaction: Points and Variety</h2>
 <p><br/></p>
 <p><img src="statistical_analysis_yl4606_ll3452_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
 <p>After log-transforming of independent variable Price, we observe a linear trend in Log_Price vs. Points. This implies a positive correlation between price and log_points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety. We also observe that lines of Cabernet Sauvignon and Chardonnay cross with each other, so let’s take a look at p-value of each term of in ‘log_price ~ points * variety’:</p>
@@ -446,8 +446,8 @@ $(document).ready(function () {
 <p>Coefficient of determination (r-squared) 0.429 without interaction term suggests a moderate association between points, variety and log(price). Although there is a significant p-value of <strong>Points</strong> - <strong>Variety</strong> interactions, the coefficient of determination does not change much (0.429 to 0.433) when interaction term is added. Therefore, we consider the interaction as not significant, which means that the relationship between points and price does not vary by different variety. So we delete the term <strong>Points * Variety</strong> from model.</p>
 <p><br/></p>
 </div>
-<div id="final-model-fitting-log_price-vs.-points-variety-continent" class="section level3">
-<h3>Final model fitting: Log_Price vs. Points + Variety + Continent</h3>
+<div id="final-model-fitting-log_price-vs.-points-variety-continent" class="section level2">
+<h2>Final model fitting: Log_Price vs. Points + Variety + Continent</h2>
 <p><br/></p>
 <p>Qustion: Is variable <strong>Continent</strong> significant enough to be added?</p>
 <table>
@@ -481,66 +481,73 @@ $(document).ready(function () {
 </tbody>
 </table>
 <p>Yes. By doing an ANOVA test, we find that p-value equals to zero, which tells us that the larger model ’ log_price ~ points + variety + continent ’ is superior over ‘log_price ~ points + variety’, which means continent is a significant variable. Therefore, we get the following model :</p>
-<pre class="r"><code>fit_alt %&gt;% 
-  broom::tidy() %&gt;%
-  select(term, estimate) %&gt;% 
-  knitr::kable(digits = 3)</code></pre>
 <table>
 <thead>
 <tr class="header">
 <th align="left">term</th>
 <th align="right">estimate</th>
+<th align="right">p.value</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td align="left">(Intercept)</td>
 <td align="right">-6.656</td>
+<td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left">points</td>
 <td align="right">0.113</td>
+<td align="right">0.000</td>
 </tr>
 <tr class="odd">
 <td align="left">varietyPinot Noir</td>
 <td align="right">0.278</td>
+<td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left">varietyCabernet Sauvignon</td>
 <td align="right">0.248</td>
+<td align="right">0.000</td>
 </tr>
 <tr class="odd">
 <td align="left">varietyRed Blend</td>
 <td align="right">0.059</td>
+<td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left">continentAfrica</td>
 <td align="right">-0.341</td>
+<td align="right">0.000</td>
 </tr>
 <tr class="odd">
 <td align="left">continentAsia</td>
 <td align="right">-0.049</td>
+<td align="right">0.064</td>
 </tr>
 <tr class="even">
 <td align="left">continentEurope</td>
 <td align="right">0.089</td>
+<td align="right">0.000</td>
 </tr>
 <tr class="odd">
 <td align="left">continentOceania</td>
 <td align="right">-0.241</td>
+<td align="right">0.000</td>
 </tr>
 <tr class="even">
 <td align="left">continentSouth America</td>
 <td align="right">-0.411</td>
+<td align="right">0.000</td>
 </tr>
 </tbody>
 </table>
 <p><br/></p>
-<p>For easier interpretation, we decide to stratify the analysis by continent.</p>
+<p>Based on the summary table of estimates, we see that all of our main effects are statistically significant except in Asia. This indicates that different groups in variety and continent indeed affect the price of a bottle of wine. However, in Asia, price of wine is not affected by points and variety. Since p-value of points estimate is close to zero, wine would be more expensive if its points (X1) increases, adjusting for categorical variables variety (X2) and continent of production (X3), as we proposed in the hypothesis. Since our <span class="math display">\[R^2\]</span> value is 0.429, which indicated that chosen variables together are able to explain 42.9% of observed variation in price. Therefore, a moderate association has been observed. For easier interpretation, we decide to stratify the analysis by continent.</p>
 <p><br/></p>
 </div>
-<div id="stratified-analysis-by-continent" class="section level3">
-<h3>Stratified Analysis by Continent</h3>
+<div id="stratified-analysis-by-continent" class="section level2">
+<h2>Stratified Analysis by Continent</h2>
 <p><br/></p>
 <table style="width:100%;">
 <colgroup>
@@ -613,6 +620,10 @@ $(document).ready(function () {
 </tbody>
 </table>
 <p><br/></p>
+</div>
+<div id="findings" class="section level2">
+<h2>Findings</h2>
+<p><br/></p>
 <p>By fitting models in nested datasets, we got the following findings:</p>
 <ul>
 <li><p>For all continents, since the estimates of points are positive, price increases as points increases adjusting for variable variety. It corresponds to our hypothesis that wine is more expensive as its points review increases.</p></li>
@@ -621,14 +632,14 @@ $(document).ready(function () {
 </ul>
 <p><br/></p>
 </div>
-<div id="closer-look-in-north-america" class="section level3">
-<h3>Closer Look in North America</h3>
+<div id="more-analysis-closer-look-in-north-america" class="section level2">
+<h2>More analysis: Closer Look in North America</h2>
 <p><br/></p>
 <p><img src="statistical_analysis_yl4606_ll3452_files/figure-html/unnamed-chunk-14-1.png" width="90%" /></p>
 <p>Non-random distribution of variances of residual tells us that bootstrapping needs to be down before fitting the model for price of wine in North America.</p>
 <p><br/></p>
-<div id="bootstrap-1000-times" class="section level4">
-<h4>Bootstrap 1000 times</h4>
+<div id="bootstrap-1000-times" class="section level3">
+<h3>Bootstrap 1000 times</h3>
 <p><br/></p>
 <table>
 <thead>
@@ -666,7 +677,7 @@ $(document).ready(function () {
 </tr>
 </tbody>
 </table>
-<p>After 1000 times bootstraps, we get a almost 20 percent lower in standard error for Pinot Noir estimate, which gives us more accurate confidence interval when predicting the price.</p>
+<p>After 1000 times bootstraps, we get a almost 20 percent lower (0.006 compared to 0.007) in standard error for Pinot Noir estimate, which gives us more accurate confidence interval when predicting the price. Therefore, it is necessary to do bootstrap before we predict the price range of Pinot Noir in North America.</p>
 </div>
 </div>
 </div>

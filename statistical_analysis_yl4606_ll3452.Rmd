@@ -7,7 +7,7 @@ output:
 ---
 <br/>
 
-### Hypothesis
+## Hypothesis
 
 In this analysis, we are interested in whether wine would be more expensive if its points (X1) (rated by [Wine Enthusiast](https://www.winemag.com/ratings/?utm_source=wineenthusiast.com&utm_medium=affiliate&utm_content=topnav)) increases, adjusting for categorical variables variety (X2) and continent of production (X3). 
 
@@ -96,7 +96,7 @@ wine_with_conti %>%
 ```
 <br/>
 
-## Modeling
+# Modeling
 
 <br/>
 
@@ -127,7 +127,7 @@ Since **log(Price)** and **Points** are numerical variables, we only need to wor
 
 <br/>
 
-### Interaction: Points and Variety
+## Interaction: Points and Variety
 
 <br/>
 
@@ -190,7 +190,7 @@ Coefficient of determination (r-squared) 0.429 without interaction term suggests
 
 <br/>
 
-### Final model fitting: Log_Price vs. Points + Variety + Continent
+## Final model fitting: Log_Price vs. Points + Variety + Continent
 
 <br/>
 
@@ -208,19 +208,19 @@ anova(fit_null, fit_alt) %>%
 
 Yes. By doing an ANOVA test, we find that p-value equals to zero, which tells us that the larger model ' log_price ~ points + variety + continent ' is superior over 'log_price ~ points + variety', which means continent is a significant variable. Therefore, we get the following model :
 
-```{r}
+```{r, echo = FALSE, warning = FALSE}
 fit_alt %>% 
   broom::tidy() %>%
-  select(term, estimate) %>% 
+  select(term, estimate, p.value) %>% 
   knitr::kable(digits = 3)
 ```
 <br/>
 
-For easier interpretation, we decide to stratify the analysis by continent.
+Based on the summary table of estimates, we see that all of our main effects are statistically significant except in Asia. This indicates that different groups in variety and continent indeed affect the price of a bottle of wine. However, in Asia, price of wine is not affected by points and variety. Since p-value of points estimate is close to zero,  wine would be more expensive if its points (X1) increases, adjusting for categorical variables variety (X2) and continent of production (X3), as we proposed in the hypothesis. Since our $$R^2$$ value is 0.429, which indicated that chosen variables together are able to explain 42.9% of observed variation in price. Therefore, a moderate association has been observed. For easier interpretation, we decide to stratify the analysis by continent.
 
 <br/>
 
-### Stratified Analysis by Continent
+## Stratified Analysis by Continent
 
 <br/>
 
@@ -248,6 +248,10 @@ nest_lm_res %>%
 
 <br/>
 
+## Findings
+
+<br/>
+
 By fitting models in nested datasets, we got the following findings:
 
 * For all continents, since the estimates of points are positive, price increases as points increases adjusting for variable variety. It corresponds to our hypothesis that wine is more expensive as its points review increases.
@@ -258,7 +262,7 @@ By fitting models in nested datasets, we got the following findings:
 
 <br/>
 
-### Closer Look in North America
+## More analysis: Closer Look in North America
 
 <br/>
 
@@ -279,7 +283,7 @@ Non-random distribution of variances of residual tells us that bootstrapping nee
 
 <br/>
 
-#### Bootstrap 1000 times
+### Bootstrap 1000 times
 
 <br/>
 
@@ -299,4 +303,4 @@ north_america_df %>%
   knitr::kable(digits = 3)
 ```
 
-After 1000 times bootstraps, we get a almost 20 percent lower in standard error for Pinot Noir estimate, which gives us more accurate confidence interval when predicting the price. 
+After 1000 times bootstraps, we get a almost 20 percent lower (0.006 compared to 0.007) in standard error for Pinot Noir estimate, which gives us more accurate confidence interval when predicting the price. Therefore, it is necessary to do bootstrap before we predict the price range of Pinot Noir in North America.

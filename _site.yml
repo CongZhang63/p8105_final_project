@@ -22,7 +22,7 @@ navbar:
     - text: "Interactive Map"
       href: https://bluedenw.shinyapps.io/interactive_map/     
     - icon: fa-youtube fa-lg    
-      href: 
+      href: https://youtu.be/LXroCQ00w-I
     - icon: fa-github fa-lg
       href: https://github.com/CongZhang63/p8105_final_project
       

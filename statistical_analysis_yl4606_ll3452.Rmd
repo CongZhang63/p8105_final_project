@@ -160,7 +160,7 @@ top_wine_with_conti %>%
   theme(legend.position = "right")
 ```
 
-After log-transforming of independent variable Price, we observe a linear trend in Log_Price vs. Points. This implies a positive correlation between price and log_points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety. We also observe that lines of Cabernet Sauvignon and Chardonnay cross with each other, so let's take a look at p-value of each term of in 'log_price ~ points * variety':
+After log-transforming of independent variable Price, we observe a linear trend in **Log_Price** vs. **Points**. This implies a positive correlation between Points and Log_Price. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety. We also observe that lines of Cabernet Sauvignon and Chardonnay cross with each other, so let's take a look at p-value of each term in **Log_Price ~ Points * Variety**:
 
 <br/>
 
@@ -172,7 +172,7 @@ lm(log_price ~ points * variety, data = top_wine_with_conti) %>%
 ```
 <br/>
 
-Since two interaction terms Points * Pinot Noir and Points * Red Blend are significant at alpha = 0.05, we further check the change of determination coefficient before and after adding the interaction term to decide whether to include it in our final model:
+Since two interaction terms **Points * Pinot Noir** and **Points * Red Blend** are significant at alpha = 0.05, we further check the change of determination coefficient before and after adding the interaction term to decide whether to include it in our final model:
 
 ```{r, echo = FALSE, warning = FALSE}
 lm_p_v_pv <- lm(log_price ~ points + variety, data = top_wine_with_conti)
@@ -186,7 +186,7 @@ lm_p_v_pv <- lm(log_price ~ points*variety, data = top_wine_with_conti)
 summary(lm_p_v_pv)$adj.r.squared %>% knitr::kable(digits = 3)
 ```
 
-Coefficient of determination ($R^2$) equals to 0.429 without interaction term suggests a moderate association between points, variety and log(price). Although there is a significant p-value of **Points** - **Variety** interactions, the coefficient of determination does not change much (0.429 to 0.433) when interaction term is added. Therefore, we consider the interaction as not significant, which means that the relationship between points and price does not vary by different variety. So we delete the interaction term **Points * Variety** from model. 
+Without interaction term, coefficient of determination ($R^2$) equals to 0.429 suggests a moderate association between points, variety and log(price). Although there is a significant p-value of **Points * Variety** interactions, the coefficient of determination does not change much (0.429 to 0.433) when interaction term is added. Therefore, we consider the interaction as not significant, which means that the relationship between points and price does not vary by different variety. So we delete the interaction term **Points * Variety** from model. 
 
 <br/>
 
@@ -206,7 +206,7 @@ anova(fit_null, fit_alt) %>%
   knitr::kable(digits = 3)  #p-val = 0
 ```
 
-Yes. By doing an ANOVA test, we find that p-value equals to zero, which tells us that the larger model **Log_Price ~ Points + Variety + Continent** is superior over **Log_Price ~ Points + Variety**, which means continent is a significant variable. Therefore, we add continent into our model and get the following estimates:
+Yes. By doing an ANOVA test, we find that p-value equals to zero, which tells us that the larger model **Log_Price ~ Points + Variety + Continent** is superior over **Log_Price ~ Points + Variety**, which means continent is indeed a significant variable. Therefore, we add continent into our model and get the following estimates:
 
 ```{r, echo = FALSE, warning = FALSE}
 fit_alt %>% 
@@ -253,11 +253,12 @@ nest_lm_res %>%
 
 <br/>
 
-# Finding
+# Findings
 
 <br/>
 
-* Complete Model (**Points, Variety, Continent**): Based on the summary table of estimates, we see that all of our main effects are statistically significant except in Asia. This indicates that different groups in variety and continent indeed affect the price of a bottle of wine. However, in Asia, price of wine is not affected by points and variety. Since p-value of points estimate is close to zero,  wine would be more expensive if its points (X1) increases, adjusting for categorical variables variety (X2) and continent of production (X3), as we proposed in the hypothesis. Since our $R^2$ value is 0.429, which indicated that chosen variables together are able to explain 42.9% of observed variation in price. Therefore, a moderate association has been observed. 
+* Complete Model (**Points, Variety, Continent**): 
+  + Based on the summary table of estimates, we see that all of our main effects are statistically significant except in Asia. This indicates that different groups in variety and continent indeed affect the price of a bottle of wine. However, in Asia, price of wine is not affected by points and variety. Since p-value of points estimate is close to zero,  wine would be more expensive if its points (X1) increases, adjusting for categorical variables variety (X2) and continent of production (X3), as we proposed in the hypothesis. Since our $R^2$ value is 0.429, which indicated that chosen variables together are able to explain 42.9% of observed variation in price. Therefore, a moderate association has been observed. 
 
 * Nested Models (**Points, Variety by Continent**):
 
@@ -265,7 +266,7 @@ nest_lm_res %>%
 
   + In Europe only, Carbernet Sauvignon and Red Blend have negative estimates. It implies that the expected price of variety Carbernet Sauvignon and Red Blend in Europe are lower than the expected price of Chardonnay (adjusting for points). This could be resulted by high yields of specific varieties, which lower the price of wine. And we need to do more research on the yields for further analysis.
 
-  + Asia has the smallest estimate of points. So the price of wine in Asia is leastly affected by its points, adjusted for variety. In explain, on average, one point increase of wine in Asia leads to 8.5% (= $e ^ {(0.082)} 100 - 1$) increase in expected price, which is only one-third of the increase 19.1%(= $e ^ {(0.175)} 100 - 1$) in Europe.
+  + Asia has the smallest estimate of points. So the price of wine in Asia is least affected by its points, adjusted for variety. In explain, on average, one point increase of wine in Asia leads to 8.5% increase in expected price, which is only one-third of the increase 19.1% in Europe.
 
 <br/>
 
@@ -310,4 +311,4 @@ north_america_df %>%
   knitr::kable(digits = 3)
 ```
 
-After 1000 times bootstraps, we get a almost 20 percent lower (0.006 compared to 0.007) in standard error for Pinot Noir estimate, which gives us more accurate confidence interval when predicting the price. Therefore, it is necessary to do bootstrap before we predict the price range of Pinot Noir in North America.
+After 1000 times bootstraps, we get an almost 20 percent decrease (0.007 to 0.006) in standard error of Pinot Noir estimate, which gives us more accurate confidence interval when predicting the range of price by change of variety. Therefore, the estimated price range of Pinot Noir in North America becomes narrower after bootstrap.

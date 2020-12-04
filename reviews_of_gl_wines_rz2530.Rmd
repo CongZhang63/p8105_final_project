@@ -1,5 +1,5 @@
 ---
-title: "Reviews of Wines from the Globe"
+title: "Reviews of Global Wines"
 output: 
   html_document:
     code_folding: hide
@@ -36,7 +36,7 @@ wine_df = wine_df %>%
   drop_na(country)
 ```
 
-
+<br/>
 
 ## Global Country Comparison
 Based on our dataset, England (92.89) has the highest average wine ranking points around the world and it is much higher than the second country which is Austria (89.28). Countries with the lowest average wine points are South Korea, Montenego, China, Brazil.
@@ -77,8 +77,9 @@ wine150_tidy %>%
 
 ## Ranking of Wines
 Some professional reviewers gave rankings to more than 150,000 types of wines based on their regions, prices, tastes, variety and winery. From the histogram we have plotted, we can see that the distribution of rankings of wines is close to normal distribution and the mean is around `r mean(wine_df$points)`.
+
 ```{r,warning = FALSE}
-ggplot(wine_df, aes(x = points,fill=country)) + 
+ggplot(wine_df, aes(x = points,fill = country)) + 
   geom_histogram(binwidth = 0.5) +
   labs(
     title = "Ranking of wines and their regions",
@@ -91,10 +92,10 @@ ggplot(wine_df, aes(x = points,fill=country)) +
 In our dataset, there are also records of the types of grapes used of a bottle of wine. The top 10 most famous grapes variety used by wine makers are: Chardonnay, Pinot Noir, Cabernet Sauvignon, Red Blend, Bordeaux-style Red Blend, Sauvignon Blanc, Syrah, Riesling, Merlot, Zinfandel. Wine lovers can pay more attention to these grapes types while buying wines that are familiar.
 
 ```{r}
-grapes = within(wine_df, variety <- factor(variety, levels=names(sort(table(variety), decreasing=TRUE)[1:10]))) %>% 
+grapes = within(wine_df, variety <- factor(variety, levels = names(sort(table(variety), decreasing = TRUE)[1:10]))) %>% 
   drop_na(variety)
 ggplot(grapes, aes(x = variety)) +
-  geom_bar(fill="lightblue") +
+  geom_bar(fill = "lightblue") +
   labs(
     title = "Top 10 most popular grapes variety using to make wines",
     x = "grapes variety",
@@ -103,6 +104,7 @@ ggplot(grapes, aes(x = variety)) +
   coord_flip()
   
 ```
+
 
 ```{r}
 wine150_tidy %>% 

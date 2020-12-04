@@ -177,13 +177,13 @@ Since two interaction terms Points * Pinot Noir and Points * Red Blend are signi
 ```{r, echo = FALSE, warning = FALSE}
 lm_p_v_pv <- lm(log_price ~ points + variety, data = top_wine_with_conti)
 
-summary(lm_p_v_pv)$r.squared %>% knitr::kable(digits = 3)
+summary(lm_p_v_pv)$adj.r.squared %>% knitr::kable(digits = 3)
 ```
 
 ```{r, echo = FALSE, warning = FALSE}
 lm_p_v_pv <- lm(log_price ~ points*variety, data = top_wine_with_conti)
 
-summary(lm_p_v_pv)$r.squared %>% knitr::kable(digits = 3)
+summary(lm_p_v_pv)$adj.r.squared %>% knitr::kable(digits = 3)
 ```
 
 Coefficient of determination ($R^2$) equals to 0.429 without interaction term suggests a moderate association between points, variety and log(price). Although there is a significant p-value of **Points** - **Variety** interactions, the coefficient of determination does not change much (0.429 to 0.433) when interaction term is added. Therefore, we consider the interaction as not significant, which means that the relationship between points and price does not vary by different variety. So we delete the interaction term **Points * Variety** from model. 
@@ -206,7 +206,7 @@ anova(fit_null, fit_alt) %>%
   knitr::kable(digits = 3)  #p-val = 0
 ```
 
-Yes. By doing an ANOVA test, we find that p-value equals to zero, which tells us that the larger model **Log_Price ~ Points + Variety + Continent** is superior over **Log_Price ~ Points + Variety**, which means continent is a significant variable. Therefore, we get the following estimates of model :
+Yes. By doing an ANOVA test, we find that p-value equals to zero, which tells us that the larger model **Log_Price ~ Points + Variety + Continent** is superior over **Log_Price ~ Points + Variety**, which means continent is a significant variable. Therefore, we add continent into our model and get the following estimates:
 
 ```{r, echo = FALSE, warning = FALSE}
 fit_alt %>% 
@@ -216,11 +216,11 @@ fit_alt %>%
 ```
 <br/>
 
-We can get the complete model:
+The complete model:
 
 $$ log(Price) = -6.656 + 0.113Points + 0.278Pinot Noir +0.248Cabernet Sauvignon + 0.059Red Blend - 0.341Africa - 0.049Asia + 0.089 Europe - 0.241Oceania -0.411SouthAmerica$$
 
-For easier interpretation, we decide to stratify the analysis by continent.
+However, because interaction between **Continent** and **Points** is significant, we decide to stratify the analysis by continent for easier interpretation.
 
 <br/>
 

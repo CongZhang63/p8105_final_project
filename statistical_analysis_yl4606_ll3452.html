@@ -480,7 +480,7 @@ $(document).ready(function () {
 </tr>
 </tbody>
 </table>
-<p>Yes. By doing an ANOVA test, we find that p-value equals to zero, which tells us that the larger model <strong>Log_Price ~ Points + Variety + Continent</strong> is superior over <strong>Log_Price ~ Points + Variety</strong>, which means continent is a significant variable. Therefore, we get the following estimates of model :</p>
+<p>Yes. By doing an ANOVA test, we find that p-value equals to zero, which tells us that the larger model <strong>Log_Price ~ Points + Variety + Continent</strong> is superior over <strong>Log_Price ~ Points + Variety</strong>, which means continent is a significant variable. Therefore, we add continent into our model and get the following estimates:</p>
 <table>
 <thead>
 <tr class="header">
@@ -543,9 +543,9 @@ $(document).ready(function () {
 </tbody>
 </table>
 <p><br/></p>
-<p>We can get the complete model:</p>
+<p>The complete model:</p>
 <p><span class="math display">\[ log(Price) = -6.656 + 0.113Points + 0.278Pinot Noir +0.248Cabernet Sauvignon + 0.059Red Blend - 0.341Africa - 0.049Asia + 0.089 Europe - 0.241Oceania -0.411SouthAmerica\]</span></p>
-<p>For easier interpretation, we decide to stratify the analysis by continent.</p>
+<p>However, because interaction between <strong>Continent</strong> and <strong>Points</strong> is significant, we decide to stratify the analysis by continent for easier interpretation.</p>
 <p><br/></p>
 </div>
 <div id="stratified-analysis-by-continent" class="section level3">

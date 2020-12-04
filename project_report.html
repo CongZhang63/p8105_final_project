@@ -390,7 +390,7 @@ div.tocify {
   <a href="https://bluedenw.shinyapps.io/interactive_map/">Interactive Map</a>
 </li>
 <li>
-  <a>
+  <a href="https://youtu.be/LXroCQ00w-I">
     <span class="fa fa-youtube fa-lg"></span>
      
   </a>
@@ -465,17 +465,17 @@ div.tocify {
 <p>In this analysis, we are interested in whether wine would be more expensive if its points increases, adjusting for categorical variables variety and continent of production.</p>
 <div id="log-transformation" class="section level3">
 <h3>Log Transformation</h3>
-<p>We detect a highly skewed pattern of the price distribution, thus our response variable <strong>Price</strong> needs to be log transformed before fitting into the regression model. After log transformation, the distribution becomes much more normal.</p>
+<p>We detect a highly skewed pattern of the price distribution, thus our response variable Price needs to be log transformed before fitting into the regression model. After log transformation, the distribution becomes much more normal.</p>
 <p><br/></p>
 </div>
 <div id="modeling" class="section level3">
 <h3>Modeling</h3>
 <p>Here, we try to fit a final model in the following form:</p>
 <p><span class="math display">\[ log(Price) = \beta_1 + \beta_2X_{Points} + \beta_3X_{Variety} + \beta_4X_{Continent}\]</span></p>
-<p>For predictor <strong>Variety</strong>, we select the top four types of grapes for simplicity.</p>
+<p>For predictor Variety, we select the top four types of grapes for simplicity.</p>
 <p><br/></p>
 <p><code>Question: Should we include interaction term Points * Variety?</code></p>
-<p>After log-transforming of independent variable Price, we observe a linear trend in <strong>Log_Price</strong> vs. <strong>Points</strong>. This implies a positive correlation between price and log_points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety. We also observe that lines of Cabernet Sauvignon and Chardonnay cross with each other. However, because <span class="math inline">\(R^2\)</span> does not change significantly before and after adding the interaction term, we decide to remove <strong>Points * Variety</strong> form the final model.</p>
+<p>After log-transforming of independent variable Price, we observe a linear trend in Log_Price vs. Points. This implies a positive correlation between Price and Log_Points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety. We also observe that lines of Cabernet Sauvignon and Chardonnay cross with each other. However, because <span class="math inline">\(R^2\)</span> does not change significantly before and after adding the interaction term, we decide to remove Points * Variety form the final model.</p>
 <p><br/></p>
 <p><code>Question: Is Continent a significant predictor variable?</code></p>
 <p>By doing an ANOVA test, we find that p-value equals to zero, which tells us that the larger model <strong>Log_Price ~ Points + Variety + Continent</strong> is superior over <strong>Log_Price ~ Points + Variety</strong>, which means continent is a significant variable. Therefore, we get the following complete model :</p>
@@ -495,7 +495,7 @@ div.tocify {
 </div>
 <div id="porfound-analysis-bootstraps-for-north-america" class="section level3">
 <h3>Porfound Analysis: Bootstraps for North America</h3>
-<p>To ensure accuracy, we examined the assumptions of our model for North America. Non-random distribution of variances of residual tells us that bootstrapping needs to be down before fitting the model for price of wine in North America. Therefore, we do bootstrap for 1000 times. Then, we get an almost 20 percent decrease (0.007 to 0.006) in standard error of Pinot Noir estimate, which gives us more accurate confidence interval when predicting the range of price by change of variety. Therefore, the estimated price range of Pinot Noir in North America becomes narrower after bootstrap.</p>
+<p>To ensure accuracy, we examined the assumptions of our model for North America. Non-random distribution of variances of residual tells us that bootstrapping needs to be down before fitting the model for price of wine in North America. Therefore, we do bootstrap for 1000 times. Then, we get an almost 17 percent decrease (0.007 to 0.006) in standard error of Pinot Noir estimate, which gives us more accurate confidence interval when predicting the range of price by change of variety. Therefore, the estimated price range of Pinot Noir in North America becomes narrower after bootstraps.</p>
 <p><br/></p>
 </div>
 </div>

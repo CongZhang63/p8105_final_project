@@ -68,7 +68,7 @@ In this analysis, we are interested in whether wine would be more expensive if i
 
 ### Log Transformation
 
-We detect a highly skewed pattern of the price distribution, thus our response variable **Price** needs to be log transformed before fitting into the regression model. After log transformation, the distribution becomes much more normal.
+We detect a highly skewed pattern of the price distribution, thus our response variable Price needs to be log transformed before fitting into the regression model. After log transformation, the distribution becomes much more normal.
 
 <br/>
 
@@ -78,13 +78,13 @@ Here, we try to fit a final model in the following form:
 
 $$ log(Price) = \beta_1 + \beta_2X_{Points} + \beta_3X_{Variety} + \beta_4X_{Continent}$$
 
-For predictor **Variety**, we select the top four types of grapes for simplicity. 
+For predictor Variety, we select the top four types of grapes for simplicity. 
 
 <br/>
 
 `Question: Should we include interaction term Points * Variety?` 
 
-After log-transforming of independent variable Price, we observe a linear trend in **Log_Price** vs. **Points**. This implies a positive correlation between price and log_points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety. We also observe that lines of Cabernet Sauvignon and Chardonnay cross with each other. However, because $R^2$ does not change significantly before and after adding the interaction term, we decide to remove **Points * Variety** form the final model. 
+After log-transforming of independent variable Price, we observe a linear trend in Log_Price vs. Points. This implies a positive correlation between Price and Log_Points. The trend lines for the 4 most frequent varieties are very close together. So there is a similar positive correlation between price and points for each variety. We also observe that lines of Cabernet Sauvignon and Chardonnay cross with each other. However, because $R^2$ does not change significantly before and after adding the interaction term, we decide to remove Points * Variety form the final model. 
 
 <br/>
 
@@ -113,7 +113,7 @@ Main Findings:
 
 ### Porfound Analysis: Bootstraps for North America
 
-To ensure accuracy, we examined the assumptions of our model for North America. Non-random distribution of variances of residual tells us that bootstrapping needs to be down before fitting the model for price of wine in North America. Therefore, we do bootstrap for 1000 times. Then, we get an almost 20 percent decrease (0.007 to 0.006) in standard error of Pinot Noir estimate, which gives us more accurate confidence interval when predicting the range of price by change of variety. Therefore, the estimated price range of Pinot Noir in North America becomes narrower after bootstrap.
+To ensure accuracy, we examined the assumptions of our model for North America. Non-random distribution of variances of residual tells us that bootstrapping needs to be down before fitting the model for price of wine in North America. Therefore, we do bootstrap for 1000 times. Then, we get an almost 17 percent decrease (0.007 to 0.006) in standard error of Pinot Noir estimate, which gives us more accurate confidence interval when predicting the range of price by change of variety. Therefore, the estimated price range of Pinot Noir in North America becomes narrower after bootstraps.
 
 <br/>
 

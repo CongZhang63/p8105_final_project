@@ -1,10 +1,12 @@
 ---
-title: "**CHEERS! Professional Wine Reviews - P8105 Data Science I Project**"
+title: "<center>**CHEERS! Professional Wine Reviews**"
 output: html_document
 ---
 <br>
 
-## Exploring Factors Associated with Professional Wine Reviews.
+<center>
+## Exploring Factors Associated with Professional Wine Reviews
+
 
 <center>
 

@@ -426,33 +426,6 @@ div.tocify {
 <p><br/></p>
 <p><img src="images/wine6.jpg" style="width:100%"></p>
 <p><br/></p>
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<p>Wine is an essential component in western food culture. Due to the variety of wine brands, people may easily get lost. Therefore, we would like to provide a review of wines by professional wine tasters and guidance for wine lovers based on variety, location, winery and price. Wine lovers can select and buy wines more easily with information provided on our website.</p>
-<p><br/></p>
-</div>
-<div id="data" class="section level1">
-<h1>Data</h1>
-<p>This wine <a href="https://www.kaggle.com/zynicide/wine-reviews?select=winemag-data-130k-v2.csvm">dataset</a> contains 13 columns, including country, designation(The vineyard within the winery where the grapes that made the wine are from), points(The number of points WineEnthusiast rated the wine on a scale of 1-100), price, province, region_2, region_2, variety(The type of grapes used to make the wine), winery(The winery that made the wine). <br/></p>
-<ul>
-<li><p><strong>country:</strong> The country that the wine is from.</p></li>
-<li><p><strong>description:</strong> A few sentences from a sommelier describing the wine’s taste, smell, look, feel, etc.</p></li>
-<li><p><strong>designation</strong> The vineyard within the winery where the grapes that made the wine are from.</p></li>
-<li><p><strong>points</strong> The number of points WineEnthusiast rated the wine on a scale of 1-100 (though they say they only post reviews for wines that score larger than 80).</p></li>
-<li><p><strong>price</strong> The cost for a bottle of the wine.</p></li>
-<li><p><strong>province</strong> The province or state that the wine is from.</p></li>
-<li><p><strong>region_1</strong> The wine growing area in a province or state (i.e. Napa).</p></li>
-<li><p><strong>region_2</strong> Sometimes there are more specific regions specified within a wine growing area (i.e. Rutherford inside the Napa Valley), but this value can sometimes be blank.</p></li>
-<li><p><strong>variety</strong> The type of grapes used to make the wine (i.e. Pinot Noir).</p></li>
-<li><p><strong>winery</strong> The winery that made the wine.</p></li>
-</ul>
-<p>In regression, we import a supplemental continent <a href="https://datahub.io/JohnSnowLabs/country-and-continent-codes-list">dataset</a> which contains 6 columns. In this project, we will use only Continent_Name and Country_Name to categorize wine dataset by continent.</p>
-<ul>
-<li><p><strong>Continent_Name</strong> Name of the continent.</p></li>
-<li><p><strong>Country_Name</strong> Name of the country.</p></li>
-</ul>
-<p><br/></p>
-</div>
 <div id="summary-visualization" class="section level1">
 <h1>Summary Visualization</h1>
 <p>In this part, we try to analyze our data and visualize them for better understandings. The data is filtered based on different scales, including continent, countries, cities and even areas. Since the amount of data is large, we have separated the data based on regions. We have analyzed and plotted graphs from the scale of globe, continents and countries.</p>
@@ -500,7 +473,7 @@ div.tocify {
 <h3>Motivation</h3>
 <p>Nowadays, there are too many wines produced from too many different countries and by too many wineries, buyer/reviewer/enthusiast find it extremely difficult to obtain wine information from one specific country, within in a reasonable price range, and with preferred rating. The interactive Shiny Dashboard could helps us effective get the wine information we want.</p>
 </div>
-<div id="introduction-1" class="section level3">
+<div id="introduction" class="section level3">
 <h3>Introduction</h3>
 <p>The interactive Dashboard is implemented with ShinyApp. The dashboard contains an interactive world map, an interactive box plot and an interactive bar chart. The aim of this dashboard is to effectively help wine buyer/reviewer/enthusiast find the countries of wine origin they preferred.</p>
 <p>User can interact with the map, box plot and bar chart by selecting the price range they want, the continent of origin they preferred and the single rating they like. The map and the plots would then change accordingly and provide updated information.</p>

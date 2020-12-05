@@ -14,7 +14,7 @@ output: html_document
 
 <br/>
 
-<img src="images/Wine1.jpg" style="width:100%">
+<img src="images/wine4.jpg" style="width:100%">
 
 <br/>
 

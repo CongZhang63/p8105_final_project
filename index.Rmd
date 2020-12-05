@@ -2,13 +2,8 @@
 title: "<center>**CHEERS! Professional Wine Reviews**"
 output: html_document
 ---
-<br>
-
 <center>
 ## Exploring Factors Associated with Professional Wine Reviews
-
-
-
 
 **[Zhourong Li (zl2977)](https://bluedenw.github.io), [Yubei Liang (yl4606)](https://yubei-yl4606.github.io/yl4606.github.io), [Leo Liu (ll3452)](https://leooolzh.github.io), [Cong Zhang (cz2612)](https://congzhang63.github.io), [Ruwen Zhou (rz2530)](https://carmenzhou.github.io/rz2530.github.io)**
 
@@ -18,19 +13,13 @@ output: html_document
 
 <br/>
 
-<center>
 ## Demostration Video
 <iframe width="800" height="500" src="https://www.youtube.com/embed/LXroCQ00w-I" frameborder="0" allowfullscreen></iframe>
 
-
 <br/>
 
-
-
-
 ## Some Interesting Facts about Wines!
-
-* Only the United States and France produce wines with prices over 2000 dollars.
+<div align="left"> * Only the United States and France produce wines with prices over 2000 dollars.
 * The cheapest wine in only 4 dollars!
 * Italy is the country that owns the most full-credit wines in the world.
 

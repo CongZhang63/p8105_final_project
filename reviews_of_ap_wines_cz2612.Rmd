@@ -94,12 +94,9 @@ wine150_tidy %>%
 load("./data/wine150_tidy")
 
 wine150_tidy %>% 
-  select(points, country, winery, variety, points_avg_variety, points_avg_winery) %>% 
+  select(points, country, winery, variety, points_med_variety, points_med_winery) %>% 
   filter(country %in% c("Australia", "China", "Georgia", "India", "Israel", "Japan", "Lebanon", "New Zealand", "South Korea", "Turkey")) %>% 
-  group_by(variety) %>% 
-  mutate(points_median_variety = median(points)) %>% 
-  ungroup(variety) %>% 
-  mutate(variety = fct_reorder(variety, desc(points_median_variety))) %>% 
+  mutate(variety = fct_reorder(variety, desc(points_med_variety))) %>% 
   filter(as.numeric(variety) <= 10) %>% 
   arrange(variety) %>% 
   plot_ly(
@@ -109,5 +106,27 @@ wine150_tidy %>%
     xaxis = list(title = "Grapes for Asian-Pacific Wines"),
     yaxis = list(title = "Wine Points"),
     title = "Most Favorable 10 Grapes for Asian-Pacific Wines: Highest Professional Recognition")
+```
+
+<br/>
+
+### Bottom 10 Grapes for Asian-Pacific Wines
+
+```{r Lesat Favorable Asian-Pacific Grapes Violin Plot, message = FALSE, warning = FALSE}
+load("./data/wine150_tidy")
+
+wine150_tidy %>% 
+  select(points, country, winery, variety, points_med_variety, points_med_winery) %>% 
+  filter(country %in% c("Australia", "China", "Georgia", "India", "Israel", "Japan", "Lebanon", "New Zealand", "South Korea", "Turkey")) %>% 
+  mutate(variety = fct_reorder(variety, points_med_variety)) %>% 
+  filter(as.numeric(variety) <= 10) %>% 
+  arrange(variety) %>% 
+  plot_ly(
+    x = ~variety, y = ~points, color = ~factor(variety),
+    type = "violin", colors = "viridis") %>%
+  layout(
+    xaxis = list(title = "Grapes for Asian-Pacific Wines"),
+    yaxis = list(title = "Wine Points"),
+    title = "Least Favorable 10 Grapes for Asian-Pacific Wines: Lowest Professional Recognition")
 ```
 

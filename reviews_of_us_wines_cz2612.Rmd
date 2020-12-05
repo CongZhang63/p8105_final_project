@@ -16,9 +16,9 @@ library(flexdashboard)
 
 <br/>
 
-### Top 20 US Winery
+### Top 20 US Wineries
 
-```{r Top 20 US Winery Boxplot}
+```{r Top 20 US Wineries Box Plot, message = FALSE, warning = FALSE}
 load("./data/wine150_tidy")
 
 wine150_tidy %>% 
@@ -31,14 +31,14 @@ wine150_tidy %>%
     x = ~winery, y = ~points, color = ~factor(winery),
     type = "box", colors = "viridis") %>%
   layout(
-    xaxis = list(title = "US Winery"),
+    xaxis = list(title = "US Wineries"),
     yaxis = list(title = "Wine Points"),
-    title = "Top 20 US Winery: Highest Professional Recognition")
+    title = "Top 20 US Wineries: Highest Professional Recognition")
 ```
 
-### Bottom 20 US Winery
+### Bottom 20 US Wineries
 
-```{r Bottom 20 US Winery Boxplot}
+```{r Bottom 20 US Wineries Box Plot, message = FALSE, warning = FALSE}
 load("./data/wine150_tidy")
 
 wine150_tidy %>% 
@@ -51,7 +51,30 @@ wine150_tidy %>%
     x = ~winery, y = ~points, color = ~factor(winery),
     type = "box", colors = "viridis") %>%
   layout(
-    xaxis = list(title = "US Winery"),
+    xaxis = list(title = "US Wineries"),
     yaxis = list(title = "Wine Points"),
-    title = "Bottom 20 US Winery: Lowest Professional Recognition")
+    title = "Bottom 20 US Wineries: Lowest Professional Recognition")
 ```
+
+<br/>
+
+### Top 10 Grapes for US Wines
+
+```{r Most Favorable US Grapes Violin Plot, message = FALSE, warning = FALSE}
+load("./data/wine150_tidy")
+
+wine150_tidy %>% 
+  select(points, country, winery, variety, points_med_variety, points_med_winery) %>% 
+  filter(country == "US") %>% 
+  mutate(variety = fct_reorder(variety, desc(points_med_variety))) %>% 
+  filter(as.numeric(variety) <= 10) %>% 
+  arrange(variety) %>% 
+  plot_ly(
+    x = ~variety, y = ~points, color = ~factor(variety),
+    type = "violin", colors = "viridis") %>%
+  layout(
+    xaxis = list(title = "Grapes for US Wines"),
+    yaxis = list(title = "Wine Points"),
+    title = "Most Favorable 10 Grapes for US Wines: Highest Professional Recognition")
+```
+

@@ -4,7 +4,6 @@ library(leaflet)
 library(countrycode)
 library(dplyr)
 library(plotly)
-
 function(input, output) {
   
   winedata=read_csv("./winedata_first150k.csv",locale = readr::locale(encoding = "UTF-8"))

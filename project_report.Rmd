@@ -119,14 +119,21 @@ To ensure accuracy, we examined the assumptions of our model for North America. 
 
 # Interactive Map
 
-### 
+### Motivation
 
 Nowadays, there are too many wines produced from too many different countries and by too many wineries, buyer/reviewer/enthusiast find it extremely difficult to obtain wine information from one specific country, within in a reasonable price range, and with preferred rating. The interactive Shiny Dashboard could helps us effective get the wine information we want.
 
+### Introduction
+
 The interactive Dashboard is implemented with ShinyApp. The dashboard contains an interactive world map, an interactive box plot and an interactive bar chart. The aim of this dashboard is to effectively help wine buyer/reviewer/enthusiast find the countries of wine origin they preferred.
+
+User can interact with the map, box plot and bar chart by selecting the price range they want, the continent of origin they preferred and the single rating they like. The map and the plots would then change accordingly and provide updated information.
+
+### Details of the Shiny Dashboard
 
 When user clicked on one country, the click label would provide four information: the price range of the wines in this country, the average rating of wines in this country and the number of wines recorded in this country. 
 
-User can interact with the map, box plot and bar chart by selecting the price range they want, the continent of origin they preferred and the single rating they like. The map and the plots would then change accordingly. The interactive map could effectively help user find the countries of wine origin at the reasonable price and rating they want.
+The box plot shows the the price distribution by countries, with median, first quarter (Q1) and the third quarter(Q3), min and max information. The bar chart shows the number of records by countries, it will rank the number of records from high to low.
 
-### 
+Hope you enjoy the interaction with the wine information Shiny Dashboard!
+

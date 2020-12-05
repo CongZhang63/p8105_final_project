@@ -45,22 +45,20 @@ rating=sort(rating, decreasing = T)
 rating=prepend(rating, "All Ratings")
 
 sidebar <-dashboardSidebar(
-  
+  #  radioButtons widget
   radioButtons(
     "continent_choice",
     label = h3("Choose Continent"),
     choices = continent_choice,
     selected = "All Continents"
   ),
-  #--------------------------------------------------------------------
   # sliderInput widget
   
   sliderInput(
     "price_range",
     label = h3("Choose Price Range"),
     min = min_price, max = max_price, value = c(4, 2000)),
-  
-  #--------------------------------------------------------------------
+
   # selectInput widget
   
   
@@ -70,8 +68,6 @@ sidebar <-dashboardSidebar(
     choices = rating,
     selected = "All Ratings"
   ),
-  
-  # menuItem("Home Page", icon = icon("file-code-o"), 
   menuItem(" Home Page", icon = icon("glass", lib = "glyphicon"), 
            href = "https://congzhang63.github.io/p8105_final_project/index.html")
   
@@ -79,17 +75,14 @@ sidebar <-dashboardSidebar(
 
 body <- dashboardBody(
   fluidRow(
-    # column(width = 12,
     box(
       title = "Wine Information World Map", background = "black",
       width = 12, 
       leafletOutput("map")
     )
-    # )
   ),
   
   fluidRow(              
-    # column(width = 6, 
     box(
       title = "Price of Wines by Country",
       status = "info", 
@@ -104,7 +97,6 @@ body <- dashboardBody(
       width = 6, 
       plotlyOutput("map2")
     )
-    # )
   )     
 )
 

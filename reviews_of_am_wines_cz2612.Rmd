@@ -22,9 +22,9 @@ knitr::opts_chunk$set(
 
 <br/>
 
-### American Country Comparison
+### American Countries Comparison
 
-```{r American Wines Bar Plot, warning = FALSE}
+```{r American Countries Bar Plot, message = FALSE, warning = FALSE}
 load("./data/wine150_tidy")
 
 wine150_tidy %>% 
@@ -37,16 +37,16 @@ wine150_tidy %>%
     x = ~country, y = ~points_avg_country, color = ~factor(country), text = ~text_label,
     type = "bar", colors = "viridis") %>%
   layout(
-    xaxis = list(title = "American Country"),
+    xaxis = list(title = "American Countries"),
     yaxis = list(title = "Average Wine Points", range = (c(80,88))),
-    title = "Average Wine Points of American Country")
+    title = "Average Wine Points of American Countries")
 ```
 
 <br/>
 
-### Top 20 American Winery
+### Top 20 American Wineries
 
-```{r Top 20 American Winery Boxplot}
+```{r Top 20 American Wineries Box Plot, message = FALSE, warning = FALSE}
 load("./data/wine150_tidy")
 
 wine150_tidy %>% 
@@ -59,16 +59,16 @@ wine150_tidy %>%
     x = ~winery, y = ~points, color = ~factor(winery),
     type = "box", colors = "viridis") %>%
   layout(
-    xaxis = list(title = "American Winery"),
+    xaxis = list(title = "American Wineries"),
     yaxis = list(title = "Wine Points"),
-    title = "Top 20 American Winery: Highest Professional Recognition")
+    title = "Top 20 American Wineries: Highest Professional Recognition")
 ```
 
 <br/>
 
-### Bottom 20 American Winery
+### Bottom 20 American Wineries
 
-```{r Bottom 20 American Winery Boxplot}
+```{r Bottom 20 American Wineries Box Plot, message = FALSE, warning = FALSE}
 load("./data/wine150_tidy")
 
 wine150_tidy %>% 
@@ -81,8 +81,30 @@ wine150_tidy %>%
     x = ~winery, y = ~points, color = ~factor(winery),
     type = "box", colors = "viridis") %>%
   layout(
-    xaxis = list(title = "American Winery"),
+    xaxis = list(title = "American Wineries"),
     yaxis = list(title = "Wine Points"),
-    title = "Bottom American US Winery: Lowest Professional Recognition")
+    title = "Bottom American US Wineries: Lowest Professional Recognition")
+```
+
+<br/>
+
+### Top 10 Grapes for American Wines
+
+```{r Most Favorable American Grapes Violin Plot, message = FALSE, warning = FALSE}
+load("./data/wine150_tidy")
+
+wine150_tidy %>% 
+  select(points, country, winery, variety, points_med_variety, points_med_winery) %>% 
+  filter(country %in% c("Argentina", "Brazil", "Canada", "Chile", "Mexico", "Uruguay", "US")) %>% 
+  mutate(variety = fct_reorder(variety, desc(points_med_variety))) %>% 
+  filter(as.numeric(variety) <= 10) %>% 
+  arrange(variety) %>% 
+  plot_ly(
+    x = ~variety, y = ~points, color = ~factor(variety),
+    type = "violin", colors = "viridis") %>%
+  layout(
+    xaxis = list(title = "Grapes for American Wines"),
+    yaxis = list(title = "Wine Points"),
+    title = "Most Favorable 10 Grapes for American Wines: Highest Professional Recognition")
 ```
 

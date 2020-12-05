@@ -22,9 +22,9 @@ knitr::opts_chunk$set(
 
 <br/>
 
-### European Country Comparison
+### European Countries Comparison
 
-```{r European Wines Bar Plot, warning = FALSE}
+```{r European Countries Bar Plot, message = FALSE, warning = FALSE}
 load("./data/wine150_tidy")
 
 wine150_tidy %>% 
@@ -37,16 +37,16 @@ wine150_tidy %>%
     x = ~country, y = ~points_avg_country, color = ~factor(country), text = ~text_label,
     type = "bar", colors = "viridis") %>%
   layout(
-    xaxis = list(title = "European Country"),
+    xaxis = list(title = "European Countries"),
     yaxis = list(title = "Average Wine Points", range = (c(80,92))),
-    title = "Average Wine Points of European Country")
+    title = "Average Wine Points of European Countries")
 ```
 
 <br/>
 
-### Top 20 European Winery
+### Top 20 European Wineries
 
-```{r Top 20 European Winery Boxplot}
+```{r Top 20 European Wineries Box Plot, message = FALSE, warning = FALSE}
 load("./data/wine150_tidy")
 
 wine150_tidy %>% 
@@ -59,16 +59,16 @@ wine150_tidy %>%
     x = ~winery, y = ~points, color = ~factor(winery),
     type = "box", colors = "viridis") %>%
   layout(
-    xaxis = list(title = "European Winery"),
+    xaxis = list(title = "European Wineries"),
     yaxis = list(title = "Wine Points"),
-    title = "Top 20 European Winery: Highest Professional Recognition")
+    title = "Top 20 European Wineries: Highest Professional Recognition")
 ```
 
 <br/>
 
-### Bottom 20 European Winery
+### Bottom 20 European Wineries
 
-```{r Bottom 20 European Winery Boxplot}
+```{r Bottom 20 European Wineries Box Plot, message = FALSE, warning = FALSE}
 load("./data/wine150_tidy")
 
 wine150_tidy %>% 
@@ -81,7 +81,52 @@ wine150_tidy %>%
     x = ~winery, y = ~points, color = ~factor(winery),
     type = "box", colors = "viridis") %>%
   layout(
-    xaxis = list(title = "European Winery"),
+    xaxis = list(title = "European Wineries"),
     yaxis = list(title = "Wine Points"),
-    title = "Bottom 20 European Winery: Lowest Professional Recognition")
+    title = "Bottom 20 European Wineries: Lowest Professional Recognition")
 ```
+
+<br/>
+
+### Top 10 Grapes for European Wines
+
+```{r Most Favorable European Grapes Violin Plot, message = FALSE, warning = FALSE}
+load("./data/wine150_tidy")
+
+wine150_tidy %>% 
+  select(points, country, winery, variety, points_med_variety, points_med_winery) %>% 
+  filter(country %in% c("Albania", "Austria", "Bosnia and Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "England", "France", "Germany", "Greece", "Hungary", "Italy", "Lithuania", "Luxembourg", "Macedonia", "Moldova", "Montenegro", "Portugal", "Romania", "Serbia", "Slovakia", "Slovenia", "Spain", "Switzerland", "Ukraine")) %>% 
+  mutate(variety = fct_reorder(variety, desc(points_med_variety))) %>% 
+  filter(as.numeric(variety) <= 10) %>% 
+  arrange(variety) %>% 
+  plot_ly(
+    x = ~variety, y = ~points, color = ~factor(variety),
+    type = "violin", colors = "viridis") %>%
+  layout(
+    xaxis = list(title = "Grapes for European Wines"),
+    yaxis = list(title = "Wine Points"),
+    title = "Most Favorable 10 Grapes for European Wines: Highest Professional Recognition")
+```
+
+<br/>
+
+### Bottom 10 Grapes for European Wines
+
+```{r Least Favorable European Grapes Violin Plot, message = FALSE, warning = FALSE}
+load("./data/wine150_tidy")
+
+wine150_tidy %>% 
+  select(points, country, winery, variety, points_med_variety, points_med_winery) %>% 
+  filter(country %in% c("Albania", "Austria", "Bosnia and Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "England", "France", "Germany", "Greece", "Hungary", "Italy", "Lithuania", "Luxembourg", "Macedonia", "Moldova", "Montenegro", "Portugal", "Romania", "Serbia", "Slovakia", "Slovenia", "Spain", "Switzerland", "Ukraine")) %>% 
+  mutate(variety = fct_reorder(variety, points_med_variety)) %>% 
+  filter(as.numeric(variety) <= 10) %>% 
+  arrange(variety) %>% 
+  plot_ly(
+    x = ~variety, y = ~points, color = ~factor(variety),
+    type = "violin", colors = "viridis") %>%
+  layout(
+    xaxis = list(title = "Grapes for European Wines"),
+    yaxis = list(title = "Wine Points"),
+    title = "Least Favorable 10 Grapes for European Wines: Lowest Professional Recognition")
+```
+

@@ -2,6 +2,14 @@
 title: "CHEERS! Professional Wine Reviews"
 output: html_document
 ---
+<style type="text/css">
+
+h1.title {
+  font-size: 45px;
+  color: DarkRed;
+  text-align: center;
+}
+</style>
 
 <center>
 ## *Exploring Factors Associated with Professional Wine Reviews*
@@ -25,7 +33,8 @@ Wine is an essential component in western food culture. Due to the variety of wi
 
 ## *Data*
 <div align="left"> 
-This wine [dataset](https://www.kaggle.com/zynicide/wine-reviews) contains 13 columns, including country, designation(the vineyard within the winery where the grapes that made the wine are from), points(the number of points WineEnthusiast rated the wine on a scale of 1-100), price, province, region_2, region_2, variety(the type of grapes used to make the wine), winery(the winery that made the wine).
+This wine [dataset](https://www.kaggle.com/zynicide/wine-reviews) contains 10 columns, including country,description,
+designation(the vineyard within the winery where the grapes that made the wine are from), points(the number of points WineEnthusiast rated the wine on a scale of 1-100), price, province, region_1, region_2, variety(the type of grapes used to make the wine), winery(the winery that made the wine).
 <br/>
 
 * **country:** The country that the wine is from.

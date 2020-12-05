@@ -42,6 +42,8 @@ wine150_tidy %>%
     title = "Average Wine Points of American Countries")
 ```
 
+From the bat plot of wine points for the 7 American countries, we could see that Canada has the highest average wine points (88.2) and Brazil has the lowest average wine points (83.2). Similarly to Europe, we also find out the richer North American countries have relatively higher average wine points and the poorer South American countries have relatively lower average wine points.
+
 <br/>
 
 ### Top 20 American Wineries

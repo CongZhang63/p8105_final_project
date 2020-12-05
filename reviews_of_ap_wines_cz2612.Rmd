@@ -42,6 +42,8 @@ wine150_tidy %>%
     title = "Average Wine Points of Asian-Pacific Countries")
 ```
 
+By comparing wine review data of the 10 countries in the Asian-Pacific region, we could see that Turkey has the highest average points (88.1) and South Korea has the lowest average points (81.5). There might be many explanations for this result. For grapes, the colder weather in South Korea may be less favorable than the warmer weather in Turkey. In addition, there may be a culture explanation. From the bar plot, we find that South Korea, China and Japan have the lowest average wine points, and according to the cultures of these three East Asian countries, wine is not even their most popular alcoholic beverage.
+
 <br/>
 
 ### Top 20 Asian-Pacific Wineries

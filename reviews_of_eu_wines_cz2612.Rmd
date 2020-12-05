@@ -42,6 +42,8 @@ wine150_tidy %>%
     title = "Average Wine Points of European Countries")
 ```
 
+After calculating average wine points for each of the 26 European countries, we find out that England has the highest average wine points (92.9) and Montenegro has the lowest average wine points (82). Generally speaking, we could see a trend from the bar plot: the richer West European countries have relatively higher average wine points and the less wealthy East European countries have relatively lower average wine points.
+
 <br/>
 
 ### Top 20 European Wineries

@@ -108,3 +108,25 @@ wine150_tidy %>%
     title = "Most Favorable 10 Grapes for American Wines: Highest Professional Recognition")
 ```
 
+<br/>
+
+### Bottom 10 Grapes for American Wines
+
+```{r Least Favorable American Grapes Violin Plot, message = FALSE, warning = FALSE}
+load("./data/wine150_tidy")
+
+wine150_tidy %>% 
+  select(points, country, winery, variety, points_med_variety, points_med_winery) %>% 
+  filter(country %in% c("Argentina", "Brazil", "Canada", "Chile", "Mexico", "Uruguay", "US")) %>% 
+  mutate(variety = fct_reorder(variety, points_med_variety)) %>% 
+  filter(as.numeric(variety) <= 10) %>% 
+  arrange(variety) %>% 
+  plot_ly(
+    x = ~variety, y = ~points, color = ~factor(variety),
+    type = "violin", colors = "viridis") %>%
+  layout(
+    xaxis = list(title = "Grapes for American Wines"),
+    yaxis = list(title = "Wine Points"),
+    title = "Least Favorable 10 Grapes for American Wines: Lowest Professional Recognition")
+```
+

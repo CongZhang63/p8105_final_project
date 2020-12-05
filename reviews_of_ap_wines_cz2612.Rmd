@@ -112,7 +112,7 @@ wine150_tidy %>%
 
 ### Bottom 10 Grapes for Asian-Pacific Wines
 
-```{r Lesat Favorable Asian-Pacific Grapes Violin Plot, message = FALSE, warning = FALSE}
+```{r Least Favorable Asian-Pacific Grapes Violin Plot, message = FALSE, warning = FALSE}
 load("./data/wine150_tidy")
 
 wine150_tidy %>% 

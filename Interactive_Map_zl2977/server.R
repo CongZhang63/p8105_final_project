@@ -4,17 +4,11 @@ library(leaflet)
 library(countrycode)
 library(dplyr)
 library(plotly)
-
 function(input, output) {
   
   winedata=read_csv("./winedata_first150k.csv",locale = readr::locale(encoding = "UTF-8"))
   lat_long=read_csv("./latitude_and_longitude_values.csv")
   continent=read_csv("./continent.csv")
-  
-  
-  # winedata
-  
-  # continent
   
   lat_long=subset(lat_long, 
                   select = -c(usa_state_code,

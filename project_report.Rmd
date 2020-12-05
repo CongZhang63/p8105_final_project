@@ -9,7 +9,7 @@ output:
 
 <br/>
 
-<img src="images/Wine2.jpg" style="width:100%">
+<img src="images/wine6.jpg" style="width:100%">
 
 <br/>
 

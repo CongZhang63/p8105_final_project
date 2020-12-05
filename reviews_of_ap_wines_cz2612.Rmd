@@ -22,9 +22,9 @@ knitr::opts_chunk$set(
 
 <br/>
 
-### Asian-Pacific Country Comparison
+### Asian-Pacific Countries Comparison
 
-```{r Asian-Pacific Winery Bar Plot, warning = FALSE}
+```{r Asian-Pacific Countries Bar Plot, message = FALSE, warning = FALSE}
 load("./data/wine150_tidy")
 
 wine150_tidy %>% 
@@ -37,16 +37,16 @@ wine150_tidy %>%
     x = ~country, y = ~points_avg_country, color = ~factor(country), text = ~text_label,
     type = "bar", colors = "viridis") %>%
   layout(
-    xaxis = list(title = "Asian-Pacific Country"),
+    xaxis = list(title = "Asian-Pacific Countries"),
     yaxis = list(title = "Average Wine Points", range = (c(80,88))),
-    title = "Average Wine Points of Asian-Pacific Country")
+    title = "Average Wine Points of Asian-Pacific Countries")
 ```
 
 <br/>
 
-### Top 20 Asian-Pacific Winery
+### Top 20 Asian-Pacific Wineries
 
-```{r Top 20 Asian-Pacific Winery Boxplot}
+```{r Top 20 Asian-Pacific Wineries Box Plot, message = FALSE, warning = FALSE}
 load("./data/wine150_tidy")
 
 wine150_tidy %>% 
@@ -59,17 +59,16 @@ wine150_tidy %>%
     x = ~winery, y = ~points, color = ~factor(winery),
     type = "box", colors = "viridis") %>%
   layout(
-    xaxis = list(title = "Asian-Pacific Winery"),
+    xaxis = list(title = "Asian-Pacific Wineries"),
     yaxis = list(title = "Wine Points"),
-    title = "Top 20 Asian-Pacific Winery: Highest Professional Recognition")
+    title = "Top 20 Asian-Pacific Wineries: Highest Professional Recognition")
 ```
-
 
 <br/>
 
-### Bottom 20 Asian-Pacific Winery
+### Bottom 20 Asian-Pacific Wineries
 
-```{r Bottom 20 Asian-Pacific Winery Boxplot}
+```{r Bottom 20 Asian-Pacific Wineries Box Plot, message = FALSE, warning = FALSE}
 load("./data/wine150_tidy")
 
 wine150_tidy %>% 
@@ -82,8 +81,33 @@ wine150_tidy %>%
     x = ~winery, y = ~points, color = ~factor(winery),
     type = "box", colors = "viridis") %>%
   layout(
-    xaxis = list(title = "Asian-Pacific Winery"),
+    xaxis = list(title = "Asian-Pacific Wineries"),
     yaxis = list(title = "Wine Points"),
-    title = "Bottom 20 Asian-Pacific Winery: Lowest Professional Recognition")
+    title = "Bottom 20 Asian-Pacific Wineries: Lowest Professional Recognition")
+```
+
+<br/>
+
+### Top 10 Grapes for Asian-Pacific Wines
+
+```{r Most Favorable Asian-Pacific Grapes Violin Plot, message = FALSE, warning = FALSE}
+load("./data/wine150_tidy")
+
+wine150_tidy %>% 
+  select(points, country, winery, variety, points_avg_variety, points_avg_winery) %>% 
+  filter(country %in% c("Australia", "China", "Georgia", "India", "Israel", "Japan", "Lebanon", "New Zealand", "South Korea", "Turkey")) %>% 
+  group_by(variety) %>% 
+  mutate(points_median_variety = median(points)) %>% 
+  ungroup(variety) %>% 
+  mutate(variety = fct_reorder(variety, desc(points_median_variety))) %>% 
+  filter(as.numeric(variety) <= 10) %>% 
+  arrange(variety) %>% 
+  plot_ly(
+    x = ~variety, y = ~points, color = ~factor(variety),
+    type = "violin", colors = "viridis") %>%
+  layout(
+    xaxis = list(title = "Grapes for Asian-Pacific Wines"),
+    yaxis = list(title = "Wine Points"),
+    title = "Most Favorable 10 Grapes for Asian-Pacific Wines: Highest Professional Recognition")
 ```
 

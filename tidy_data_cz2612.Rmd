@@ -63,14 +63,18 @@ wine150_tidy =
   group_by(country) %>% 
   mutate(
     points_avg_country = round(mean(points), 2),
-    price_avg_country = round(mean(price, na.rm = TRUE), 2)
+    points_med_country = median(points),
+    price_avg_country = round(mean(price, na.rm = TRUE), 2),
+    price_med_country = median(price)
   ) %>% 
   ungroup(country) %>% 
   arrange(province, points) %>% 
   group_by(province) %>% 
   mutate(
     points_avg_province = round(mean(points), 2),
-    price_avg_province = round(mean(price, na.rm = TRUE), 2)
+    points_med_province = median(points),
+    price_avg_province = round(mean(price, na.rm = TRUE), 2),
+    price_med_province = median(price)
   ) %>% 
   ungroup(province) %>%  
   arrange(country, province, points)
@@ -89,14 +93,18 @@ wine150_tidy =
   group_by(variety) %>% 
   mutate(
     points_avg_variety = round(mean(points), 2),
-    price_avg_variety = round(mean(price, na.rm = TRUE), 2)
+    points_med_variety = median(points),
+    price_avg_variety = round(mean(price, na.rm = TRUE), 2),
+    price_med_variety = median(price)
   ) %>% 
   ungroup(variety) %>% 
   arrange(winery, points) %>% 
   group_by(winery) %>% 
   mutate(
     points_avg_winery = round(mean(points), 2),
-    price_avg_winery = round(mean(price, na.rm = TRUE), 2)
+    points_med_winery = median(points),  
+    price_avg_winery = round(mean(price, na.rm = TRUE), 2),
+    price_med_winery = median(price)
   ) %>% 
   ungroup(winery) %>%    
   arrange(variety, winery, points)
@@ -144,14 +152,18 @@ wine130_tidy =
   group_by(country) %>% 
   mutate(
     points_avg_country = round(mean(points), 2),
-    price_avg_country = round(mean(price, na.rm = TRUE), 2)
+    points_med_country = median(points),
+    price_avg_country = round(mean(price, na.rm = TRUE), 2),
+    price_med_country = median(price)
   ) %>% 
   ungroup(country) %>% 
   arrange(province, points) %>% 
   group_by(province) %>% 
   mutate(
     points_avg_province = round(mean(points), 2),
-    price_avg_province = round(mean(price, na.rm = TRUE), 2)
+    points_med_province = median(points),
+    price_avg_province = round(mean(price, na.rm = TRUE), 2),
+    price_med_province = median(price)
   ) %>% 
   ungroup(province) %>%  
   arrange(country, province, points)
@@ -170,14 +182,18 @@ wine130_tidy =
   group_by(variety) %>% 
   mutate(
     points_avg_variety = round(mean(points), 2),
-    price_avg_variety = round(mean(price, na.rm = TRUE), 2)
+    points_med_variety = median(points),
+    price_avg_variety = round(mean(price, na.rm = TRUE), 2),
+    price_med_variety = median(price)
   ) %>% 
   ungroup(variety) %>% 
   arrange(winery, points) %>% 
   group_by(winery) %>% 
   mutate(
     points_avg_winery = round(mean(points), 2),
-    price_avg_winery = round(mean(price, na.rm = TRUE), 2)
+    points_med_winery = median(points),  
+    price_avg_winery = round(mean(price, na.rm = TRUE), 2),
+    price_med_winery = median(price)
   ) %>% 
   ungroup(winery) %>%    
   arrange(variety, winery, points)

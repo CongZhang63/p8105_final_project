@@ -42,7 +42,7 @@ wine150_tidy %>%
     title = "Average Wine Points of American Countries")
 ```
 
-From the bat plot of wine points for the 7 American countries, we could see that Canada has the highest average wine points (88.2) and Brazil has the lowest average wine points (83.2). Similarly to Europe, we also find out the richer North American countries have relatively higher average wine points and the poorer South American countries have relatively lower average wine points.
+From the bat plot of wine points for the 7 American countries, we could see that Canada has the highest average wine points (88.24) and Brazil has the lowest average wine points (83.24). Similarly to Europe, we also find out the richer North American countries have relatively higher average wine points and the poorer South American countries have relatively lower average wine points.
 
 <br/>
 
@@ -66,6 +66,8 @@ wine150_tidy %>%
     title = "Top 20 American Wineries: Highest Professional Recognition")
 ```
 
+One of the most important factors of wines is the producer. Usually, the high reputations of prestigious wineries serve as guarantees of great wine qualities. After calculating average wine points for American wineries, we have shown the top 20 American wineries with the highest average wine points, with Sloan being No.1 (100). The box plot has also provided quartiles of wine points for each winery.
+
 <br/>
 
 ### Bottom 20 American Wineries
@@ -87,6 +89,8 @@ wine150_tidy %>%
     yaxis = list(title = "Wine Points"),
     title = "Bottom American US Wineries: Lowest Professional Recognition")
 ```
+
+We have also shown the bottom 20 American wineries with the lowest average wine points. From the box plot, we could see that all of them have received average wine points which are lower than or equal to 80.5. In addition, most of them have the same lowest average wine points (80).
 
 <br/>
 

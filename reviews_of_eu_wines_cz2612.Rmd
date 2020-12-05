@@ -42,7 +42,7 @@ wine150_tidy %>%
     title = "Average Wine Points of European Countries")
 ```
 
-After calculating average wine points for each of the 26 European countries, we find out that England has the highest average wine points (92.9) and Montenegro has the lowest average wine points (82). Generally speaking, we could see a trend from the bar plot: the richer West European countries have relatively higher average wine points and the less wealthy East European countries have relatively lower average wine points.
+After calculating average wine points for each of the 26 European countries, we find out that England has the highest average wine points (92.89) and Montenegro has the lowest average wine points (82). Generally speaking, we could see a trend from the bar plot: the richer West European countries have relatively higher average wine points and the less wealthy East European countries have relatively lower average wine points.
 
 <br/>
 
@@ -66,6 +66,8 @@ wine150_tidy %>%
     title = "Top 20 European Wineries: Highest Professional Recognition")
 ```
 
+One of the most important factors of wines is the producer. Usually, the high reputations of prestigious wineries serve as guarantees of great wine qualities. After calculating average wine points for European wineries, we have shown the top 20 European wineries with the highest average wine points, with Mascarello Giuseppe e Figlio being No.1 (99). The box plot has also provided quartiles of wine points for each winery.
+
 <br/>
 
 ### Bottom 20 European Wineries
@@ -87,6 +89,8 @@ wine150_tidy %>%
     yaxis = list(title = "Wine Points"),
     title = "Bottom 20 European Wineries: Lowest Professional Recognition")
 ```
+
+We have also shown the bottom 20 European wineries with the lowest average wine points. From the box plot, we could see that all of them have received the same lowest average wine points (80).
 
 <br/>
 

@@ -66,6 +66,8 @@ wine150_tidy %>%
     title = "Top 20 Asian-Pacific Wineries: Highest Professional Recognition")
 ```
 
+One of the most important factors of wines is the producer. Usually, the high reputations of prestigious wineries serve as guarantees of great wine qualities. After calculating average wine points for Asian-Pacific wineries, we have shown the top 20 Asian-Pacific wineries with the highest average wine points, with Campbells being No.1 (94.92). The box plot has also provided quartiles of wine points for each winery.
+
 <br/>
 
 ### Bottom 20 Asian-Pacific Wineries
@@ -87,6 +89,8 @@ wine150_tidy %>%
     yaxis = list(title = "Wine Points"),
     title = "Bottom 20 Asian-Pacific Wineries: Lowest Professional Recognition")
 ```
+
+We have also shown the bottom 20 Asian-Pacific wineries with the lowest average wine points. It is clear that Nirvana has received the lowest average wine points (80). In addition, the quartiles of wine points for each winery have also been provided with box plot.
 
 <br/>
 

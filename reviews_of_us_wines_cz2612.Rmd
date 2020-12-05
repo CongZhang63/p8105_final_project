@@ -36,6 +36,8 @@ wine150_tidy %>%
     title = "Top 20 US Wineries: Highest Professional Recognition")
 ```
 
+One of the most important factors of wines is the producer. Usually, the high reputations of prestigious wineries serve as guarantees of great wine qualities. After calculating average wine points for US wineries, we have shown the top 20 US wineries with the highest average wine points, with Sloan being No.1 (100). The box plot has also provided quartiles of wine points for each winery.
+
 ### Bottom 20 US Wineries
 
 ```{r Bottom 20 US Wineries Box Plot, message = FALSE, warning = FALSE}
@@ -55,6 +57,8 @@ wine150_tidy %>%
     yaxis = list(title = "Wine Points"),
     title = "Bottom 20 US Wineries: Lowest Professional Recognition")
 ```
+
+We have also shown the bottom 20 US wineries with the lowest average wine points. From the box plot, we could see that all of them have received average wine points which are lower than or equal to 81. In addition, nearly half of them have the same lowest average wine points (80).
 
 <br/>
 

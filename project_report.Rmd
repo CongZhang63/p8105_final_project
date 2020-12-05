@@ -111,7 +111,7 @@ Main Findings:
 
 <br/>
 
-### Porfound Analysis: Bootstraps for North America
+### Profound Analysis: Bootstraps for North America
 
 To ensure accuracy, we examined the assumptions of our model for North America. Non-random distribution of variances of residual tells us that bootstrapping needs to be down before fitting the model for price of wine in North America. Therefore, we do bootstrap for 1000 times. Then, we get an almost 17 percent decrease (0.007 to 0.006) in standard error of Pinot Noir estimate, which gives us more accurate confidence interval when predicting the range of price by change of variety. Therefore, the estimated price range of Pinot Noir in North America becomes narrower after bootstraps.
 

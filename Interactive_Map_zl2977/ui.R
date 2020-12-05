@@ -7,7 +7,7 @@ library(dplyr)
 library(plotly)
 library(shinydashboard)
 
-winedata=read_csv("./wine_first150k.csv",locale = readr::locale(encoding = "UTF-8"))
+winedata=read_csv("./winedata_first150k.csv",locale = readr::locale(encoding = "UTF-8"))
 lat_long=read_csv("./latitude_and_longitude_values.csv")
 continent=read_csv("./continent.csv")
 

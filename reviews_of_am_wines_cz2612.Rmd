@@ -87,7 +87,7 @@ wine150_tidy %>%
   layout(
     xaxis = list(title = "American Wineries"),
     yaxis = list(title = "Wine Points"),
-    title = "Bottom American US Wineries: Lowest Professional Recognition")
+    title = "Bottom 20 American US Wineries: Lowest Professional Recognition")
 ```
 
 We have also shown the bottom 20 American wineries with the lowest average wine points. From the box plot, we could see that all of them have received average wine points which are lower than or equal to 80.5. In addition, most of them have the same lowest average wine points (80).
@@ -114,6 +114,8 @@ wine150_tidy %>%
     title = "Most Favorable 10 Grapes for American Wines: Highest Professional Recognition")
 ```
 
+Wines' qualities are predominantly determined by their raw materials: different grapes. Therefore, by calculating the median wine points of all kind of grapes for American wines, we have found out the top 10 grapes for American wines with the highest median wine points, with Trousseau Gris being No.1 (93). The violin plot has also provided quartiles of wine points for each kind of grape.
+
 <br/>
 
 ### Bottom 10 Grapes for American Wines
@@ -136,3 +138,4 @@ wine150_tidy %>%
     title = "Least Favorable 10 Grapes for American Wines: Lowest Professional Recognition")
 ```
 
+We have also shown the bottom 10 kinds of grapes for American wines with the lowest median wine points. It is clear that Chambourcin and Chardonelle have received the lowest median wine points (82). In addition, the quartiles of wine points for each kind of grape have also been provided with violin plot.

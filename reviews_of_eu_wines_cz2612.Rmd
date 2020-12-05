@@ -114,6 +114,8 @@ wine150_tidy %>%
     title = "Most Favorable 10 Grapes for European Wines: Highest Professional Recognition")
 ```
 
+Wines' qualities are predominantly determined by their raw materials: different grapes. Therefore, by calculating the median wine points of all kind of grapes for European wines, we have found out the top 10 grapes for European wines with the highest median wine points, with Blauburgunder being No.1 (93). The violin plot has also provided quartiles of wine points for each kind of grape.
+
 <br/>
 
 ### Bottom 10 Grapes for European Wines
@@ -136,3 +138,4 @@ wine150_tidy %>%
     title = "Least Favorable 10 Grapes for European Wines: Lowest Professional Recognition")
 ```
 
+We have also shown the bottom 10 kinds of grapes for European wines with the lowest median wine points. It is clear that Parraleta has received the lowest median wine points (80). In addition, the quartiles of wine points for each kind of grape have also been provided with violin plot.

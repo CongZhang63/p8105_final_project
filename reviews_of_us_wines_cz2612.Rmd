@@ -38,6 +38,8 @@ wine150_tidy %>%
 
 One of the most important factors of wines is the producer. Usually, the high reputations of prestigious wineries serve as guarantees of great wine qualities. After calculating average wine points for US wineries, we have shown the top 20 US wineries with the highest average wine points, with Sloan being No.1 (100). The box plot has also provided quartiles of wine points for each winery.
 
+<br/>
+
 ### Bottom 20 US Wineries
 
 ```{r Bottom 20 US Wineries Box Plot, message = FALSE, warning = FALSE}
@@ -82,6 +84,8 @@ wine150_tidy %>%
     title = "Most Favorable 10 Grapes for US Wines: Highest Professional Recognition")
 ```
 
+Wines' qualities are predominantly determined by their raw materials: different grapes. Therefore, by calculating the median wine points of all kind of grapes for US wines, we have found out the top 10 grapes for US wines with the highest median wine points, with Trousseau Gris being No.1 (93). The violin plot has also provided quartiles of wine points for each kind of grape.
+
 <br/>
 
 ### Bottom 10 Grapes for US Wines
@@ -104,3 +108,4 @@ wine150_tidy %>%
     title = "Least Favorable 10 Grapes for US Wines: Lowest Professional Recognition")
 ```
 
+We have also shown the bottom 10 kinds of grapes for US wines with the lowest median wine points. It is clear that Chambourcin and Chardonelle have received the lowest median wine points (82). In addition, the quartiles of wine points for each kind of grape have also been provided with violin plot.

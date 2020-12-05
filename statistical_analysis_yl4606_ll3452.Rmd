@@ -272,7 +272,7 @@ nest_lm_res %>%
 
 <br/>
 
-# Porfound Analysis: Closer Look in North America
+# Profound Analysis: Closer Look in North America
 
 <br/>
 

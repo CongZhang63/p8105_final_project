@@ -8,6 +8,7 @@ h1.title {
   font-size: 45px;
   color: DarkRed;
   text-align: center;
+  font-weight:600;
 }
 </style>
 

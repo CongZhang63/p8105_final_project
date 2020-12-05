@@ -8,14 +8,13 @@ output: html_document
 ## Exploring Factors Associated with Professional Wine Reviews
 
 
-<center>
+
 
 **[Zhourong Li (zl2977)](https://bluedenw.github.io), [Yubei Liang (yl4606)](https://yubei-yl4606.github.io/yl4606.github.io), [Leo Liu (ll3452)](https://leooolzh.github.io), [Cong Zhang (cz2612)](https://congzhang63.github.io), [Ruwen Zhou (rz2530)](https://carmenzhou.github.io/rz2530.github.io)**
 
 <br/>
 
 <img src="images/Wine1.jpg" style="width:100%">
-
 
 <br/>
 
@@ -24,11 +23,9 @@ output: html_document
 <iframe width="800" height="500" src="https://www.youtube.com/embed/LXroCQ00w-I" frameborder="0" allowfullscreen></iframe>
 
 
-
-
-
-
 <br/>
+
+
 
 
 ## Some Interesting Facts about Wines!

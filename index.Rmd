@@ -2,6 +2,7 @@
 title: "<center>**CHEERS! Professional Wine Reviews**"
 output: html_document
 ---
+
 <center>
 ## *Exploring Factors Associated with Professional Wine Reviews*
 
@@ -16,16 +17,13 @@ output: html_document
 
 <br/>
 
-<<<<<<< HEAD
-
-
-## Introduction
+## *Introduction*
 <div align="left"> 
 Wine is an essential component in western food culture. Due to the variety of wine brands, people may easily get lost. Therefore, we would like to provide a review of wines by professional wine tasters and guidance for wine lovers based on variety, location, winery and price. Wine lovers can select and buy wines more easily with information provided on our website.
 
 <br/>
 
-## Data
+## *Data*
 <div align="left"> 
 This wine [dataset](https://www.kaggle.com/zynicide/wine-reviews?select=winemag-data-130k-v2.csvm) contains 13 columns, including country, designation(The vineyard within the winery where the grapes that made the wine are from), points(The number of points WineEnthusiast rated the wine on a scale of 1-100), price, province, region_2, region_2, variety(The type of grapes used to make the wine), winery(The winery that made the wine).
 <br/>
@@ -58,12 +56,8 @@ In regression, we import a supplemental continent [dataset](https://datahub.io/J
 
 <br/>
 
-## Some Interesting Facts about Wines!
-<div align="left"> * Only the United States and France produce wines with prices over $2000.
-=======
 ## *Some Interesting Facts about Wines!*
-<div align="left"> * Only the United States and France produce wines with prices over 2000 dollars.
->>>>>>> 46544c529ad01ca538b97b9cb74da2988f4c941e
+<div align="left"> * Only the United States and France produce wines with prices over $2000.
 * The cheapest wine in only 4 dollars!
 * Italy is the country that owns the most full-credit wines in the world.
 

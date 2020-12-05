@@ -360,14 +360,18 @@ $(document).ready(function () {
   group_by(country) %&gt;% 
   mutate(
     points_avg_country = round(mean(points), 2),
-    price_avg_country = round(mean(price, na.rm = TRUE), 2)
+    points_med_country = median(points),
+    price_avg_country = round(mean(price, na.rm = TRUE), 2),
+    price_med_country = median(price)
   ) %&gt;% 
   ungroup(country) %&gt;% 
   arrange(province, points) %&gt;% 
   group_by(province) %&gt;% 
   mutate(
     points_avg_province = round(mean(points), 2),
-    price_avg_province = round(mean(price, na.rm = TRUE), 2)
+    points_med_province = median(points),
+    price_avg_province = round(mean(price, na.rm = TRUE), 2),
+    price_med_province = median(price)
   ) %&gt;% 
   ungroup(province) %&gt;%  
   arrange(country, province, points)</code></pre>
@@ -382,14 +386,18 @@ $(document).ready(function () {
   group_by(variety) %&gt;% 
   mutate(
     points_avg_variety = round(mean(points), 2),
-    price_avg_variety = round(mean(price, na.rm = TRUE), 2)
+    points_med_variety = median(points),
+    price_avg_variety = round(mean(price, na.rm = TRUE), 2),
+    price_med_variety = median(price)
   ) %&gt;% 
   ungroup(variety) %&gt;% 
   arrange(winery, points) %&gt;% 
   group_by(winery) %&gt;% 
   mutate(
     points_avg_winery = round(mean(points), 2),
-    price_avg_winery = round(mean(price, na.rm = TRUE), 2)
+    points_med_winery = median(points),  
+    price_avg_winery = round(mean(price, na.rm = TRUE), 2),
+    price_med_winery = median(price)
   ) %&gt;% 
   ungroup(winery) %&gt;%    
   arrange(variety, winery, points)
@@ -422,14 +430,18 @@ save(wine150_tidy, file = &quot;./data/wine150_tidy&quot;)</code></pre>
   group_by(country) %&gt;% 
   mutate(
     points_avg_country = round(mean(points), 2),
-    price_avg_country = round(mean(price, na.rm = TRUE), 2)
+    points_med_country = median(points),
+    price_avg_country = round(mean(price, na.rm = TRUE), 2),
+    price_med_country = median(price)
   ) %&gt;% 
   ungroup(country) %&gt;% 
   arrange(province, points) %&gt;% 
   group_by(province) %&gt;% 
   mutate(
     points_avg_province = round(mean(points), 2),
-    price_avg_province = round(mean(price, na.rm = TRUE), 2)
+    points_med_province = median(points),
+    price_avg_province = round(mean(price, na.rm = TRUE), 2),
+    price_med_province = median(price)
   ) %&gt;% 
   ungroup(province) %&gt;%  
   arrange(country, province, points)</code></pre>
@@ -444,14 +456,18 @@ save(wine150_tidy, file = &quot;./data/wine150_tidy&quot;)</code></pre>
   group_by(variety) %&gt;% 
   mutate(
     points_avg_variety = round(mean(points), 2),
-    price_avg_variety = round(mean(price, na.rm = TRUE), 2)
+    points_med_variety = median(points),
+    price_avg_variety = round(mean(price, na.rm = TRUE), 2),
+    price_med_variety = median(price)
   ) %&gt;% 
   ungroup(variety) %&gt;% 
   arrange(winery, points) %&gt;% 
   group_by(winery) %&gt;% 
   mutate(
     points_avg_winery = round(mean(points), 2),
-    price_avg_winery = round(mean(price, na.rm = TRUE), 2)
+    points_med_winery = median(points),  
+    price_avg_winery = round(mean(price, na.rm = TRUE), 2),
+    price_med_winery = median(price)
   ) %&gt;% 
   ungroup(winery) %&gt;%    
   arrange(variety, winery, points)

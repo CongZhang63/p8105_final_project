@@ -16,3 +16,22 @@ output: html_document
 
 <img src="images/Wine1.jpg" style="width:100%">
 
+
+<br/>
+
+<center>
+## Demostration Video
+![](https://youtu.be/LXroCQ00w-I)
+
+<br/>
+
+
+## Some Interesting Facts about Wines!
+
+* Only the United States and France produce wines with prices over 2000 dollars.
+* The cheapest wine in only 4 dollars!
+* Italy is the country that owns the most full-credit wines in the world.
+
+
+
+
